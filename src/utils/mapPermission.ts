@@ -1,21 +1,20 @@
-import { Permission } from "../models/User";
+import { Permission } from '../models/User';
 
 export const mapPermission = (permission: Permission) => {
-    switch(permission)
-    {
-        case Permission.SuperAdmin:
-            return 'Super admin';
-        
-        case Permission.Admin:
-            return 'Admin';
-        
-        case Permission.Agent:
-            return 'Agent';
+  switch (permission) {
+    case Permission.SuperAdmin:
+      return 'Super admin';
 
-        case Permission.User:
-            return 'User';
+    case Permission.Admin:
+      return 'Admin';
 
-        default:
-            return 'Anybody';
-    }
-}
+    case Permission.Agent:
+      return 'Agent';
+
+    case Permission.User:
+      return 'User';
+
+    default:
+      return 'Anybody';
+  }
+};

@@ -10,7 +10,7 @@ import GradientButton from './GradientButton';
 import GlassPaper from './containers/GlassPaper';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthModel, authScheme } from '../models/AuthModel';
+import { AuthModel, authScheme } from '../models/Auth';
 import { SubmitHandler } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
