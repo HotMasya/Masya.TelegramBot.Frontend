@@ -16,6 +16,7 @@ import {
   withStyles,
   SwipeableDrawer,
   IconButton,
+  Box,
 } from '@material-ui/core';
 import React from 'react';
 import CenteredBox from './containers/CenteredBox';
@@ -31,11 +32,10 @@ import {
   Close,
 } from '@material-ui/icons';
 import globals from '../globals';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducers';
 import { Link } from 'react-router-dom';
 import { dashboardEndpoints } from '../routing/endpoints';
 import { Permission } from '../models/User';
+import { useAuth } from '../hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +54,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       textAlign: 'center',
     },
+    drawerHeader: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      padding: theme.spacing(2, 2),
+    }
   }),
 );
 
@@ -84,8 +89,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const classes = useStyles();
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const { onOpen, onClose, onCloseClick, open } = props;
-  const { user } = useSelector((state: RootState) => state.account);
-
+  const { account: { user } } = useAuth();
+  
   return (
     <SwipeableDrawer
       anchor="left"
@@ -95,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       open={open}
       onOpen={onOpen}
       onClose={onClose}>
-      <CenteredBox style={{ padding: theme.spacing(2, 2) }}>
+      <Box className={classes.drawerHeader}>
         <Typography
           display="block"
           variant="h4"
@@ -107,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <Close />
           </IconButton>
         )}
-      </CenteredBox>
+      </Box>
       <List className={classes.listContainer}>
         <Divider />
         {user?.permission && user?.permission >= Permission.Admin && (

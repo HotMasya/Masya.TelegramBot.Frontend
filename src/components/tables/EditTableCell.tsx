@@ -36,9 +36,8 @@ const EditTableCell: React.FC<EditTableCellProps> = (props) => {
           {content}
           <IconButton
             size="small"
-            style={{ marginBottom: 5 }}
             onClick={() => setEditingName(true)}>
-            <Create fontSize="small" />
+            <Create fontSize="medium" />
           </IconButton>
         </Typography>
       )}

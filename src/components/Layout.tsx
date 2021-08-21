@@ -3,21 +3,18 @@ import Sidebar from './Sidebar';
 import ContentBox from './containers/ContentBox';
 import Header from './Header';
 import MiniProfile from './MiniProfile';
-
-import fakeAvatar from '../static/images/fake_avatar.jpg';
 import { Box, Button, Popover, Typography, useTheme } from '@material-ui/core';
-import { RootState } from '../store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import { endpoints } from '../routing/endpoints';
-import { actions, RootAction } from '../store';
+import { useAuth } from '../hooks';
+
+import fakeAvatar from '../static/images/fake_avatar.jpg';
 
 const Layout: React.FC = (props) => {
   const theme = useTheme();
   const { children } = props;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<Element>();
-  const dispatch = useDispatch<Dispatch<RootAction>>();
   const onPopoverClose = () => {
     setAnchorEl(undefined);
   };
@@ -25,12 +22,12 @@ const Layout: React.FC = (props) => {
     setAnchorEl(event.currentTarget);
   };
   const isPopoverOpen = Boolean(anchorEl);
-  const { user } = useSelector((state: RootState) => state.account);
+  const { account: { user }, logout } = useAuth();
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
   const onLogOutClick = () => {
-    dispatch(actions.clearUser());
+    logout();
   };
 
   return (

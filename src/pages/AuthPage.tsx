@@ -1,4 +1,4 @@
-import React, { Dispatch, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import BackgroundImage from '../components/BackgroundImage';
 import AuthForm from '../components/AuthForm';
 import CenteredContainer from '../components/containers/CenteredContainer';
@@ -7,26 +7,23 @@ import { useTheme, useMediaQuery } from '@material-ui/core';
 import { SubmitHandler } from 'react-hook-form';
 import { AuthModel } from '../models/Auth';
 import { apiEndpoints } from '../routing/endpoints';
-import { useDispatch, useSelector } from 'react-redux';
-import { actions, RootAction } from '../store';
-import { RootState } from '../store/reducers';
+import { useAuth } from '../hooks';
 
 const AuthPage: React.FC = () => {
   const theme = useTheme();
   const currentBreakpoint = theme.breakpoints.up('sm');
   const isUpMd = useMediaQuery(currentBreakpoint);
-  const dispatch = useDispatch<Dispatch<RootAction>>();
-  const accountState = useSelector((state: RootState) => state.account);
+  const {account, checkPhone, login } = useAuth();
 
   const onSubmit: SubmitHandler<AuthModel> = useCallback(
     (model) => {
-      if (!accountState.checkPhoneSuccess) {
-        dispatch(actions.checkPhone(model.phone));
+      if (!account.checkPhoneSuccess) {
+        checkPhone(model.phone);
       } else {
-        dispatch(actions.checkCode(model));
+        login(model);
       }
     },
-    [accountState.checkPhoneSuccess, dispatch],
+    [account.checkPhoneSuccess, login, checkPhone],
   );
 
   return (

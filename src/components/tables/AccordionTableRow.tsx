@@ -5,6 +5,7 @@ import {
   Select,
   TableCell,
   TableRow,
+  Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Command } from '../../models/Command';
@@ -35,7 +36,11 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
-        <TableCell>{commandState.name}</TableCell>
+        <TableCell>
+          <Typography>
+            {commandState.name}
+          </Typography>
+        </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
