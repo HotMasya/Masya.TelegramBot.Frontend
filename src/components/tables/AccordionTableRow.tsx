@@ -7,7 +7,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 import { Command } from '../../models/Command';
 import { Create, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import BottomlessTableRow from './BottomlessTableRow';
@@ -15,15 +15,14 @@ import AliasTableRow from './AliasTableRow';
 import { Permission } from '../../models/User';
 
 export type AccordionTableRowProps = {
-  command: Command;
+  command: Partial<Command>;
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
-  onCommandChanged: () => void;
+  onCommandChanged: (command: Partial<Command>) => void;
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  const { command, open, onArrowClick } = props;
-  const [commandState, setCommandState] = useState(command);
+  let { command, open, onArrowClick, onCommandChanged } = props;
 
   return (
     <>
@@ -38,37 +37,28 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
         </TableCell>
         <TableCell>
           <Typography>
-            {commandState.name}
+            {command.name}
           </Typography>
         </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
-            defaultChecked={commandState.isEnabled || false}
-            onChange={(e, checked) =>
-              setCommandState((c) => ({ ...c, isEnabled: checked }))
-            }
+            checked={command.isEnabled || false}
+            onChange={(e, checked) => onCommandChanged({id: command.id, isEnabled: checked})}
           />
         </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
-            defaultChecked={commandState.displayInMenu || false}
-            onChange={(e, checked) =>
-              setCommandState((c) => ({ ...c, displayInMenu: checked }))
-            }
+            checked={command.displayInMenu || false}
+            onChange={(e, checked) => onCommandChanged({id: command.id, displayInMenu: checked})}
           />
         </TableCell>
         <TableCell align="right">
           <Select
             autoWidth
-            value={commandState.permission}
-            onChange={(event) =>
-              setCommandState((c) => ({
-                ...c,
-                permission: event.target.value as Permission,
-              }))
-            }
+            value={command.permission}
+            onChange={(event) => onCommandChanged({id: command.id, permission: event.target.value as Permission})}
             IconComponent={Create}
             disableUnderline>
             <MenuItem value={Permission.All}>Any</MenuItem>
@@ -79,8 +69,8 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           </Select>
         </TableCell>
       </BottomlessTableRow>
-      {command.aliases.map((a) => (
-        <AliasTableRow key={a.id} alias={a} open={open} />
+      {command.aliases?.map((a) => (
+        <AliasTableRow key={a.id} aliasId={a.id} open={open} onCommandChanged={onCommandChanged} />
       ))}
       <TableRow key={'border' + command.id}>
         <TableCell style={{ padding: 0 }} colSpan={5} />

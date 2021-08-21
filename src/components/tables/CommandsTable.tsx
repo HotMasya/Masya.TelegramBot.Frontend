@@ -11,15 +11,12 @@ import {
 import React, { useState } from 'react';
 import { useCallback } from 'react';
 import { Command } from '../../models/Command';
+import { useCommands } from '../../hooks';
 import AccordionTableRow from './AccordionTableRow';
 import HeadTableCell from './HeadTableCell';
 
-export type CommandsTableProps = {
-  commands: Command[];
-};
-
-const CommandsTable: React.FC<CommandsTableProps> = (props) => {
-  const { commands } = props;
+const CommandsTable: React.FC = () => {
+  const { commands, updateCommand } = useCommands();
   const theme = useTheme();
   const [openedRowId, setOpenedRowId] = useState<string | null>(null);
   const onArrowClick = useCallback(
@@ -29,9 +26,9 @@ const CommandsTable: React.FC<CommandsTableProps> = (props) => {
     [setOpenedRowId],
   );
 
-  const onCommandChanged = useCallback(() => {
-    console.log('command changed');
-  }, []);
+  const onCommandChanged = useCallback((model: Partial<Command>) => {
+    updateCommand(model);
+  }, [updateCommand]);
 
   return (
     <TableContainer component={Paper} style={{ marginTop: theme.spacing(3) }}>
@@ -49,7 +46,7 @@ const CommandsTable: React.FC<CommandsTableProps> = (props) => {
         </TableHead>
         <TableBody>
           {commands &&
-            commands.map((cmd) => (
+            commands.filter(cmd => cmd.aliases && cmd.aliases.length > 0).map((cmd) => (
               <AccordionTableRow
                 key={cmd.id}
                 command={cmd}

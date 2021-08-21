@@ -12,14 +12,14 @@ export type EditTableCellProps = {
   onChange: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void;
-  onBlur: () => void;
+  onBlur?: () => void;
 };
 
 const EditTableCell: React.FC<EditTableCellProps> = (props) => {
   const { content, onChange, onBlur } = props;
   const [editingName, setEditingName] = useState(false);
   const onEditBlur = () => {
-    onBlur();
+   if(onBlur) onBlur();
     setEditingName(false);
   };
   return (
