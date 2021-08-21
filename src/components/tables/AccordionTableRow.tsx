@@ -1,64 +1,87 @@
-import { Button, Checkbox, Collapse, IconButton, Table, TableBody, TableCell, TableRow, withStyles } from '@material-ui/core';
+import {
+  Checkbox,
+  IconButton,
+  MenuItem,
+  Select,
+  TableCell,
+  TableRow,
+} from '@material-ui/core';
 import React, { useState } from 'react';
-import { mapPermission } from '../../utils';
 import { Command } from '../../models/Command';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import { Create, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import BottomlessTableRow from './BottomlessTableRow';
+import AliasTableRow from './AliasTableRow';
+import { Permission } from '../../models/User';
 
 export type AccordionTableRowProps = {
-    command: Command;
-}
-
-export const BottomlessTableRow = withStyles({
-    root: {
-        '& > *':{
-            borderBottom: 'unset',
-        },
-    },
-})(TableRow);
+  command: Command;
+  open: boolean;
+  onArrowClick: (buttonId: string, openedState: boolean) => void;
+  onCommandChanged: () => void;
+};
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-    const { command } = props;
-    const [open, setOpen] = useState(false);
+  const { command, open, onArrowClick } = props;
+  const [commandState, setCommandState] = useState(command);
 
-    return (
-        <>
-            <BottomlessTableRow key={command.id} selected={open} >
-                <TableCell>
-                    <IconButton size="small" onClick={() => setOpen(s => !s)}>
-                        {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-                    </IconButton>
-                </TableCell>
-                <TableCell align="left">{command.name}</TableCell>
-                <TableCell align="center">
-                    <Checkbox color="primary" checked={command.isEnabled || false} />
-                </TableCell>
-                <TableCell align="center">
-                    <Checkbox color="primary" checked={command.displayInMenu || false} />
-                </TableCell>
-                <TableCell align="right">
-                    {mapPermission(command.permission)}
-                </TableCell>
-            </BottomlessTableRow>
-            {command.aliases.map(a => 
-                <BottomlessTableRow key={a.id} selected={open} style={{display: open ? 'table-row' : 'none'}}>
-                    <TableCell></TableCell>
-                    <TableCell align="left">{a.name}</TableCell>
-                    <TableCell align="center">
-                        <Checkbox color="primary" checked={a.isEnabled || false} />
-                    </TableCell>
-                    <TableCell align="center">
-                        <Checkbox color="primary" checked={a.displayInMenu || false} />
-                    </TableCell>
-                    <TableCell align="right">
-                        {mapPermission(a.permission)}
-                    </TableCell>
-                </BottomlessTableRow>
-            )}
-            <TableRow>
-                <TableCell style={{padding: 0}} colSpan={5}/>
-            </TableRow>
-        </>
-    );
-}
+  return (
+    <>
+      <BottomlessTableRow key={command.id} selected={open}>
+        <TableCell>
+          <IconButton
+            size="small"
+            onClick={() => onArrowClick('command' + command.id, open)}
+            id={'command' + command.id}>
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{commandState.name}</TableCell>
+        <TableCell align="center">
+          <Checkbox
+            color="primary"
+            defaultChecked={commandState.isEnabled || false}
+            onChange={(e, checked) =>
+              setCommandState((c) => ({ ...c, isEnabled: checked }))
+            }
+          />
+        </TableCell>
+        <TableCell align="center">
+          <Checkbox
+            color="primary"
+            defaultChecked={commandState.displayInMenu || false}
+            onChange={(e, checked) =>
+              setCommandState((c) => ({ ...c, displayInMenu: checked }))
+            }
+          />
+        </TableCell>
+        <TableCell align="right">
+          <Select
+            autoWidth
+            value={commandState.permission}
+            onChange={(event) =>
+              setCommandState((c) => ({
+                ...c,
+                permission: event.target.value as Permission,
+              }))
+            }
+            IconComponent={Create}
+            disableUnderline>
+            <MenuItem value={Permission.All}>Any</MenuItem>
+            <MenuItem value={Permission.User}>User</MenuItem>
+            <MenuItem value={Permission.Agent}>Agent</MenuItem>
+            <MenuItem value={Permission.Admin}>Admin</MenuItem>
+            <MenuItem value={Permission.SuperAdmin}>Super admin</MenuItem>
+          </Select>
+        </TableCell>
+      </BottomlessTableRow>
+      {command.aliases.map((a) => (
+        <AliasTableRow key={a.id} alias={a} open={open} />
+      ))}
+      <TableRow key={'border' + command.id}>
+        <TableCell style={{ padding: 0 }} colSpan={5} />
+      </TableRow>
+    </>
+  );
+};
 
 export default AccordionTableRow;

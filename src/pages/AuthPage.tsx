@@ -5,7 +5,7 @@ import CenteredContainer from '../components/containers/CenteredContainer';
 import background from '../static/images/auth_background.jpg';
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import { SubmitHandler } from 'react-hook-form';
-import { AuthModel } from '../models/AuthModel';
+import { AuthModel } from '../models/Auth';
 import { apiEndpoints } from '../routing/endpoints';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions, RootAction } from '../store';

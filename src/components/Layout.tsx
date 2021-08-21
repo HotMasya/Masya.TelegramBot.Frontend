@@ -64,9 +64,7 @@ const Layout: React.FC = (props) => {
             </Button>
           </Popover>
         </Header>
-        <Box style={{ padding: theme.spacing(3)}}>
-          {children}
-        </Box>
+        <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
       </ContentBox>
     </>
   );

@@ -5,9 +5,7 @@ import Layout from '../components/Layout';
 const KeyboardsPage: React.FC = () => {
   return (
     <Layout>
-      <Typography>
-        Inline keyboard settings page
-      </Typography>
+      <Typography>Inline keyboard settings page</Typography>
     </Layout>
   );
 };

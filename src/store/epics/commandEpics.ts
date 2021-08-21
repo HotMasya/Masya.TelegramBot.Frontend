@@ -10,11 +10,11 @@ import { Command } from '../../models/Command';
 
 export const loadKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
-  state
+  state,
 ) =>
   action$.pipe(
     filter(isActionOf(actions.loadCommands)),
-    switchMap((action) =>
+    switchMap(() =>
       ajax<Command[]>({
         url: apiEndpoints.loadCommands,
         method: 'get',

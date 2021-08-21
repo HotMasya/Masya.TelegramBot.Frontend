@@ -7,16 +7,14 @@ import { useEffect } from 'react';
 import { actions, RootAction } from '../store';
 import CommandsTable from '../components/tables/CommandsTable';
 
-
 const CommandsPage: React.FC = () => {
   const commandsState = useSelector((state: RootState) => state.commands);
   const dispatch = useDispatch<Dispatch<RootAction>>();
   useEffect(() => {
-    if(!commandsState.commands)
-    {
-      dispatch(actions.loadCommands())
+    if (!commandsState.commands) {
+      dispatch(actions.loadCommands());
     }
-  }, [commandsState.commands]);
+  }, [commandsState.commands, dispatch]);
 
   return (
     <Layout>

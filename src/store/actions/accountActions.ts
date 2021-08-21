@@ -2,7 +2,7 @@ import { User } from '../../models/User';
 import { createStandardAction } from 'typesafe-actions';
 import { AccountActionTypes } from '../action-types';
 import { Tokens } from '../../models/Token';
-import { AuthModel } from '../../models/AuthModel';
+import { AuthModel } from '../../models/Auth';
 
 export const checkPhone = createStandardAction(
   AccountActionTypes.CHECK_PHONE,

@@ -1,7 +1,6 @@
 import { Command } from '../../models/Command';
 import { createStandardAction } from 'typesafe-actions';
 import { CommandActionTypes } from '../action-types';
-import { Tokens } from '../../models/Token';
 
 export const loadCommands = createStandardAction(
   CommandActionTypes.LOAD_COMMANDS,
