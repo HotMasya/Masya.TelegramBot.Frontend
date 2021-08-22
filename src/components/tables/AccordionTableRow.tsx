@@ -4,7 +4,6 @@ import {
   MenuItem,
   Select,
   TableCell,
-  TableRow,
   Typography,
 } from '@material-ui/core';
 import React from 'react';
@@ -14,17 +13,19 @@ import BottomlessTableRow from './BottomlessTableRow';
 import AliasTableRow from './AliasTableRow';
 import { Permission } from '../../models/User';
 import AddItemTableRow from './AddItemTableRow';
+import { useCommands } from 'src/hooks';
 
 export type AccordionTableRowProps = {
   command: Partial<Command>;
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
   onCommandChanged: (command: Partial<Command>) => void;
-  onAliasRemove: (id: number) => void;
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  const { command, open, onArrowClick, onCommandChanged, onAliasRemove } = props;
+  const { command, open, onArrowClick, onCommandChanged } = props;
+  const { commands } = useCommands();
+  const aliases = commands?.filter((c) => c.parentId === command.id);
   return (
     <>
       <BottomlessTableRow key={command.id} selected={open}>
@@ -77,16 +78,21 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           </Select>
         </TableCell>
       </BottomlessTableRow>
-      {command.aliases?.map((a) => (
-        <AliasTableRow
-          key={a.id}
-          aliasId={a.id}
-          open={open}
-          onCommandChanged={onCommandChanged}
-          onRemove={onAliasRemove}
-        />
-      ))}
-      <AddItemTableRow key={"add_item_"+command.id} cellColSpan={5} open={open} buttonText="Add new alias" />
+      {aliases &&
+        aliases?.map((a) => (
+          <AliasTableRow
+            key={a.id}
+            aliasId={a.id}
+            open={open}
+            onCommandChanged={onCommandChanged}
+          />
+        ))}
+      <AddItemTableRow
+        key={'add_item_' + command.id}
+        cellColSpan={5}
+        open={open}
+        buttonText="Add new alias"
+      />
     </>
   );
 };

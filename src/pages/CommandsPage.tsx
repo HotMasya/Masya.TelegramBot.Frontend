@@ -7,19 +7,28 @@ import { useCommands } from '../hooks';
 import UpdateSnackbar from '../components/UpdateSnackbar';
 
 const CommandsPage: React.FC = () => {
-  const { commands, hasCommandsUpdate, loadCommands, updateCommand, resetCommandsUpdates, removeCommand } = useCommands();
+  const {
+    commands,
+    hasCommandsUpdate,
+    loadCommands,
+    updateCommand,
+    resetCommandsUpdates,
+  } = useCommands();
   useEffect(() => {
     if (!commands?.length) {
       loadCommands();
     }
-  }, [commands, loadCommands]);
+  }, [commands, commands?.length, loadCommands]);
 
   return (
     <Layout>
       <Typography variant="h3">Bot Commands</Typography>
       <hr />
-      <CommandsTable commands={commands || []} updateCommand={updateCommand} onAliasRemove={removeCommand} />
-      <UpdateSnackbar open={hasCommandsUpdate || false} onCancelClick={resetCommandsUpdates} />
+      <CommandsTable commands={commands || []} updateCommand={updateCommand} />
+      <UpdateSnackbar
+        open={hasCommandsUpdate || false}
+        onCancelClick={resetCommandsUpdates}
+      />
     </Layout>
   );
 };

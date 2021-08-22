@@ -1,5 +1,11 @@
-import { Checkbox, IconButton, MenuItem, Select, TableCell } from '@material-ui/core';
-import React, { useCallback } from 'react';
+import {
+  Checkbox,
+  IconButton,
+  MenuItem,
+  Select,
+  TableCell,
+} from '@material-ui/core';
+import React from 'react';
 import { Command } from '../../models/Command';
 import BottomlessTableRow from './BottomlessTableRow';
 import { Create } from '@material-ui/icons';
@@ -9,26 +15,25 @@ import { useCommands } from '../../hooks';
 import { HighlightOff } from '@material-ui/icons';
 
 export type AliasProps = {
-  aliasId: number;
+  aliasId?: number;
   open: boolean;
   onCommandChanged: (command: Partial<Command>) => void;
-  onRemove: (id: number) => void;
 };
 
 const AliasTableRow: React.FC<AliasProps> = (props) => {
-  const { aliasId, open, onCommandChanged, onRemove } = props;
+  const { aliasId, open, onCommandChanged } = props;
   const { commands } = useCommands();
 
   const alias = commands?.find((c) => c.id == aliasId);
   if (!alias) return null;
-  const onAliasRemove = useCallback(() => onRemove(aliasId), [aliasId]);
+
   return (
     <BottomlessTableRow
       key={alias.id}
       selected={open}
       style={{ display: open ? 'table-row' : 'none' }}>
       <TableCell>
-        <IconButton onClick={onAliasRemove}>
+        <IconButton>
           <HighlightOff />
         </IconButton>
       </TableCell>

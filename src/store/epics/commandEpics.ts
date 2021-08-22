@@ -8,25 +8,6 @@ import { isActionOf } from 'typesafe-actions';
 import { apiEndpoints } from '../../routing/endpoints';
 import { Command } from '../../models/Command';
 
-export const removeCommandEpic: Epic<RootAction, RootAction, RootState> = (action$, state) =>
-  action$.pipe(
-    filter(isActionOf(actions.removeCommand)),
-    switchMap((action) => 
-      ajax({
-        url: apiEndpoints.removeCommand + action.payload,
-        method: 'delete',
-        crossDomain: true,
-        headers: {
-          Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
-        },
-      })
-      .pipe(
-        mapTo(actions.loadCommands()),
-        catchError(ctx => of(ctx.xhr.response))
-      )
-    )
-  );
-
 export const loadCommandsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
   state,
@@ -62,9 +43,9 @@ export const saveCommandsEpic: Epic<RootAction, RootAction, RootState> = (
           Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
         },
         crossDomain: true,
-        body: state.value.commands.commands,
+        body: state.value.commands.commandsForUpdate,
       }).pipe(
-        mapTo(actions.saveSuccess()),
+        mapTo(actions.loadCommands()),
         catchError((err) => of(actions.errorCommands(err.xhr.response))),
       ),
     ),

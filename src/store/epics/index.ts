@@ -9,7 +9,6 @@ const rootEpic = combineEpics(
   accountEpics.refreshToken,
   commandEpics.loadCommandsEpic,
   commandEpics.saveCommandsEpic,
-  commandEpics.removeCommandEpic,
 );
 
 export default rootEpic;

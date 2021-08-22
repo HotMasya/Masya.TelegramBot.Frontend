@@ -5,9 +5,7 @@ import { actions, RootAction } from '../store';
 import { RootState } from '../store/reducers';
 
 export const useCommands = () => {
-  const commandsState = useSelector(
-    (state: RootState) => state.commands,
-  );
+  const commandsState = useSelector((state: RootState) => state.commands);
   const dispatch = useDispatch<Dispatch<RootAction>>();
   const loadCommands = useCallback(
     () => dispatch(actions.loadCommands()),
@@ -19,7 +17,15 @@ export const useCommands = () => {
   );
   const commands = commandsState.commandsForUpdate;
   const hasCommandsUpdate = commandsState.hasUpdates;
-  const resetCommandsUpdates = useCallback(() => dispatch(actions.resetCommandsUpdates()), [dispatch]);
-  const removeCommand = useCallback((id: number) => dispatch(actions.removeCommand(id)), [dispatch]);
-  return { commands, hasCommandsUpdate, loadCommands, updateCommand, resetCommandsUpdates, removeCommand };
+  const resetCommandsUpdates = useCallback(
+    () => dispatch(actions.resetCommandsUpdates()),
+    [dispatch],
+  );
+  return {
+    commands,
+    hasCommandsUpdate,
+    loadCommands,
+    updateCommand,
+    resetCommandsUpdates,
+  };
 };

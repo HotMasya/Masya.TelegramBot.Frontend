@@ -19,4 +19,5 @@ export const apiEndpoints = {
   loadCommands: apiHost + '/api/commands',
   saveCommands: apiHost + '/api/commands/save',
   removeCommand: apiHost + '/api/commands/remove/',
+  addCommand: apiHost + '/api/commands/add',
 };
