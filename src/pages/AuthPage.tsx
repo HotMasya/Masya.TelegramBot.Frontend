@@ -13,7 +13,7 @@ const AuthPage: React.FC = () => {
   const theme = useTheme();
   const currentBreakpoint = theme.breakpoints.up('sm');
   const isUpMd = useMediaQuery(currentBreakpoint);
-  const {account, checkPhone, login } = useAuth();
+  const { account, checkPhone, login } = useAuth();
 
   const onSubmit: SubmitHandler<AuthModel> = useCallback(
     (model) => {

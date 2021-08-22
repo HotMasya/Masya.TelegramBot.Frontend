@@ -19,7 +19,6 @@ import {
   Box,
 } from '@material-ui/core';
 import React from 'react';
-import CenteredBox from './containers/CenteredBox';
 import {
   Category,
   Keyboard,
@@ -58,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'flex-start',
       padding: theme.spacing(2, 2),
-    }
+    },
   }),
 );
 
@@ -89,8 +88,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const classes = useStyles();
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const { onOpen, onClose, onCloseClick, open } = props;
-  const { account: { user } } = useAuth();
-  
+  const {
+    account: { user },
+  } = useAuth();
+
   return (
     <SwipeableDrawer
       anchor="left"

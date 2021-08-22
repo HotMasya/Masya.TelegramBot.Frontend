@@ -1,26 +1,23 @@
 import { Typography } from '@material-ui/core';
-import React, { Dispatch } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/reducers';
+import React from 'react';
 import Layout from '../components/Layout';
 import { useEffect } from 'react';
-import { actions, RootAction } from '../store';
 import CommandsTable from '../components/tables/CommandsTable';
+import { useCommands } from 'src/hooks';
 
 const CommandsPage: React.FC = () => {
-  const commandsState = useSelector((state: RootState) => state.commands);
-  const dispatch = useDispatch<Dispatch<RootAction>>();
+  const { commands, loadCommands, updateCommand } = useCommands();
   useEffect(() => {
-    if (!commandsState.commands) {
-      dispatch(actions.loadCommands());
+    if (!commands?.length) {
+      loadCommands();
     }
-  }, [commandsState.commands, dispatch]);
+  }, [commands, loadCommands]);
 
   return (
     <Layout>
       <Typography variant="h3">Bot Commands</Typography>
       <hr />
-      <CommandsTable commands={commandsState.commands || []} />
+      <CommandsTable commands={commands || []} updateCommand={updateCommand} />
     </Layout>
   );
 };

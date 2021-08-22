@@ -17,8 +17,8 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
   const { aliasId, open, onCommandChanged } = props;
   const { commands } = useCommands();
 
-  const alias = commands?.find(c => c.id == aliasId);
-  if(!alias) return null;
+  const alias = commands?.find((c) => c.id == aliasId);
+  if (!alias) return null;
 
   return (
     <BottomlessTableRow
@@ -27,28 +27,39 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
       style={{ display: open ? 'table-row' : 'none' }}>
       <TableCell></TableCell>
       <EditTableCell
-        onChange={(event) => onCommandChanged({id: alias.id, name: event.target.value })}
+        onChange={(event) =>
+          onCommandChanged({ id: alias.id, name: event.target.value })
+        }
         content={alias.name || ''}
       />
       <TableCell align="center">
         <Checkbox
           color="primary"
           checked={alias.isEnabled || false}
-          onChange={(e, checked) => onCommandChanged({id: alias.id, isEnabled: checked})}
+          onChange={(e, checked) =>
+            onCommandChanged({ id: alias.id, isEnabled: checked })
+          }
         />
       </TableCell>
       <TableCell align="center">
         <Checkbox
           color="primary"
           checked={alias.displayInMenu || false}
-          onChange={(e, checked) => onCommandChanged({id: alias.id, displayInMenu: checked})}
+          onChange={(e, checked) =>
+            onCommandChanged({ id: alias.id, displayInMenu: checked })
+          }
         />
       </TableCell>
       <TableCell align="right">
         <Select
           autoWidth
           value={alias.permission}
-          onChange={(event) => onCommandChanged({id: alias.id, permission: event.target.value as Permission})}
+          onChange={(event) =>
+            onCommandChanged({
+              id: alias.id,
+              permission: event.target.value as Permission,
+            })
+          }
           IconComponent={Create}
           disableUnderline>
           <MenuItem value={Permission.All}>Any</MenuItem>

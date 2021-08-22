@@ -11,13 +11,17 @@ import {
 import React, { useState } from 'react';
 import { useCallback } from 'react';
 import { Command } from '../../models/Command';
-import { useCommands } from '../../hooks';
 import AccordionTableRow from './AccordionTableRow';
 import HeadTableCell from './HeadTableCell';
 
-const CommandsTable: React.FC = () => {
-  const { commands, updateCommand } = useCommands();
+export type CommandTableProps = {
+  commands: Partial<Command>[];
+  updateCommand: (command: Partial<Command>) => void;
+};
+
+const CommandsTable: React.FC<CommandTableProps> = (props) => {
   const theme = useTheme();
+  const { commands, updateCommand } = props;
   const [openedRowId, setOpenedRowId] = useState<string | null>(null);
   const onArrowClick = useCallback(
     (buttonId: string, openedState: boolean) => {
@@ -26,9 +30,12 @@ const CommandsTable: React.FC = () => {
     [setOpenedRowId],
   );
 
-  const onCommandChanged = useCallback((model: Partial<Command>) => {
-    updateCommand(model);
-  }, [updateCommand]);
+  const onCommandChanged = useCallback(
+    (model: Partial<Command>) => {
+      updateCommand(model);
+    },
+    [updateCommand],
+  );
 
   return (
     <TableContainer component={Paper} style={{ marginTop: theme.spacing(3) }}>
@@ -46,15 +53,17 @@ const CommandsTable: React.FC = () => {
         </TableHead>
         <TableBody>
           {commands &&
-            commands.filter(cmd => cmd.aliases && cmd.aliases.length > 0).map((cmd) => (
-              <AccordionTableRow
-                key={cmd.id}
-                command={cmd}
-                onCommandChanged={onCommandChanged}
-                onArrowClick={onArrowClick}
-                open={openedRowId === 'command' + cmd.id}
-              />
-            ))}
+            commands
+              .filter((cmd) => cmd.aliases && cmd.aliases.length > 0)
+              .map((cmd) => (
+                <AccordionTableRow
+                  key={cmd.id}
+                  command={cmd}
+                  onCommandChanged={onCommandChanged}
+                  onArrowClick={onArrowClick}
+                  open={openedRowId === 'command' + cmd.id}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>

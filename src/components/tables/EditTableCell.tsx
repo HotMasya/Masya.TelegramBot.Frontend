@@ -19,7 +19,7 @@ const EditTableCell: React.FC<EditTableCellProps> = (props) => {
   const { content, onChange, onBlur } = props;
   const [editingName, setEditingName] = useState(false);
   const onEditBlur = () => {
-   if(onBlur) onBlur();
+    if (onBlur) onBlur();
     setEditingName(false);
   };
   return (
@@ -34,9 +34,7 @@ const EditTableCell: React.FC<EditTableCellProps> = (props) => {
       ) : (
         <Typography>
           {content}
-          <IconButton
-            size="small"
-            onClick={() => setEditingName(true)}>
+          <IconButton size="small" onClick={() => setEditingName(true)}>
             <Create fontSize="medium" />
           </IconButton>
         </Typography>

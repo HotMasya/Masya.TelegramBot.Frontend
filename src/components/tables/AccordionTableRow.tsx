@@ -22,7 +22,7 @@ export type AccordionTableRowProps = {
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  let { command, open, onArrowClick, onCommandChanged } = props;
+  const { command, open, onArrowClick, onCommandChanged } = props;
 
   return (
     <>
@@ -36,29 +36,36 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           </IconButton>
         </TableCell>
         <TableCell>
-          <Typography>
-            {command.name}
-          </Typography>
+          <Typography>{command.name}</Typography>
         </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
             checked={command.isEnabled || false}
-            onChange={(e, checked) => onCommandChanged({id: command.id, isEnabled: checked})}
+            onChange={(e, checked) =>
+              onCommandChanged({ id: command.id, isEnabled: checked })
+            }
           />
         </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
             checked={command.displayInMenu || false}
-            onChange={(e, checked) => onCommandChanged({id: command.id, displayInMenu: checked})}
+            onChange={(e, checked) =>
+              onCommandChanged({ id: command.id, displayInMenu: checked })
+            }
           />
         </TableCell>
         <TableCell align="right">
           <Select
             autoWidth
             value={command.permission}
-            onChange={(event) => onCommandChanged({id: command.id, permission: event.target.value as Permission})}
+            onChange={(event) =>
+              onCommandChanged({
+                id: command.id,
+                permission: event.target.value as Permission,
+              })
+            }
             IconComponent={Create}
             disableUnderline>
             <MenuItem value={Permission.All}>Any</MenuItem>
@@ -70,7 +77,12 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
         </TableCell>
       </BottomlessTableRow>
       {command.aliases?.map((a) => (
-        <AliasTableRow key={a.id} aliasId={a.id} open={open} onCommandChanged={onCommandChanged} />
+        <AliasTableRow
+          key={a.id}
+          aliasId={a.id}
+          open={open}
+          onCommandChanged={onCommandChanged}
+        />
       ))}
       <TableRow key={'border' + command.id}>
         <TableCell style={{ padding: 0 }} colSpan={5} />

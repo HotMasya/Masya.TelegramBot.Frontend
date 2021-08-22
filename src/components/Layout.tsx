@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import ContentBox from './containers/ContentBox';
 import Header from './Header';
@@ -22,7 +22,10 @@ const Layout: React.FC = (props) => {
     setAnchorEl(event.currentTarget);
   };
   const isPopoverOpen = Boolean(anchorEl);
-  const { account: { user }, logout } = useAuth();
+  const {
+    account: { user },
+    logout,
+  } = useAuth();
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
