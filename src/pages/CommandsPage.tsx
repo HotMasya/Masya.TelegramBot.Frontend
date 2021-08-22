@@ -1,12 +1,14 @@
 import { Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useEffect } from 'react';
 import CommandsTable from '../components/tables/CommandsTable';
-import { useCommands } from 'src/hooks';
+import { useCommands } from '../hooks';
+import UpdateSnackbar from '../components/UpdateSnackbar';
+import { useCallback } from 'react';
 
 const CommandsPage: React.FC = () => {
-  const { commands, loadCommands, updateCommand } = useCommands();
+  const { commands, hasCommandsUpdate, loadCommands, updateCommand } = useCommands();
   useEffect(() => {
     if (!commands?.length) {
       loadCommands();
@@ -18,6 +20,7 @@ const CommandsPage: React.FC = () => {
       <Typography variant="h3">Bot Commands</Typography>
       <hr />
       <CommandsTable commands={commands || []} updateCommand={updateCommand} />
+      <UpdateSnackbar open={hasCommandsUpdate || false} />
     </Layout>
   );
 };

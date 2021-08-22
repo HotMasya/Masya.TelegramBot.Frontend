@@ -5,9 +5,9 @@ import { actions, RootAction } from '../store';
 import { RootState } from '../store/reducers';
 
 export const useCommands = () => {
-  const commands = useSelector(
+  const commandsState = useSelector(
     (state: RootState) => state.commands,
-  ).commandsForUpdate;
+  );
   const dispatch = useDispatch<Dispatch<RootAction>>();
   const loadCommands = useCallback(
     () => dispatch(actions.loadCommands()),
@@ -17,5 +17,8 @@ export const useCommands = () => {
     (model: Partial<Command>) => dispatch(actions.addCommandUpdate(model)),
     [dispatch],
   );
-  return { commands, loadCommands, updateCommand };
+  const commands = commandsState.commandsForUpdate;
+  const hasCommandsUpdate = commandsState.hasUpdates;
+
+  return { commands, hasCommandsUpdate, loadCommands, updateCommand };
 };

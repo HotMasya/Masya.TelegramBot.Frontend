@@ -13,6 +13,7 @@ import { Create, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import BottomlessTableRow from './BottomlessTableRow';
 import AliasTableRow from './AliasTableRow';
 import { Permission } from '../../models/User';
+import AddItemTableRow from './AddItemTableRow';
 
 export type AccordionTableRowProps = {
   command: Partial<Command>;
@@ -84,9 +85,7 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           onCommandChanged={onCommandChanged}
         />
       ))}
-      <TableRow key={'border' + command.id}>
-        <TableCell style={{ padding: 0 }} colSpan={5} />
-      </TableRow>
+      <AddItemTableRow key={"add_item_"+command.id} cellColSpan={5} open={open} />
     </>
   );
 };

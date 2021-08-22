@@ -8,6 +8,7 @@ export type CommandState = {
   loadError?: Error | null;
   updateCommandError?: Error | null;
   hasUpdates?: boolean;
+  commandIdsForUpdate?: number[];
   commandsForUpdate?: Partial<Command>[];
 };
 
@@ -19,9 +20,9 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
   .handleAction(actions.setCommands, (_state, action) => {
     const commandsForUpdate: Command[] = [];
     action.payload.forEach((c) => {
-      commandsForUpdate.push(c);
+      commandsForUpdate.push({...c});
       c.aliases.forEach((a) => {
-        commandsForUpdate.push(a);
+        commandsForUpdate.push({...a});
       });
     });
 
@@ -29,6 +30,7 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
       loadError: null,
       commands: action.payload,
       commandsForUpdate,
+      commandIdsForUpdate: [],
     };
   })
   .handleAction(actions.errorCommands, (state, action) => ({
@@ -39,17 +41,39 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
     const target = state.commandsForUpdate?.find(
       (t) => t.id === action.payload.id,
     );
-    if (target) {
-      target.name = action.payload.name ?? target.name;
-      target.isEnabled = action.payload.isEnabled ?? target.isEnabled;
-      target.displayInMenu =
-        action.payload.displayInMenu ?? target.displayInMenu;
-      target.permission = action.payload.permission ?? target.permission;
-    } else {
-      state.commandsForUpdate?.push(action.payload);
+    if (!target) return {...state};
+    const targetIndex = state.commandIdsForUpdate?.findIndex(id => id === target?.id)
+    target.name = action.payload.name ?? target.name;
+    target.isEnabled = action.payload.isEnabled ?? target.isEnabled;
+    target.displayInMenu =
+      action.payload.displayInMenu ?? target.displayInMenu;
+    target.permission = action.payload.permission ?? target.permission;
+
+    if(targetIndex === undefined || targetIndex < 0 ) state.commandIdsForUpdate?.push(target.id || 0);
+
+    const commands = state.commands || [];
+    const command =
+    commands.find((c) => c.id === action.payload.id) ||
+    commands
+      .find((c) => c.aliases.find((a) => a.id === action.payload.id))
+      ?.aliases.find((a) => a.id === action.payload.id);
+
+    let hasUpdates = true;
+    if(command &&
+        targetIndex !== undefined && targetIndex >= 0 &&
+       command.name === target?.name &&
+       command.displayInMenu === target?.displayInMenu &&
+       command.isEnabled === target?.isEnabled &&
+       command.permission === target?.permission)
+    {
+      state.commandIdsForUpdate?.splice(targetIndex, 1);
+      if(state.commandIdsForUpdate && state.commandIdsForUpdate.length === 0)
+      {
+        hasUpdates = false;
+      }
     }
-    console.log(target);
-    return { ...state, hasUpdates: true };
+
+    return { ...state, hasUpdates, lastUpdatedCommandId: action.payload.id };
   })
   .handleAction(actions.updateCommand, (state) => {
     if (!state.commandsForUpdate?.length || !state.commands?.length) {
