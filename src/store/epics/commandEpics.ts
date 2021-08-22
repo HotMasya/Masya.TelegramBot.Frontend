@@ -8,7 +8,26 @@ import { isActionOf } from 'typesafe-actions';
 import { apiEndpoints } from '../../routing/endpoints';
 import { Command } from '../../models/Command';
 
-export const loadKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
+export const removeCommandEpic: Epic<RootAction, RootAction, RootState> = (action$, state) =>
+  action$.pipe(
+    filter(isActionOf(actions.removeCommand)),
+    switchMap((action) => 
+      ajax({
+        url: apiEndpoints.removeCommand + action.payload,
+        method: 'delete',
+        crossDomain: true,
+        headers: {
+          Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
+        },
+      })
+      .pipe(
+        mapTo(actions.loadCommands()),
+        catchError(ctx => of(ctx.xhr.response))
+      )
+    )
+  );
+
+export const loadCommandsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
   state,
 ) =>
@@ -29,7 +48,7 @@ export const loadKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
     ),
   );
 
-export const saveKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
+export const saveCommandsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
   state,
 ) =>

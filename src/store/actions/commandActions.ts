@@ -20,6 +20,12 @@ export const errorCommands = createStandardAction(
 export const updateCommand = createStandardAction(
   CommandActionTypes.UPDATE_COMMANDS,
 )();
+export const removeCommand = createStandardAction(
+  CommandActionTypes.REMOVE_COMMAND
+)<number>();
+export const resetCommandsUpdates = createStandardAction(
+  CommandActionTypes.RESET_COMMANDS_UPDATES
+)();
 export const addCommandUpdate = createStandardAction(
   CommandActionTypes.ADD_COMMAND_UPDATE,
 )<Partial<Command>>();

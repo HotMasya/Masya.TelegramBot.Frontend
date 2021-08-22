@@ -99,6 +99,24 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
     }
 
     return { ...state, hasUpdates: false };
+  })
+  .handleAction(actions.resetCommandsUpdates, (state) => {
+    if(!state.commandsForUpdate || !state.commands)
+    {
+      return {...state};
+    }
+
+    state.commandsForUpdate = [];
+    state.commandIdsForUpdate = [];
+    state.hasUpdates = false;
+    state.updateCommandError = null;
+
+    state.commands.forEach(c => {
+      state.commandsForUpdate?.push({...c});
+      c.aliases.forEach(a => state.commandsForUpdate?.push({...a}));
+    });
+    
+    return {...state};
   });
 
 export default commandReducer;

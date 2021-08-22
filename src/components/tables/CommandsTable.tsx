@@ -17,24 +17,18 @@ import HeadTableCell from './HeadTableCell';
 export type CommandTableProps = {
   commands: Partial<Command>[];
   updateCommand: (command: Partial<Command>) => void;
+  onAliasRemove: (id: number) => void;
 };
 
 const CommandsTable: React.FC<CommandTableProps> = (props) => {
   const theme = useTheme();
-  const { commands, updateCommand } = props;
+  const { commands, updateCommand, onAliasRemove } = props;
   const [openedRowId, setOpenedRowId] = useState<string | null>(null);
   const onArrowClick = useCallback(
     (buttonId: string, openedState: boolean) => {
       setOpenedRowId(openedState ? null : buttonId);
     },
     [setOpenedRowId],
-  );
-
-  const onCommandChanged = useCallback(
-    (model: Partial<Command>) => {
-      updateCommand(model);
-    },
-    [updateCommand],
   );
 
   return (
@@ -59,8 +53,9 @@ const CommandsTable: React.FC<CommandTableProps> = (props) => {
                 <AccordionTableRow
                   key={cmd.id}
                   command={cmd}
-                  onCommandChanged={onCommandChanged}
+                  onCommandChanged={updateCommand}
                   onArrowClick={onArrowClick}
+                  onAliasRemove={onAliasRemove}
                   open={openedRowId === 'command' + cmd.id}
                 />
               ))}

@@ -7,8 +7,9 @@ const rootEpic = combineEpics(
   accountEpics.phoneEpic,
   accountEpics.getUserEpic,
   accountEpics.refreshToken,
-  commandEpics.loadKeyboardsEpic,
-  commandEpics.saveKeyboardsEpic,
+  commandEpics.loadCommandsEpic,
+  commandEpics.saveCommandsEpic,
+  commandEpics.removeCommandEpic,
 );
 
 export default rootEpic;

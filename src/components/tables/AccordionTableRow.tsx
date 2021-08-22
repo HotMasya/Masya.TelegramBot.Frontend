@@ -20,17 +20,17 @@ export type AccordionTableRowProps = {
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
   onCommandChanged: (command: Partial<Command>) => void;
+  onAliasRemove: (id: number) => void;
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  const { command, open, onArrowClick, onCommandChanged } = props;
-
+  const { command, open, onArrowClick, onCommandChanged, onAliasRemove } = props;
   return (
     <>
       <BottomlessTableRow key={command.id} selected={open}>
         <TableCell>
           <IconButton
-            size="small"
+            size="medium"
             onClick={() => onArrowClick('command' + command.id, open)}
             id={'command' + command.id}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -83,9 +83,10 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           aliasId={a.id}
           open={open}
           onCommandChanged={onCommandChanged}
+          onRemove={onAliasRemove}
         />
       ))}
-      <AddItemTableRow key={"add_item_"+command.id} cellColSpan={5} open={open} />
+      <AddItemTableRow key={"add_item_"+command.id} cellColSpan={5} open={open} buttonText="Add new alias" />
     </>
   );
 };

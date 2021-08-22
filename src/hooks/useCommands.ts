@@ -19,6 +19,7 @@ export const useCommands = () => {
   );
   const commands = commandsState.commandsForUpdate;
   const hasCommandsUpdate = commandsState.hasUpdates;
-
-  return { commands, hasCommandsUpdate, loadCommands, updateCommand };
+  const resetCommandsUpdates = useCallback(() => dispatch(actions.resetCommandsUpdates()), [dispatch]);
+  const removeCommand = useCallback((id: number) => dispatch(actions.removeCommand(id)), [dispatch]);
+  return { commands, hasCommandsUpdate, loadCommands, updateCommand, resetCommandsUpdates, removeCommand };
 };
