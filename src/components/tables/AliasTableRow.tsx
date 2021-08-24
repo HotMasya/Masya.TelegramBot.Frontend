@@ -18,35 +18,41 @@ export type AliasProps = {
   aliasId?: number;
   open: boolean;
   onCommandChanged: (command: Partial<Command>) => void;
+  onAliasDelete: (id: number) => void;
 };
 
 const AliasTableRow: React.FC<AliasProps> = (props) => {
-  const { aliasId, open, onCommandChanged } = props;
+  const { aliasId, open, onCommandChanged, onAliasDelete } = props;
   const { commands } = useCommands();
 
-  const alias = commands?.find((c) => c.id == aliasId);
+  const alias = commands?.find(
+    (c) => c.id == aliasId || c.newAliasId == aliasId,
+  );
   if (!alias) return null;
 
   return (
     <BottomlessTableRow
-      key={alias.id}
+      key={aliasId}
       selected={open}
       style={{ display: open ? 'table-row' : 'none' }}>
       <TableCell>
-        <IconButton>
+        <IconButton onClick={() => onAliasDelete(aliasId ?? 0)}>
           <HighlightOff />
         </IconButton>
       </TableCell>
       <EditTableCell
         onChange={(event) =>
-          onCommandChanged({ id: alias.id, name: event.target.value })
+          onCommandChanged({
+            id: alias.id ?? alias.newAliasId,
+            name: event.target.value,
+          })
         }
-        content={alias.name || ''}
+        content={alias.name ?? ''}
       />
       <TableCell align="center">
         <Checkbox
           color="primary"
-          checked={alias.isEnabled || false}
+          checked={alias.isEnabled ?? false}
           onChange={(e, checked) =>
             onCommandChanged({ id: alias.id, isEnabled: checked })
           }
@@ -55,7 +61,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
       <TableCell align="center">
         <Checkbox
           color="primary"
-          checked={alias.displayInMenu || false}
+          checked={alias.displayInMenu ?? false}
           onChange={(e, checked) =>
             onCommandChanged({ id: alias.id, displayInMenu: checked })
           }
@@ -64,7 +70,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
       <TableCell align="right">
         <Select
           autoWidth
-          value={alias.permission}
+          value={alias.permission ?? Permission.All}
           onChange={(event) =>
             onCommandChanged({
               id: alias.id,

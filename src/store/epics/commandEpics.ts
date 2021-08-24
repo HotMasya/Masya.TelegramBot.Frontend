@@ -46,7 +46,7 @@ export const saveCommandsEpic: Epic<RootAction, RootAction, RootState> = (
         body: state.value.commands.commandsForUpdate,
       }).pipe(
         mapTo(actions.loadCommands()),
-        catchError((err) => of(actions.errorCommands(err.xhr.response))),
+        catchError((err) => of(actions.saveCommandsError(err.xhr.response))),
       ),
     ),
   );

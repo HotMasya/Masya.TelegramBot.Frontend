@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useCallback } from 'react';
+import { Permission } from '../../models/User';
+import { useCounter } from '../../hooks';
 import { Command } from '../../models/Command';
 import AccordionTableRow from './AccordionTableRow';
 import HeadTableCell from './HeadTableCell';
@@ -17,17 +19,41 @@ import HeadTableCell from './HeadTableCell';
 export type CommandTableProps = {
   commands: Partial<Command>[];
   updateCommand: (command: Partial<Command>) => void;
+  addCommand: (command: Partial<Command>) => void;
+  removeCommand: (id: number) => void;
 };
 
 const CommandsTable: React.FC<CommandTableProps> = (props) => {
   const theme = useTheme();
-  const { commands, updateCommand } = props;
+  const { counter, next } = useCounter('commands');
+  const { commands, updateCommand, addCommand, removeCommand } = props;
   const [openedRowId, setOpenedRowId] = useState<string | null>(null);
   const onArrowClick = useCallback(
     (buttonId: string, openedState: boolean) => {
       setOpenedRowId(openedState ? null : buttonId);
     },
     [setOpenedRowId],
+  );
+
+  const onCommandAdd = useCallback(
+    (parentId: number) => {
+      const nextValue = next();
+      addCommand({
+        parentId: parentId,
+        name: `${counter?.label}${nextValue}`,
+        newAliasId: -nextValue,
+        permission: Permission.User,
+        isEnabled: true,
+      });
+    },
+    [addCommand, next, counter],
+  );
+
+  const onCommandDelete = useCallback(
+    (id: number) => {
+      removeCommand(id);
+    },
+    [removeCommand],
   );
 
   return (
@@ -47,6 +73,8 @@ const CommandsTable: React.FC<CommandTableProps> = (props) => {
         <TableBody>
           {commands?.map((cmd) => (
             <AccordionTableRow
+              onCommandDelete={onCommandDelete}
+              onCommandAdd={onCommandAdd}
               key={cmd.id}
               command={cmd}
               onCommandChanged={updateCommand}

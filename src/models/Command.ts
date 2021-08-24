@@ -7,4 +7,5 @@ export interface Command {
   displayInMenu: boolean;
   permission: Permission;
   parentId?: number;
+  newAliasId?: number;
 }

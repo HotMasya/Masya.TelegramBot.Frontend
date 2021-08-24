@@ -13,19 +13,32 @@ import BottomlessTableRow from './BottomlessTableRow';
 import AliasTableRow from './AliasTableRow';
 import { Permission } from '../../models/User';
 import AddItemTableRow from './AddItemTableRow';
-import { useCommands } from 'src/hooks';
+import { useCommands } from '../../hooks';
 
 export type AccordionTableRowProps = {
   command: Partial<Command>;
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
   onCommandChanged: (command: Partial<Command>) => void;
+  onCommandAdd: (parentId: number) => void;
+  onCommandDelete: (id: number) => void;
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  const { command, open, onArrowClick, onCommandChanged } = props;
+  const {
+    command,
+    open,
+    onArrowClick,
+    onCommandChanged,
+    onCommandAdd,
+    onCommandDelete,
+  } = props;
   const { commands } = useCommands();
+
+  if (command.parentId) return null;
+
   const aliases = commands?.filter((c) => c.parentId === command.id);
+
   return (
     <>
       <BottomlessTableRow key={command.id} selected={open}>
@@ -81,13 +94,16 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
       {aliases &&
         aliases?.map((a) => (
           <AliasTableRow
-            key={a.id}
-            aliasId={a.id}
+            onAliasDelete={onCommandDelete}
+            key={a.id ?? a.newAliasId}
+            aliasId={a.id ?? a.newAliasId}
             open={open}
             onCommandChanged={onCommandChanged}
           />
         ))}
       <AddItemTableRow
+        commandId={command.id ?? 0}
+        onClick={() => onCommandAdd(command.id ?? 0)}
         key={'add_item_' + command.id}
         cellColSpan={5}
         open={open}
