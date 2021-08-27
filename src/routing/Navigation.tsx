@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AuthPage from '../pages/AuthPage';
-import HomePage from '../pages/HomePage';
+import BotSettingsPage from '../pages/BotSettingsPage';
 import PrivateRoute from './PrivateRoute';
 import { dashboardEndpoints, endpoints } from './endpoints';
 import { Permission } from '../models/User';
@@ -32,7 +32,7 @@ const Navigation: React.FC = () => {
           permission={Permission.Admin}
           exact
           path={dashboardEndpoints.home}
-          render={() => <HomePage />}
+          render={() => <BotSettingsPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}

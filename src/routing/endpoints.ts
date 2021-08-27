@@ -18,4 +18,7 @@ export const apiEndpoints = {
 
   loadCommands: apiHost + '/api/commands',
   saveCommands: apiHost + '/api/commands/save',
+
+  loadBotSettings: apiHost + '/api/main/bot',
+  saveBotSettings: apiHost + '/api/main/bot/update'
 };

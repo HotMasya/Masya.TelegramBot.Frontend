@@ -1,2 +1,3 @@
-export * from './accountActionTypes';
-export * from './commandActionTypes';
+export * from './AccountActionTypes';
+export * from './CommandActionTypes';
+export * from './BotSettingsActionTypes';

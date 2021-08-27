@@ -56,20 +56,20 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
   }))
   .handleAction(actions.addCommandUpdate, (state, action) => {
     const target = state.commandsForUpdate?.find(
-      (c) => c.id === action.payload.id || c.newAliasId === action.payload.id,
+      (c) => c.newAliasId === action.payload.id || c.id === action.payload.id,
     );
     if (target === undefined) {
       return state;
     }
     mapCommands(target, action.payload);
     const targetIndex = state.commandIdsForUpdate?.findIndex(
-      (id) => id === action.payload.id,
+      (id) => id === action.payload.id, 
     );
     if (targetIndex === undefined || targetIndex < 0) {
-      state.commandIdsForUpdate?.push(target.id || target.newAliasId || 0);
+      state.commandIdsForUpdate?.push(target.newAliasId ?? target.id ?? 0);
     }
     const origin = state.commands?.find(
-      (c) => c.id === action.payload.id || c.newAliasId === action.payload.id,
+      (c) => c.newAliasId === action.payload.id || c.id === action.payload.id,
     );
     if (
       origin &&

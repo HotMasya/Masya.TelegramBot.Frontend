@@ -122,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
               <Tune fontSize="medium" />
             </ListItemIcon>
             <ListItemText>
-              <Typography variant="h6">Home</Typography>
+              <Typography variant="h6">Bot Settings</Typography>
             </ListItemText>
           </ListItem>
         )}

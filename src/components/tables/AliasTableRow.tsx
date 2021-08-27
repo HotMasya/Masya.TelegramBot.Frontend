@@ -54,7 +54,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           color="primary"
           checked={alias.isEnabled ?? false}
           onChange={(e, checked) =>
-            onCommandChanged({ id: alias.id, isEnabled: checked })
+            onCommandChanged({ id: alias.id ?? alias.newAliasId, isEnabled: checked })
           }
         />
       </TableCell>
@@ -63,7 +63,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           color="primary"
           checked={alias.displayInMenu ?? false}
           onChange={(e, checked) =>
-            onCommandChanged({ id: alias.id, displayInMenu: checked })
+            onCommandChanged({ id: alias.id ?? alias.newAliasId, displayInMenu: checked })
           }
         />
       </TableCell>
@@ -73,7 +73,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           value={alias.permission ?? Permission.All}
           onChange={(event) =>
             onCommandChanged({
-              id: alias.id,
+              id: alias.id ?? alias.newAliasId,
               permission: event.target.value as Permission,
             })
           }
