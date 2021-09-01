@@ -154,19 +154,19 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
               </ListItemIcon>
               <ListItemText>
                 <Typography variant="h6" align="left">
-                  Справочники
+                  Directories
                 </Typography>
               </ListItemText>
             </AccordionSummary>
             <AccordionDetails>
               <List style={{ width: '100%' }}>
-                <ListItem button>
+                <ListItem button component={Link} to={dashboardEndpoints.usersTable}>
                   <ListItemIcon>
                     <Person fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
                     <Typography variant="h6" align="left">
-                      Пользователи
+                      Users
                     </Typography>
                   </ListItemText>
                 </ListItem>
@@ -175,7 +175,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     <BusinessCenter fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography variant="h6">Посредники</Typography>
+                    <Typography variant="h6">Agencies</Typography>
                   </ListItemText>
                 </ListItem>
                 <ListItem button>
@@ -183,7 +183,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     <Category fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography variant="h6">Категории</Typography>
+                    <Typography variant="h6">Categories</Typography>
                   </ListItemText>
                 </ListItem>
               </List>

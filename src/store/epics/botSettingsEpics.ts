@@ -29,16 +29,17 @@ export const loadBotSettingsEpic: Epic<RootAction, RootAction, RootState> = (act
 export const saveBotSettingsEpic: Epic<RootAction, RootAction, RootState> = (action$, state) =>
     action$.pipe(
         filter(isActionOf(actions.saveBotSettings)),
-        switchMap(() =>
+        switchMap((action) =>
             ajax({
                 url: apiEndpoints.saveBotSettings,
                 method: 'post',
                 crossDomain: true,
+                body: state.value.botStatus.botSettingsUpdates,
                 headers: {
                     Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
                 },
             }).pipe(
-                mapTo(actions.saveBotSettingsSuccess()),
+                mapTo(actions.loadBotSettings()),
                 catchError(ctx => of(actions.saveBotSettingsError(ctx.xhr.response)))
             ),
         ),

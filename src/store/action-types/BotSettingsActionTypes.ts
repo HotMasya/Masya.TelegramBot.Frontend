@@ -6,4 +6,5 @@ export enum BotSettingsActionTypes{
     SAVE_ERROR = '@bot_settings/SAVE_ERROR',
     SET_SETTINGS = '@bot_settings/SET',
     UPDATE_SETTINGS = '@bot_settings/UPDATE',
+    RESET_UPDATES = '@bot_settings/RESET_UPDATES',
 }

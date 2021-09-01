@@ -79,7 +79,7 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           }
           IconComponent={Create}
           disableUnderline>
-          <MenuItem value={Permission.All}>Any</MenuItem>
+          <MenuItem value={Permission.Guest}>Guest</MenuItem>
           <MenuItem value={Permission.User}>User</MenuItem>
           <MenuItem value={Permission.Agent}>Agent</MenuItem>
           <MenuItem value={Permission.Admin}>Admin</MenuItem>

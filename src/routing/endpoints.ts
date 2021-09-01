@@ -8,6 +8,7 @@ export const dashboardEndpoints = {
   home: '/dashboard/home',
   commands: '/dashboard/commands',
   keyboards: '/dashboard/keyboards',
+  usersTable: '/dashboard/users',
 };
 
 export const apiEndpoints = {
@@ -20,5 +21,8 @@ export const apiEndpoints = {
   saveCommands: apiHost + '/api/commands/save',
 
   loadBotSettings: apiHost + '/api/main/bot',
-  saveBotSettings: apiHost + '/api/main/bot/update'
+  saveBotSettings: apiHost + '/api/main/bot/update',
+
+  loadUsers: apiHost + '/api/users',
+  saveUsers: apiHost + '/api/users/save',
 };

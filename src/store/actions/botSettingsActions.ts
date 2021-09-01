@@ -23,3 +23,6 @@ export const saveBotSettingsError = createStandardAction(
 export const loadBotSettingsError = createStandardAction(
     BotSettingsActionTypes.LOAD_ERROR
 )<Error>();
+export const resetBotSettingsUpdates = createStandardAction(
+    BotSettingsActionTypes.RESET_UPDATES
+)();

@@ -10,6 +10,7 @@ import CommandsPage from '../pages/CommandsPage';
 import { RootState } from '../store/reducers';
 import { RootAction, actions } from '../store';
 import KeyboardsPage from '../pages/KeyboardsPage';
+import UsersTablePage from '../pages/UsersTablePage';
 
 const Navigation: React.FC = () => {
   const { tokens, user } = useSelector((state: RootState) => state.account);
@@ -43,6 +44,11 @@ const Navigation: React.FC = () => {
           permission={Permission.SuperAdmin}
           path={dashboardEndpoints.keyboards}
           render={() => <KeyboardsPage />}
+        />
+        <PrivateRoute
+          permission={Permission.SuperAdmin}
+          path={dashboardEndpoints.usersTable}
+          render={() => <UsersTablePage />}
         />
         <Route
           path="*"

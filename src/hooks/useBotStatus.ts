@@ -20,11 +20,15 @@ export const useBotStatus = () => {
 
     const saveSettings = useCallback(() => dispatch(actions.saveBotSettings()), [dispatch]);
     const loadSettings = useCallback(() => dispatch(actions.loadBotSettings()), [dispatch]);
+    const resetSettings = useCallback(() => dispatch(actions.resetBotSettingsUpdates()), [dispatch]);
+
     return {
+        hasUpdates: botStatusState.hasUpdates,
         botSettings,
         errors,
         addUpdate,
         saveSettings,
         loadSettings,
+        resetSettings,
     };
 }
