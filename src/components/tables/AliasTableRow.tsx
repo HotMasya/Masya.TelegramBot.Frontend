@@ -54,7 +54,10 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           color="primary"
           checked={alias.isEnabled ?? false}
           onChange={(e, checked) =>
-            onCommandChanged({ id: alias.id ?? alias.newAliasId, isEnabled: checked })
+            onCommandChanged({
+              id: alias.id ?? alias.newAliasId,
+              isEnabled: checked,
+            })
           }
         />
       </TableCell>
@@ -63,14 +66,17 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
           color="primary"
           checked={alias.displayInMenu ?? false}
           onChange={(e, checked) =>
-            onCommandChanged({ id: alias.id ?? alias.newAliasId, displayInMenu: checked })
+            onCommandChanged({
+              id: alias.id ?? alias.newAliasId,
+              displayInMenu: checked,
+            })
           }
         />
       </TableCell>
       <TableCell align="right">
         <Select
           autoWidth
-          value={alias.permission ?? Permission.All}
+          value={alias.permission ?? Permission.Guest}
           onChange={(event) =>
             onCommandChanged({
               id: alias.id ?? alias.newAliasId,

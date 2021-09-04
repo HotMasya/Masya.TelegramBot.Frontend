@@ -1,4 +1,4 @@
-import { Box, createStyles, Link, Paper, styled, TextField, Theme, Typography, useTheme, withStyles } from '@material-ui/core';
+import { Box, Typography, useTheme } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import BotSettingsTable from '../components/tables/BotSettingsTable';
 import Layout from '../components/Layout';
@@ -14,25 +14,30 @@ const BotSettingsPage: React.FC = () => {
     addUpdate,
     loadSettings,
     saveSettings,
-    resetSettings
+    resetSettings,
   } = useBotStatus();
 
   useEffect(() => {
-    if(!botSettings)
-    {
+    if (!botSettings) {
       loadSettings();
     }
-  }, [botSettings])
+  }, [botSettings, loadSettings]);
 
   return (
     <Layout>
       <Typography variant="h3">Bot Settings</Typography>
       <hr />
-      <Box style={{width: '100%', padding: theme.spacing(3,0)}}>
-        <BotStatusTable botUser={botSettings?.botUser} isEnabled={botSettings?.isEnabled} />
+      <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
+        <BotStatusTable
+          botUser={botSettings?.botUser}
+          isEnabled={botSettings?.isEnabled}
+        />
       </Box>
-      <Box style={{width: '100%'}}>
-        <BotSettingsTable updateSettings={addUpdate} botSettings={botSettings} />
+      <Box style={{ width: '100%' }}>
+        <BotSettingsTable
+          updateSettings={addUpdate}
+          botSettings={botSettings}
+        />
       </Box>
       <UpdateSnackbar
         open={hasUpdates || false}

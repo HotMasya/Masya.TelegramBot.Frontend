@@ -160,7 +160,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </AccordionSummary>
             <AccordionDetails>
               <List style={{ width: '100%' }}>
-                <ListItem button component={Link} to={dashboardEndpoints.usersTable}>
+                <ListItem
+                  button
+                  component={Link}
+                  to={dashboardEndpoints.usersTable}>
                   <ListItemIcon>
                     <Person fontSize="medium" />
                   </ListItemIcon>

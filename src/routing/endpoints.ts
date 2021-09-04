@@ -15,14 +15,14 @@ export const apiEndpoints = {
   checkPhone: apiHost + 'auth/phone',
   checkCode: apiHost + 'auth/code',
   refreshToken: apiHost + 'auth/refresh',
-  getUserInfo: apiHost + 'api/user/me',
+  getUserInfo: apiHost + 'api/users/me',
 
-  loadCommands: apiHost + '/api/commands',
-  saveCommands: apiHost + '/api/commands/save',
+  loadCommands: apiHost + 'api/commands',
+  saveCommands: apiHost + 'api/commands/save',
 
-  loadBotSettings: apiHost + '/api/main/bot',
-  saveBotSettings: apiHost + '/api/main/bot/update',
+  loadBotSettings: apiHost + 'api/main/bot',
+  saveBotSettings: apiHost + 'api/main/bot/update',
 
-  loadUsers: apiHost + '/api/users',
-  saveUsers: apiHost + '/api/users/save',
+  loadUsers: apiHost + 'api/users',
+  saveUsers: apiHost + 'api/users/save',
 };

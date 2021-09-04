@@ -36,12 +36,11 @@ const areCommandsEqual = (cmd1: Partial<Command>, cmd2: Partial<Command>) => {
 
 const commandReducer = createReducer<CommandState, RootAction>(initialState)
   .handleAction(actions.setCommands, (state, action) => {
-    state.commandsForUpdate = [];
-    state.commandIdsForUpdate = [];
-    state.hasUpdates = false;
-    action.payload.forEach((c) => state.commandsForUpdate?.push({ ...c }));
     return {
       ...state,
+      hasUpdates: false,
+      commandsForUpdate: [...action.payload],
+      commandIdsForUpdate: [],
       loadError: null,
       commands: action.payload,
     };
@@ -63,7 +62,7 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
     }
     mapCommands(target, action.payload);
     const targetIndex = state.commandIdsForUpdate?.findIndex(
-      (id) => id === action.payload.id, 
+      (id) => id === action.payload.id,
     );
     if (targetIndex === undefined || targetIndex < 0) {
       state.commandIdsForUpdate?.push(target.newAliasId ?? target.id ?? 0);
