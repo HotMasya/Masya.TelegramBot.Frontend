@@ -20,3 +20,6 @@ export const updateUser = createStandardAction(UsersActionTypes.UPDATE_USER)<
   Partial<UserView>
 >();
 export const resetUsers = createStandardAction(UsersActionTypes.RESET_USERS)();
+export const removeUser = createStandardAction(
+  UsersActionTypes.REMOVE_USER,
+)<number>();

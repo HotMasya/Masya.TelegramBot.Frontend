@@ -45,7 +45,7 @@ export const saveBotSettingsEpic: Epic<RootAction, RootAction, RootState> = (
           Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
         },
       }).pipe(
-        mapTo(actions.loadBotSettings()),
+        mapTo(actions.saveBotSettingsSuccess()),
         catchError((ctx) => of(actions.saveBotSettingsError(ctx.xhr.response))),
       ),
     ),

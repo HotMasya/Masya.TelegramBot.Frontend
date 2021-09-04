@@ -17,13 +17,15 @@ const AuthPage: React.FC = () => {
 
   const onSubmit: SubmitHandler<AuthModel> = useCallback(
     (model) => {
+      if (account.loading) return;
+
       if (!account.checkPhoneSuccess) {
         checkPhone(model.phone);
       } else {
         login(model);
       }
     },
-    [account.checkPhoneSuccess, login, checkPhone],
+    [account.checkPhoneSuccess, login, checkPhone, account.loading],
   );
 
   return (

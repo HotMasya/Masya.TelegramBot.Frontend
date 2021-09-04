@@ -10,6 +10,8 @@ export type CommandState = {
   hasUpdates?: boolean;
   commandIdsForUpdate?: number[];
   commandsForUpdate?: Partial<Command>[];
+  loading?: boolean;
+  loadingSave?: boolean;
 };
 
 const initialState: CommandState = {
@@ -35,9 +37,18 @@ const areCommandsEqual = (cmd1: Partial<Command>, cmd2: Partial<Command>) => {
 };
 
 const commandReducer = createReducer<CommandState, RootAction>(initialState)
+  .handleAction(actions.loadCommands, (state) => ({
+    ...state,
+    loading: true,
+  }))
+  .handleAction(actions.saveCommands, (state) => ({
+    ...state,
+    loadingSave: true,
+  }))
   .handleAction(actions.setCommands, (state, action) => {
     return {
       ...state,
+      loading: false,
       hasUpdates: false,
       commandsForUpdate: [...action.payload],
       commandIdsForUpdate: [],
@@ -47,10 +58,12 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
   })
   .handleAction(actions.errorCommands, (state, action) => ({
     ...state,
+    loading: false,
     loadError: action.payload,
   }))
   .handleAction(actions.saveCommandsError, (state, action) => ({
     ...state,
+    loadingSave: false,
     saveCommandsError: action.payload,
   }))
   .handleAction(actions.addCommandUpdate, (state, action) => {
@@ -88,13 +101,19 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
       return state;
     }
 
-    state.commandsForUpdate = [];
-    state.commandIdsForUpdate = [];
-    state.hasUpdates = false;
-
-    state.commands.forEach((c) => state.commandsForUpdate?.push({ ...c }));
-    return { ...state };
+    return {
+      ...state,
+      commandIdsForUpdate: [],
+      commandsForUpdate: JSON.parse(JSON.stringify(state.commands)),
+      hasUpdates: false,
+    };
   })
+  .handleAction(actions.saveCommandsSuccess, (state) => ({
+    ...state,
+    commands: JSON.parse(JSON.stringify(state.commandsForUpdate)),
+    loadingSave: false,
+    hasUpdates: false,
+  }))
   .handleAction(actions.addCommand, (state, action) => {
     state.commandsForUpdate?.push(action.payload);
     return { ...state, hasUpdates: true, saveCommandsError: null };
@@ -138,6 +157,8 @@ const commandReducer = createReducer<CommandState, RootAction>(initialState)
     ...state,
     saveCommandsError: undefined,
     loadError: undefined,
+    loading: false,
+    loadingSave: false,
   }));
 
 export default commandReducer;

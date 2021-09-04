@@ -1,14 +1,16 @@
-import { Box, Button, useTheme } from '@material-ui/core';
+import { Box, Button, CircularProgress, useTheme } from '@material-ui/core';
 import React from 'react';
 
 export type UpdateSnackbarActionProps = {
   onCancelClick?: () => void;
   onSaveClick?: () => void;
+  loading?: boolean;
 };
 
 const UpdateSnackbarAction: React.FC<UpdateSnackbarActionProps> = (props) => {
   const theme = useTheme();
-  const { onCancelClick, onSaveClick } = props;
+  const { onCancelClick, onSaveClick, loading } = props;
+
   return (
     <Box>
       <Button variant="outlined" color="secondary" onClick={onCancelClick}>
@@ -17,9 +19,16 @@ const UpdateSnackbarAction: React.FC<UpdateSnackbarActionProps> = (props) => {
       <Button
         variant="contained"
         color="primary"
-        style={{ marginLeft: theme.spacing(1) }}
+        style={{ marginLeft: theme.spacing(1), minWidth: '5rem' }}
         onClick={onSaveClick}>
-        Save
+        {loading ? (
+          <CircularProgress
+            size="1.5rem"
+            style={{ color: theme.palette.primary.contrastText }}
+          />
+        ) : (
+          'Save'
+        )}
       </Button>
     </Box>
   );

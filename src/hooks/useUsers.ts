@@ -20,13 +20,25 @@ export const useUsers = () => {
     (user: Partial<UserView>) => dispatch(actions.updateUser(user)),
     [dispatch],
   );
-  const resetUsers = useCallback(() => dispatch(actions.resetUsers()), [dispatch]);
+  const resetUsers = useCallback(
+    () => dispatch(actions.resetUsers()),
+    [dispatch],
+  );
+  const removeUser = useCallback(
+    (id: number) => dispatch(actions.removeUser(id)),
+    [dispatch],
+  );
   return {
     users: usersState.usersToUpdate,
     hasUpdates: usersState.hasChanges,
+    loadings: {
+      loading: usersState.loading,
+      loadingSave: usersState.loadingSave,
+    },
     loadUsers,
     saveUsers,
     updateUser,
     resetUsers,
+    removeUser,
   };
 };

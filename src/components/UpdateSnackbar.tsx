@@ -9,7 +9,7 @@ export type UpdateSnackbarProps = UpdateSnackbarActionProps & {
 };
 
 const UpdateSnackbar: React.FC<UpdateSnackbarProps> = (props) => {
-  const { open, onCancelClick, onSaveClick } = props;
+  const { open, ...actionsProps } = props;
 
   return (
     <Snackbar
@@ -22,12 +22,7 @@ const UpdateSnackbar: React.FC<UpdateSnackbarProps> = (props) => {
       <SnackbarContent
         style={{ width: 600 }}
         message="You have unsaved changes."
-        action={
-          <UpdateSnackbarAction
-            onCancelClick={onCancelClick}
-            onSaveClick={onSaveClick}
-          />
-        }
+        action={<UpdateSnackbarAction {...actionsProps} />}
       />
     </Snackbar>
   );

@@ -1,9 +1,11 @@
 import {
+  CircularProgress,
   createStyles,
   makeStyles,
   TextField,
   Theme,
   Typography,
+  useTheme,
 } from '@material-ui/core';
 import React from 'react';
 import GradientButton from './GradientButton';
@@ -38,6 +40,7 @@ export type AuthFormProps = {
 const AuthForm: React.FC<AuthFormProps> = (props) => {
   const { caption, className, onSubmit } = props;
   const classes = useStyles();
+  const theme = useTheme();
   const accountState = useSelector((state: RootState) => state.account);
   const {
     register,
@@ -93,9 +96,23 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
         )}
 
         <GradientButton type="submit" fullWidth variant="contained">
-          {!accountState.checkPhoneSuccess
-            ? 'Send phone number'
-            : 'Send confirmation code'}
+          {!accountState.checkPhoneSuccess ? (
+            accountState.loading ? (
+              <CircularProgress
+                size="1.5rem"
+                style={{ color: theme.palette.primary.contrastText }}
+              />
+            ) : (
+              'Send phone number'
+            )
+          ) : accountState.loading ? (
+            <CircularProgress
+              size="1.5rem"
+              style={{ color: theme.palette.primary.contrastText }}
+            />
+          ) : (
+            'Send confirmation code'
+          )}
         </GradientButton>
       </form>
     </GlassPaper>

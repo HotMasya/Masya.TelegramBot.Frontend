@@ -19,6 +19,9 @@ export const saveCommands = createStandardAction(
 export const saveCommandsError = createStandardAction(
   CommandActionTypes.SAVE_COMMANDS_ERROR,
 )<Error>();
+export const saveCommandsSuccess = createStandardAction(
+  CommandActionTypes.SAVE_COMMANDS_SUCCESS,
+)();
 
 export const resetCommandsUpdates = createStandardAction(
   CommandActionTypes.RESET_COMMANDS_UPDATES,

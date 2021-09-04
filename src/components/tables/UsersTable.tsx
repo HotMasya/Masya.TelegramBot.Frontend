@@ -1,4 +1,11 @@
-import { Button, MenuItem, Paper, Select } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Paper,
+  Select,
+  useTheme,
+} from '@material-ui/core';
 import { Cancel, DoneOutline, Remove, Edit, Create } from '@material-ui/icons';
 import {
   DataGrid,
@@ -7,8 +14,8 @@ import {
   GridColumnHeaderParams,
   GridColumns,
   GridEditRowsModel,
+  GridInputSelectionModel,
   GridRenderCellParams,
-  GridValueGetterParams,
 } from '@mui/x-data-grid';
 import React, { useCallback, useState } from 'react';
 import { useUsers } from '../../hooks/useUsers';
@@ -20,6 +27,8 @@ export type UsersTableProps = {
   users: UserView[];
   onBlockClick: (id: number, isBlocked: boolean) => void;
   updateUser: (user: Partial<UserView>) => void;
+  removeUser: (id: number) => void;
+  loading?: boolean;
 };
 
 const renderEmptyString = (params: GridRenderCellParams) => {
@@ -38,32 +47,34 @@ const renderEmptyString = (params: GridRenderCellParams) => {
   );
 };
 
-const getPermission = (params: GridValueGetterParams) => {
-  return Permission[params.value as number];
-};
-
-const renderPermission = (params: GridRenderCellParams) => {
+const RenderPermission = (params: GridRenderCellParams) => {
   const permission = params.value as Permission;
   params.cellMode = GridCellModes.Edit;
   const { updateUser } = useUsers();
 
   return (
-        <Select
-          autoWidth
-          value={permission}
-          IconComponent={Create}
-          disableUnderline
-          onChange={(e) => updateUser({id: params.id as number, permission: e.target.value as Permission})}
-          disabled={params.value == Permission.SuperAdmin}
-          >
-          <MenuItem value={Permission.Guest}>Guest</MenuItem>
-          <MenuItem value={Permission.User}>User</MenuItem>
-          <MenuItem value={Permission.Agent}>Agent</MenuItem>
-          <MenuItem value={Permission.Admin}>Admin</MenuItem>
-          <MenuItem value={Permission.SuperAdmin} disabled>Super admin</MenuItem>
-        </Select>
-  )
-}
+    <Select
+      autoWidth
+      value={permission}
+      IconComponent={Create}
+      disableUnderline
+      onChange={(e) =>
+        updateUser({
+          id: params.id as number,
+          permission: e.target.value as Permission,
+        })
+      }
+      disabled={params.value == Permission.SuperAdmin}>
+      <MenuItem value={Permission.Guest}>Guest</MenuItem>
+      <MenuItem value={Permission.User}>User</MenuItem>
+      <MenuItem value={Permission.Agent}>Agent</MenuItem>
+      <MenuItem value={Permission.Admin}>Admin</MenuItem>
+      <MenuItem value={Permission.SuperAdmin} disabled>
+        Super admin
+      </MenuItem>
+    </Select>
+  );
+};
 
 const renderBool = (params: GridRenderCellParams) => {
   const boolVal = params.value as boolean;
@@ -98,10 +109,11 @@ const renderBlockButton = (params: GridRenderCellParams) => {
 const renderEditableHeader = (params: GridColumnHeaderParams) => {
   return (
     <>
-      {params.colDef.headerName}<Edit fontSize="small" color="primary" />
+      {params.colDef.headerName}
+      <Edit fontSize="small" color="primary" />
     </>
-  )
-}
+  );
+};
 
 const columns: GridColumns = [
   {
@@ -121,7 +133,7 @@ const columns: GridColumns = [
     field: 'permission',
     headerName: 'Permission',
     width: 160,
-    renderCell: renderPermission,
+    renderCell: RenderPermission,
     renderHeader: renderEditableHeader,
   },
   { field: 'telegramAccountId', headerName: 'Telegram Id', width: 180 },
@@ -140,14 +152,14 @@ const columns: GridColumns = [
     headerName: 'Blocked',
     width: 150,
     renderCell: renderBlockButton,
-    renderHeader: renderEditableHeader
+    renderHeader: renderEditableHeader,
   },
   {
     field: 'blockReason',
     headerName: 'Block Reason',
     width: 200,
     renderCell: renderEmptyString,
-    renderHeader: renderEditableHeader
+    renderHeader: renderEditableHeader,
   },
   {
     field: 'isBlockedByBot',
@@ -167,14 +179,18 @@ const columns: GridColumns = [
     width: 150,
     renderCell: renderEmptyString,
     editable: true,
-    renderHeader: renderEditableHeader
+    renderHeader: renderEditableHeader,
   },
 ];
 
 const UsersTable: React.FC<UsersTableProps> = (props) => {
-  const { users, onBlockClick, updateUser } = props;
-  const {account} = useAuth();
-  const [editModel, setEditModel] = useState({});
+  const { users, onBlockClick, updateUser, removeUser, loading } = props;
+  const { account } = useAuth();
+  const [editModel, setEditModel] = useState<GridEditRowsModel | undefined>();
+  const [selectionModel, setSelectionModel] = useState<
+    GridInputSelectionModel | undefined
+  >();
+  const theme = useTheme();
 
   const onCellClick = useCallback(
     (params: GridCellParams) => {
@@ -187,15 +203,33 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
 
   const onRowEdit = (model: GridEditRowsModel) => {
     setEditModel(model);
-    for(let changeId in model)
-    {
+    for (const changeId in model) {
       const userChanges = model[changeId];
-      for(let change in userChanges)
-      {
-        updateUser({id: Number(changeId), [change]: userChanges[change].value });
+      for (const change in userChanges) {
+        updateUser({
+          id: Number(changeId),
+          [change]: userChanges[change].value,
+        });
       }
     }
-  }
+  };
+
+  const onSelectionModelChange = (model: GridInputSelectionModel) => {
+    setSelectionModel(model);
+  };
+
+  const onRemoveClick = () => {
+    if (!selectionModel) {
+      return;
+    }
+
+    const model = selectionModel as Array<number>;
+
+    for (const id of model) {
+      removeUser(id);
+    }
+    setSelectionModel([]);
+  };
 
   return (
     <Paper>
@@ -211,7 +245,23 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
         editRowsModel={editModel}
         onEditRowsModelChange={onRowEdit}
         isRowSelectable={(params) => account.user?.id !== (params.id as number)}
+        selectionModel={selectionModel}
+        onSelectionModelChange={onSelectionModelChange}
+        loading={loading}
       />
+      <Box
+        style={{
+          display:
+            (selectionModel as Array<number>) &&
+            (selectionModel as Array<number>).length > 0
+              ? 'block'
+              : 'none',
+          padding: theme.spacing(2),
+        }}>
+        <Button color="primary" variant="contained" onClick={onRemoveClick}>
+          Delete selected user(s)
+        </Button>
+      </Box>
     </Paper>
   );
 };

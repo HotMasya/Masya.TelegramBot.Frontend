@@ -7,6 +7,7 @@ export enum CommandActionTypes {
   ADD_COMMAND = '@commands/ADD',
   RESET_COMMANDS_UPDATES = '@commands/RESET_UPDATES',
   SAVE_COMMANDS = '@commands/SAVE',
+  SAVE_COMMANDS_SUCCESS = '@commands/SAVE_SUCCESS',
   SAVE_COMMANDS_ERROR = '@commands/SAVE_ERROR',
   RESET_ERRORS = '@commands/RESET_ERRORS',
 }

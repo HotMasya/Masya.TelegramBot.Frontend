@@ -9,14 +9,25 @@ export type UsersState = {
   usersLoadError?: Error;
   usersSaveError?: Error;
   hasChanges?: boolean;
+  loading?: boolean;
+  loadingSave?: boolean;
 };
 
 const initialState: UsersState = {};
 
 export const usersReducer = createReducer<UsersState, RootAction>(initialState)
+  .handleAction(actions.loadUsers, (state) => ({
+    ...state,
+    loading: true,
+  }))
+  .handleAction(actions.saveUsers, (state) => ({
+    ...state,
+    loadingSave: true,
+  }))
   .handleAction(actions.setUsers, (state, action) => ({
     ...state,
     users: action.payload,
+    loading: false,
     usersToUpdate: JSON.parse(JSON.stringify(action.payload)),
   }))
   .handleAction(actions.loadUsersError, (state, action) => ({
@@ -54,5 +65,11 @@ export const usersReducer = createReducer<UsersState, RootAction>(initialState)
   .handleAction(actions.saveUsersSuccess, (state) => ({
     ...state,
     users: JSON.parse(JSON.stringify(state.usersToUpdate)),
+    loadingSave: false,
     hasChanges: false,
+  }))
+  .handleAction(actions.removeUser, (state, action) => ({
+    ...state,
+    usersToUpdate: state.usersToUpdate?.filter((u) => u.id == action.payload),
+    hasChanges: true,
   }));

@@ -1,4 +1,6 @@
 import {
+  Box,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -21,12 +23,13 @@ export type CommandTableProps = {
   updateCommand: (command: Partial<Command>) => void;
   addCommand: (command: Partial<Command>) => void;
   removeCommand: (id: number) => void;
+  loading?: boolean;
 };
 
 const CommandsTable: React.FC<CommandTableProps> = (props) => {
   const theme = useTheme();
   const { counter, next } = useCounter('commands');
-  const { commands, updateCommand, addCommand, removeCommand } = props;
+  const { commands, updateCommand, addCommand, removeCommand, loading } = props;
   const [openedRowId, setOpenedRowId] = useState<string | null>(null);
   const onArrowClick = useCallback(
     (buttonId: string, openedState: boolean) => {
@@ -71,17 +74,40 @@ const CommandsTable: React.FC<CommandTableProps> = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {commands?.map((cmd) => (
-            <AccordionTableRow
-              onCommandDelete={onCommandDelete}
-              onCommandAdd={onCommandAdd}
-              key={cmd.id}
-              command={cmd}
-              onCommandChanged={updateCommand}
-              onArrowClick={onArrowClick}
-              open={openedRowId === 'command' + cmd.id}
-            />
-          ))}
+          {loading ? (
+            <TableRow key="loading_commands_progress">
+              <TableCell colSpan={5}>
+                <Box
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                  }}>
+                  <CircularProgress
+                    size="1.5rem"
+                    style={{
+                      color: theme.palette.primary.contrastText,
+                      marginRight: theme.spacing(2),
+                    }}
+                  />
+                  Loading commands...
+                </Box>
+              </TableCell>
+            </TableRow>
+          ) : (
+            commands?.map((cmd) => (
+              <AccordionTableRow
+                onCommandDelete={onCommandDelete}
+                onCommandAdd={onCommandAdd}
+                key={cmd.id}
+                command={cmd}
+                onCommandChanged={updateCommand}
+                onArrowClick={onArrowClick}
+                open={openedRowId === 'command' + cmd.id}
+              />
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

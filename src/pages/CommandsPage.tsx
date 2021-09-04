@@ -27,6 +27,7 @@ const CommandsPage: React.FC = () => {
     removeCommand,
     errors,
     resetErrors,
+    loadings,
   } = useCommands();
   useEffect(() => {
     if (!commands?.length) {
@@ -45,11 +46,13 @@ const CommandsPage: React.FC = () => {
         addCommand={addCommand}
         commands={commands || []}
         updateCommand={updateCommand}
+        loading={loadings.loading}
       />
       <UpdateSnackbar
         open={hasCommandsUpdate || false}
         onCancelClick={resetCommandsUpdates}
         onSaveClick={saveCommands}
+        loading={loadings.loadingSave}
       />
       <Dialog
         open={dialogOpen ?? errors.saveError?.message != undefined}

@@ -9,20 +9,40 @@ export type BotSettingsState = {
   hasUpdates: boolean;
   loadError?: Error;
   saveError?: Error;
+  loading?: boolean;
+  loadingSave?: boolean;
 };
 
 const initialState: BotSettingsState = {
   hasUpdates: false,
+  loading: false,
+  loadingSave: false,
 };
 
 export const botSettingsReducer = createReducer<BotSettingsState, RootAction>(
   initialState,
 )
-  .handleAction(actions.setBotSettings, (state, action) => {
-    state.botSettings = action.payload;
-    state.botSettingsUpdates = { ...action.payload };
-    return { ...state, hasUpdates: false };
-  })
+  .handleAction(actions.loadBotSettings, (state) => ({
+    ...state,
+    loading: true,
+  }))
+  .handleAction(actions.saveBotSettings, (state) => ({
+    ...state,
+    loadingSave: true,
+  }))
+  .handleAction(actions.saveBotSettingsSuccess, (state) => ({
+    ...state,
+    loadingSave: false,
+    hasUpdates: false,
+    botSettings: { ...(state.botSettingsUpdates as BotSettings) },
+  }))
+  .handleAction(actions.setBotSettings, (state, action) => ({
+    ...state,
+    hasUpdates: false,
+    loading: false,
+    botSettings: action.payload,
+    botSettingsUpdates: { ...action.payload },
+  }))
   .handleAction(actions.updateBotSettings, (state, action) => {
     if (!state?.botSettingsUpdates) return state;
 
@@ -34,10 +54,8 @@ export const botSettingsReducer = createReducer<BotSettingsState, RootAction>(
       action.payload.isEnabled ?? state.botSettingsUpdates.isEnabled;
 
     if (
-      state.botSettings &&
-      state.botSettings.token === state.botSettingsUpdates.token &&
-      state.botSettings.webhookHost === state.botSettingsUpdates.webhookHost &&
-      state.botSettings.isEnabled === state.botSettingsUpdates.isEnabled
+      JSON.stringify(state.botSettings) ==
+      JSON.stringify(state.botSettingsUpdates)
     ) {
       return { ...state, hasUpdates: false };
     }

@@ -15,6 +15,7 @@ const BotSettingsPage: React.FC = () => {
     loadSettings,
     saveSettings,
     resetSettings,
+    loadings,
   } = useBotStatus();
 
   useEffect(() => {
@@ -29,20 +30,22 @@ const BotSettingsPage: React.FC = () => {
       <hr />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <BotStatusTable
-          botUser={botSettings?.botUser}
-          isEnabled={botSettings?.isEnabled}
+          botSettings={botSettings || {}}
+          loading={loadings.loading}
         />
       </Box>
       <Box style={{ width: '100%' }}>
         <BotSettingsTable
           updateSettings={addUpdate}
           botSettings={botSettings}
+          loading={loadings.loading}
         />
       </Box>
       <UpdateSnackbar
         open={hasUpdates || false}
         onCancelClick={resetSettings}
         onSaveClick={saveSettings}
+        loading={loadings.loadingSave}
       />
     </Layout>
   );

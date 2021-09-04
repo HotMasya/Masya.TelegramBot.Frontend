@@ -45,6 +45,10 @@ export const useCommands = () => {
     commands,
     hasCommandsUpdate,
     errors,
+    loadings: {
+      loading: commandsState.loading,
+      loadingSave: commandsState.loadingSave,
+    },
     loadCommands,
     saveCommands,
     updateCommand,

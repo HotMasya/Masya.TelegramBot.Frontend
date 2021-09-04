@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Paper,
   Switch,
   Table,
@@ -8,6 +9,7 @@ import {
   TableRow,
   TextField,
   Typography,
+  useTheme,
 } from '@material-ui/core';
 import React from 'react';
 import { BotSettings } from '../../models/BotSettings';
@@ -16,10 +18,12 @@ import SensetiveTextField from '../input/SensetiveTextField';
 export type BotSettingsTableProps = {
   botSettings?: Partial<BotSettings>;
   updateSettings: (settings: Omit<Partial<BotSettings>, 'id'>) => void;
+  loading?: boolean;
 };
 
 const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
-  const { botSettings, updateSettings } = props;
+  const { botSettings, updateSettings, loading } = props;
+  const theme = useTheme();
 
   return (
     <TableContainer component={Paper}>
@@ -30,11 +34,18 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
               <Typography>Bot Token</Typography>
             </TableCell>
             <TableCell width="80%">
-              <SensetiveTextField
-                onChange={(e) => updateSettings({ token: e.target.value })}
-                value={botSettings?.token ?? ''}
-                fullWidth
-              />
+              {loading ? (
+                <CircularProgress
+                  size="1.5rem"
+                  style={{ color: theme.palette.primary.contrastText }}
+                />
+              ) : (
+                <SensetiveTextField
+                  onChange={(e) => updateSettings({ token: e.target.value })}
+                  value={botSettings?.token ?? ''}
+                  fullWidth
+                />
+              )}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -42,13 +53,20 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
               <Typography>Webhook host and path</Typography>
             </TableCell>
             <TableCell width="80%">
-              <TextField
-                value={botSettings?.webhookHost ?? ''}
-                onChange={(e) =>
-                  updateSettings({ webhookHost: e.target.value })
-                }
-                fullWidth
-              />
+              {loading ? (
+                <CircularProgress
+                  size="1.5rem"
+                  style={{ color: theme.palette.primary.contrastText }}
+                />
+              ) : (
+                <TextField
+                  value={botSettings?.webhookHost ?? ''}
+                  onChange={(e) =>
+                    updateSettings({ webhookHost: e.target.value })
+                  }
+                  fullWidth
+                />
+              )}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -56,13 +74,20 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
               <Typography>Is bot enabled?</Typography>
             </TableCell>
             <TableCell width="80%">
-              <Switch
-                checked={botSettings?.isEnabled ?? false}
-                onChange={(_e, checked) =>
-                  updateSettings({ isEnabled: checked })
-                }
-                color="primary"
-              />
+              {loading ? (
+                <CircularProgress
+                  size="1.5rem"
+                  style={{ color: theme.palette.primary.contrastText }}
+                />
+              ) : (
+                <Switch
+                  checked={botSettings?.isEnabled ?? false}
+                  onChange={(_e, checked) =>
+                    updateSettings({ isEnabled: checked })
+                  }
+                  color="primary"
+                />
+              )}
             </TableCell>
           </TableRow>
         </TableBody>

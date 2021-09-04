@@ -19,10 +19,10 @@ export const useBotStatus = () => {
     [dispatch],
   );
 
-  const saveSettings = useCallback(
-    () => dispatch(actions.saveBotSettings()),
-    [dispatch],
-  );
+  const saveSettings = useCallback(() => {
+    if (botStatusState.loadingSave) return;
+    dispatch(actions.saveBotSettings());
+  }, [dispatch, botStatusState.loadingSave]);
   const loadSettings = useCallback(
     () => dispatch(actions.loadBotSettings()),
     [dispatch],
@@ -40,5 +40,9 @@ export const useBotStatus = () => {
     saveSettings,
     loadSettings,
     resetSettings,
+    loadings: {
+      loading: botStatusState.loading,
+      loadingSave: botStatusState.loadingSave,
+    },
   };
 };

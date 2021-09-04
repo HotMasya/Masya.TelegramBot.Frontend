@@ -27,11 +27,10 @@ const BlockUserDialog: React.FC<BlockUserDialogProps> = (props) => {
   const fullName = userFirstName + (userLastName ? ' ' + userLastName : '');
 
   const onClick = () => {
-    if(onBlockClick(blockReason))
-    {
+    if (onBlockClick(blockReason)) {
       setBlockReason(undefined);
     }
-  }
+  };
 
   const onCancelClicked = () => {
     setBlockReason(undefined);
