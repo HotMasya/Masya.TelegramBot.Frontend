@@ -10,6 +10,7 @@ const BotSettingsPage: React.FC = () => {
   const theme = useTheme();
   const {
     botSettings,
+    defaultBotSettings,
     hasUpdates,
     addUpdate,
     loadSettings,
@@ -30,7 +31,7 @@ const BotSettingsPage: React.FC = () => {
       <hr />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <BotStatusTable
-          botSettings={botSettings || {}}
+          botSettings={defaultBotSettings || {}}
           loading={loadings.loading}
         />
       </Box>

@@ -8,6 +8,7 @@ export const useBotStatus = () => {
   const botStatusState = useSelector((state: RootState) => state.botStatus);
   const dispatch = useDispatch();
   const botSettings = botStatusState.botSettingsUpdates;
+  const defaultBotSettings = botStatusState.botSettings;
   const errors = {
     load: botStatusState.loadError,
     save: botStatusState.saveError,
@@ -35,6 +36,7 @@ export const useBotStatus = () => {
   return {
     hasUpdates: botStatusState.hasUpdates,
     botSettings,
+    defaultBotSettings,
     errors,
     addUpdate,
     saveSettings,
