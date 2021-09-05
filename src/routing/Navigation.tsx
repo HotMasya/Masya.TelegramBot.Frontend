@@ -11,6 +11,7 @@ import { RootState } from '../store/reducers';
 import { RootAction, actions } from '../store';
 import KeyboardsPage from '../pages/KeyboardsPage';
 import UsersTablePage from '../pages/UsersTablePage';
+import AgencyPage from '../pages/AgencyPage';
 
 const Navigation: React.FC = () => {
   const { tokens, user } = useSelector((state: RootState) => state.account);
@@ -34,6 +35,12 @@ const Navigation: React.FC = () => {
           exact
           path={dashboardEndpoints.home}
           render={() => <BotSettingsPage />}
+        />
+        <PrivateRoute
+          permission={Permission.Admin}
+          exact
+          path={dashboardEndpoints.agency}
+          render={() => <AgencyPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}

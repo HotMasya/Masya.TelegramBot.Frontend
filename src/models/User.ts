@@ -1,11 +1,14 @@
+import { Agency } from "./Agency";
+
 export interface User {
   id: number;
-  firstName: string;
-  lastName?: string;
-  avatar?: string;
-  phoneNumber: string;
+  telegramFirstName: string;
+  telegramLastName?: string;
+  telegramAvatar?: string;
+  telegramPhoneNumber: string;
   telegramId: string;
   permission: Permission;
+  agencyName?: string;
 }
 
 export enum Permission {

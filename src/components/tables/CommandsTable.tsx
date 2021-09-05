@@ -86,8 +86,8 @@ const CommandsTable: React.FC<CommandTableProps> = (props) => {
                   }}>
                   <CircularProgress
                     size="1.5rem"
+                    color="primary"
                     style={{
-                      color: theme.palette.primary.contrastText,
                       marginRight: theme.spacing(2),
                     }}
                   />

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   MenuItem,
@@ -31,7 +32,26 @@ export type UsersTableProps = {
   loading?: boolean;
 };
 
-const renderEmptyString = (params: GridRenderCellParams) => {
+const RenderAvatar = (params: GridRenderCellParams) => {
+  var avatarSrc = `data:image/png;base64, ${params.value as string}`;
+  return (
+      <div
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        {
+          params.value 
+          ? <Avatar src={avatarSrc} alt="user avatar" />
+          : <Remove />
+        }
+    </div>
+  );
+}
+
+const RenderEmptyString = (params: GridRenderCellParams) => {
   return (
     params.value || (
       <div
@@ -76,7 +96,7 @@ const RenderPermission = (params: GridRenderCellParams) => {
   );
 };
 
-const renderBool = (params: GridRenderCellParams) => {
+const RenderBool = (params: GridRenderCellParams) => {
   const boolVal = params.value as boolean;
 
   return (
@@ -92,7 +112,7 @@ const renderBool = (params: GridRenderCellParams) => {
   );
 };
 
-const renderBlockButton = (params: GridRenderCellParams) => {
+const RenderBlockButton = (params: GridRenderCellParams) => {
   const isBlocked = params.value as boolean;
 
   return (
@@ -106,7 +126,7 @@ const renderBlockButton = (params: GridRenderCellParams) => {
   );
 };
 
-const renderEditableHeader = (params: GridColumnHeaderParams) => {
+const RenderEditableHeader = (params: GridColumnHeaderParams) => {
   return (
     <>
       {params.colDef.headerName}
@@ -127,23 +147,24 @@ const columns: GridColumns = [
     field: 'agencyName',
     headerName: 'Agency',
     width: 150,
-    renderCell: renderEmptyString,
+    renderCell: RenderEmptyString,
   },
   {
     field: 'permission',
     headerName: 'Permission',
     width: 160,
     renderCell: RenderPermission,
-    renderHeader: renderEditableHeader,
+    renderHeader: RenderEditableHeader,
   },
   { field: 'telegramAccountId', headerName: 'Telegram Id', width: 180 },
   { field: 'telegramLogin', headerName: 'Telegram Login', width: 180 },
+  { field: 'telegramAvatar', headerName: 'Avatar', sortable: false, filterable: false, renderCell: RenderAvatar},
   { field: 'telegramFirstName', headerName: 'First Name', width: 150 },
   {
     field: 'telegramLastName',
     headerName: 'Last Name',
     width: 150,
-    renderCell: renderEmptyString,
+    renderCell: RenderEmptyString,
   },
   { field: 'telegramPhoneNumber', headerName: 'Phone', width: 150 },
   { field: 'lastCalledAt', headerName: 'Last Update', width: 150 },
@@ -151,35 +172,35 @@ const columns: GridColumns = [
     field: 'isBlocked',
     headerName: 'Blocked',
     width: 150,
-    renderCell: renderBlockButton,
-    renderHeader: renderEditableHeader,
+    renderCell: RenderBlockButton,
+    renderHeader: RenderEditableHeader,
   },
   {
     field: 'blockReason',
     headerName: 'Block Reason',
     width: 200,
-    renderCell: renderEmptyString,
-    renderHeader: renderEditableHeader,
+    renderCell: RenderEmptyString,
+    renderHeader: RenderEditableHeader,
   },
   {
     field: 'isBlockedByBot',
     headerName: 'Blocked By Bot',
     width: 200,
-    renderCell: renderBool,
+    renderCell: RenderBool,
   },
   {
     field: 'isIgnored',
     headerName: 'Ignored',
     width: 150,
-    renderCell: renderBool,
+    renderCell: RenderBool,
   },
   {
     field: 'note',
     headerName: 'Note',
     width: 150,
-    renderCell: renderEmptyString,
+    renderCell: RenderEmptyString,
     editable: true,
-    renderHeader: renderEditableHeader,
+    renderHeader: RenderEditableHeader,
   },
 ];
 

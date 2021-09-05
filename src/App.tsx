@@ -6,11 +6,11 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 
 const App: React.FC = () => (
-  <ThemeConfig>
-    <Provider store={store}>
-      <Navigation />
-    </Provider>
-  </ThemeConfig>
+  <Provider store={store}>
+    <ThemeConfig>
+        <Navigation />
+    </ThemeConfig>
+  </Provider>
 );
 
 export default App;

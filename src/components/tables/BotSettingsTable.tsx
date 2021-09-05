@@ -23,7 +23,6 @@ export type BotSettingsTableProps = {
 
 const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
   const { botSettings, updateSettings, loading } = props;
-  const theme = useTheme();
 
   return (
     <TableContainer component={Paper}>
@@ -35,10 +34,7 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
             </TableCell>
             <TableCell width="80%">
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : (
                 <SensetiveTextField
                   onChange={(e) => updateSettings({ token: e.target.value })}
@@ -54,10 +50,7 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
             </TableCell>
             <TableCell width="80%">
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : (
                 <TextField
                   value={botSettings?.webhookHost ?? ''}
@@ -75,10 +68,7 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
             </TableCell>
             <TableCell width="80%">
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : (
                 <Switch
                   checked={botSettings?.isEnabled ?? false}

@@ -33,10 +33,7 @@ const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
             </TableCell>
             <TableCell style={{ width: '80%' }}>
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : (
                 <Typography>
                   {botSettings.botUser?.first_name}{' '}
@@ -51,10 +48,7 @@ const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
             </TableCell>
             <TableCell style={{ width: '80%' }}>
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : (
                 <Typography>
                   <Link
@@ -72,10 +66,7 @@ const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
             </TableCell>
             <TableCell style={{ width: '80%' }}>
               {loading ? (
-                <CircularProgress
-                  size="1.5rem"
-                  style={{ color: theme.palette.primary.contrastText }}
-                />
+                <CircularProgress size="1.5rem" color="primary" />
               ) : botSettings.isEnabled ? (
                 <Typography style={{ display: 'flex', alignItems: 'center' }}>
                   {' '}

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useCallback } from 'react';
 import BlockUserDialog from '../components/BlockUserDialog';
 import UpdateSnackbar from '../components/UpdateSnackbar';
+import PageHeader from '../components/PageHeader';
 
 const UsersTablePage: React.FC = () => {
   const {
@@ -63,8 +64,7 @@ const UsersTablePage: React.FC = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">Users</Typography>
-      <hr />
+      <PageHeader headerText="Users" onReloadClick={() => loadUsers()} reloadDisabled={loadings.loading} />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <UsersTable
           users={users ?? []}

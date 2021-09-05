@@ -9,6 +9,7 @@ export const dashboardEndpoints = {
   commands: '/dashboard/commands',
   keyboards: '/dashboard/keyboards',
   usersTable: '/dashboard/users',
+  agency: '/dashboard/agency',
 };
 
 export const apiEndpoints = {
@@ -25,4 +26,7 @@ export const apiEndpoints = {
 
   loadUsers: apiHost + 'api/users',
   saveUsers: apiHost + 'api/users/save',
+
+  loadAgency: apiHost + 'api/agency',
+  saveAgency: apiHost + 'api/agency/save',
 };

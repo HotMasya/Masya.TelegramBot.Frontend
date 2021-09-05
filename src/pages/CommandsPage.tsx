@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import CommandsTable from '../components/tables/CommandsTable';
 import { useCommands } from '../hooks';
 import UpdateSnackbar from '../components/UpdateSnackbar';
+import PageHeader from '../components/PageHeader';
 
 const CommandsPage: React.FC = () => {
   const {
@@ -39,8 +40,7 @@ const CommandsPage: React.FC = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">Bot Commands</Typography>
-      <hr />
+      <PageHeader headerText="Commands" onReloadClick={() => loadCommands()} reloadDisabled={loadings.loading} />
       <CommandsTable
         removeCommand={removeCommand}
         addCommand={addCommand}

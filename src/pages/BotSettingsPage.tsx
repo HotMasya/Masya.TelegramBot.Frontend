@@ -1,10 +1,12 @@
-import { Box, Typography, useTheme } from '@material-ui/core';
+import { Box, useTheme } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import BotSettingsTable from '../components/tables/BotSettingsTable';
 import Layout from '../components/Layout';
-import { useBotStatus } from '../hooks';
+import { useAuth, useBotStatus } from '../hooks';
 import UpdateSnackbar from '../components/UpdateSnackbar';
 import BotStatusTable from '../components/tables/BotStatusTable';
+import PageHeader from '../components/PageHeader';
+import { Permission } from '../models/User';
 
 const BotSettingsPage: React.FC = () => {
   const theme = useTheme();
@@ -18,6 +20,7 @@ const BotSettingsPage: React.FC = () => {
     resetSettings,
     loadings,
   } = useBotStatus();
+  const { account } = useAuth();
 
   useEffect(() => {
     if (!botSettings) {
@@ -27,21 +30,24 @@ const BotSettingsPage: React.FC = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">Bot Settings</Typography>
-      <hr />
+      <PageHeader headerText="Bot Settings" onReloadClick={() => loadSettings()} reloadDisabled={loadings.loading} />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <BotStatusTable
           botSettings={defaultBotSettings || {}}
           loading={loadings.loading}
         />
       </Box>
-      <Box style={{ width: '100%' }}>
-        <BotSettingsTable
-          updateSettings={addUpdate}
-          botSettings={botSettings}
-          loading={loadings.loading}
-        />
-      </Box>
+      { 
+        account.user?.permission == Permission.SuperAdmin &&
+        <Box style={{ width: '100%' }}>
+          <BotSettingsTable
+            updateSettings={addUpdate}
+            botSettings={botSettings}
+            loading={loadings.loading}
+          />
+        </Box>
+      }
+
       <UpdateSnackbar
         open={hasUpdates || false}
         onCancelClick={resetSettings}

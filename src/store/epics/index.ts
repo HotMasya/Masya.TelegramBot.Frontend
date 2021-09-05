@@ -2,6 +2,7 @@ import * as accountEpics from './accountEpics';
 import * as commandEpics from './commandEpics';
 import * as botSettingsEpics from './botSettingsEpics';
 import * as usersEpics from './usersEpics';
+import * as agencyEpics from './agencyEpics';
 import { combineEpics } from 'redux-observable';
 
 const rootEpic = combineEpics(
@@ -15,6 +16,8 @@ const rootEpic = combineEpics(
   botSettingsEpics.saveBotSettingsEpic,
   usersEpics.loadUsersEpic,
   usersEpics.saveUsersEpic,
+  agencyEpics.loadAgency,
+  agencyEpics.saveAgency,
 );
 
 export default rootEpic;

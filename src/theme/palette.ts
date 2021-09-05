@@ -1,19 +1,30 @@
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 
 const primary = {
-  main: '#b83b5e',
+  main: '#6F69AC',
   contrastText: '#FFF',
 };
 
 const secondary = {
-  main: '#6a2c70',
+  main: '#50BD82',
   contrastText: '#FFF',
 };
 
+const error = {
+  main: '#FD6F96',
+  contrastText: '#FFF',
+}
+
+const success = {
+  main: '#95DAC1',
+  contrastText: '#FFF',
+}
+
 const palette: PaletteOptions = {
-  type: 'dark',
   primary,
   secondary,
+  error,
+  success,
 };
 
 export default palette;
