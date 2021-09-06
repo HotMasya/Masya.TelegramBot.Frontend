@@ -1,26 +1,81 @@
-import { Typography } from '@material-ui/core';
-import React, { Dispatch } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/reducers';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  Typography,
+} from '@material-ui/core';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useEffect } from 'react';
-import { actions, RootAction } from '../store';
 import CommandsTable from '../components/tables/CommandsTable';
+import { useCommands } from '../hooks';
+import UpdateSnackbar from '../components/UpdateSnackbar';
+import PageHeader from '../components/PageHeader';
 
 const CommandsPage: React.FC = () => {
-  const commandsState = useSelector((state: RootState) => state.commands);
-  const dispatch = useDispatch<Dispatch<RootAction>>();
+  const {
+    commands,
+    hasCommandsUpdate,
+    loadCommands,
+    updateCommand,
+    resetCommandsUpdates,
+    saveCommands,
+    addCommand,
+    removeCommand,
+    errors,
+    resetErrors,
+    loadings,
+  } = useCommands();
   useEffect(() => {
-    if (!commandsState.commands) {
-      dispatch(actions.loadCommands());
+    if (!commands?.length) {
+      loadCommands();
     }
-  }, [commandsState.commands, dispatch]);
+  }, [commands?.length, loadCommands]);
+
+  const [dialogOpen, setDialogOpen] = useState<boolean | undefined>();
 
   return (
     <Layout>
-      <Typography variant="h3">Bot Commands</Typography>
-      <hr />
-      <CommandsTable commands={commandsState.commands || []} />
+      <PageHeader headerText="Commands" onReloadClick={() => loadCommands()} reloadDisabled={loadings.loading} />
+      <CommandsTable
+        removeCommand={removeCommand}
+        addCommand={addCommand}
+        commands={commands || []}
+        updateCommand={updateCommand}
+        loading={loadings.loading}
+      />
+      <UpdateSnackbar
+        open={hasCommandsUpdate || false}
+        onCancelClick={resetCommandsUpdates}
+        onSaveClick={saveCommands}
+        loading={loadings.loadingSave}
+      />
+      <Dialog
+        open={dialogOpen ?? errors.saveError?.message != undefined}
+        TransitionProps={{
+          onExited: () => {
+            setDialogOpen(undefined);
+            resetErrors();
+          },
+        }}
+        TransitionComponent={Slide}>
+        <DialogTitle>Validation error</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errors.saveError?.message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setDialogOpen(false)}>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Layout>
   );
 };

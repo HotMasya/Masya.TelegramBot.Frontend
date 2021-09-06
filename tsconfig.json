@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "jsx": "react",
-    "sourceMap": false,
+    "sourceMap": true,
     "noEmit": true,
     "outDir": "./dist",
     "baseUrl": "./",

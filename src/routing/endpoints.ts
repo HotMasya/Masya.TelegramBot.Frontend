@@ -8,14 +8,25 @@ export const dashboardEndpoints = {
   home: '/dashboard/home',
   commands: '/dashboard/commands',
   keyboards: '/dashboard/keyboards',
+  usersTable: '/dashboard/users',
+  agency: '/dashboard/agency',
 };
 
 export const apiEndpoints = {
   checkPhone: apiHost + 'auth/phone',
   checkCode: apiHost + 'auth/code',
   refreshToken: apiHost + 'auth/refresh',
-  getUserInfo: apiHost + 'api/user/me',
+  getUserInfo: apiHost + 'api/users/me',
 
-  loadCommands: apiHost + '/api/commands',
-  saveCommands: apiHost + '/api/commands/save',
+  loadCommands: apiHost + 'api/commands',
+  saveCommands: apiHost + 'api/commands/save',
+
+  loadBotSettings: apiHost + 'api/main/bot',
+  saveBotSettings: apiHost + 'api/main/bot/update',
+
+  loadUsers: apiHost + 'api/users',
+  saveUsers: apiHost + 'api/users/save',
+
+  loadAgency: apiHost + 'api/agency',
+  saveAgency: apiHost + 'api/agency/save',
 };

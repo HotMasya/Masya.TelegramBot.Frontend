@@ -8,7 +8,7 @@ import { isActionOf } from 'typesafe-actions';
 import { apiEndpoints } from '../../routing/endpoints';
 import { Command } from '../../models/Command';
 
-export const loadKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
+export const loadCommandsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
   state,
 ) =>
@@ -29,7 +29,7 @@ export const loadKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
     ),
   );
 
-export const saveKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
+export const saveCommandsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,
   state,
 ) =>
@@ -43,10 +43,10 @@ export const saveKeyboardsEpic: Epic<RootAction, RootAction, RootState> = (
           Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
         },
         crossDomain: true,
-        body: state.value.commands.commands,
+        body: state.value.commands.commandsForUpdate,
       }).pipe(
-        mapTo(actions.saveSuccess()),
-        catchError((err) => of(actions.errorCommands(err.xhr.response))),
+        mapTo(actions.saveCommandsSuccess()),
+        catchError((err) => of(actions.saveCommandsError(err.xhr.response))),
       ),
     ),
   );

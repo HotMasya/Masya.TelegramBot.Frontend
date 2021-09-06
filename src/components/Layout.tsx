@@ -3,21 +3,25 @@ import Sidebar from './Sidebar';
 import ContentBox from './containers/ContentBox';
 import Header from './Header';
 import MiniProfile from './MiniProfile';
-
-import fakeAvatar from '../static/images/fake_avatar.jpg';
-import { Box, Button, Popover, Typography, useTheme } from '@material-ui/core';
-import { RootState } from '../store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, Checkbox, List, ListItem, Popover, Typography, useTheme } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { endpoints } from '../routing/endpoints';
-import { actions, RootAction } from '../store';
+import { useAuth } from '../hooks';
+import { Permission } from '../models/User';
+import { Brightness2, Brightness7 } from '@material-ui/icons';
+import { RootState } from '../store/reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootAction } from '../store';
+import * as actions from '../store/actions';
+import Profile from './Profile';
 
 const Layout: React.FC = (props) => {
   const theme = useTheme();
   const { children } = props;
+  const themeState = useSelector((state: RootState) => state.theme);
+  const dispatch = useDispatch<Dispatch<RootAction>>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<Element>();
-  const dispatch = useDispatch<Dispatch<RootAction>>();
   const onPopoverClose = () => {
     setAnchorEl(undefined);
   };
@@ -25,12 +29,15 @@ const Layout: React.FC = (props) => {
     setAnchorEl(event.currentTarget);
   };
   const isPopoverOpen = Boolean(anchorEl);
-  const { user } = useSelector((state: RootState) => state.account);
+  const {
+    account: { user },
+    logout,
+  } = useAuth();
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
   const onLogOutClick = () => {
-    dispatch(actions.clearUser());
+    logout();
   };
 
   return (
@@ -43,26 +50,40 @@ const Layout: React.FC = (props) => {
       />
       <ContentBox>
         <Header onMenuClick={() => setSidebarOpen((state) => !state)}>
-          <MiniProfile
-            firstName={user.firstName}
-            lastName={user.lastName}
-            avatar={fakeAvatar}
-            onClick={onProfileClick}
-          />
-          <Popover
-            onClose={onPopoverClose}
-            anchorEl={anchorEl}
-            open={isPopoverOpen}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}>
-            <Button onClick={onLogOutClick}>
-              <Typography variant="h5" color="error">
-                Log Out
-              </Typography>
-            </Button>
-          </Popover>
+          <Box style={{display: 'flex', justifyContent: 'space-between', alignItems: "center"}}>
+            <Checkbox 
+              checkedIcon={<Brightness7 fontSize="medium" />}
+              icon={<Brightness2 fontSize="medium" />}
+              value={themeState.theme === 'light'}
+              onChange={() => dispatch(actions.toggleTheme())}
+              color="default"
+              style={{
+                color: 'white'
+              }}
+            />
+            <MiniProfile
+              firstName={user.telegramFirstName}
+              avatar={`data:image/jpg;base64, ${user.telegramAvatar}`}
+              onClick={onProfileClick}
+            />
+            <Popover
+              onClose={onPopoverClose}
+              anchorEl={anchorEl}
+              open={isPopoverOpen}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}>
+              <Profile
+                avatar={user.telegramAvatar}
+                firstName={user.telegramFirstName}
+                lastName={user.telegramLastName}
+                permission={user.permission}
+                agencyName={user.agencyName}
+                onLogOutClick={onLogOutClick}
+              />
+            </Popover>
+          </Box>     
         </Header>
         <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
       </ContentBox>

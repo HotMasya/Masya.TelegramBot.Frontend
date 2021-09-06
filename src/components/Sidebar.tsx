@@ -16,9 +16,9 @@ import {
   withStyles,
   SwipeableDrawer,
   IconButton,
+  Box,
 } from '@material-ui/core';
 import React from 'react';
-import CenteredBox from './containers/CenteredBox';
 import {
   Category,
   Keyboard,
@@ -31,11 +31,10 @@ import {
   Close,
 } from '@material-ui/icons';
 import globals from '../globals';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducers';
 import { Link } from 'react-router-dom';
 import { dashboardEndpoints } from '../routing/endpoints';
 import { Permission } from '../models/User';
+import { useAuth } from '../hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +52,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       width: '100%',
       textAlign: 'center',
+    },
+    drawerHeader: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      padding: theme.spacing(2, 2),
     },
   }),
 );
@@ -84,7 +88,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
   const classes = useStyles();
   const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const { onOpen, onClose, onCloseClick, open } = props;
-  const { user } = useSelector((state: RootState) => state.account);
+  const {
+    account: { user },
+  } = useAuth();
 
   return (
     <SwipeableDrawer
@@ -95,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       open={open}
       onOpen={onOpen}
       onClose={onClose}>
-      <CenteredBox style={{ padding: theme.spacing(2, 2) }}>
+      <Box className={classes.drawerHeader}>
         <Typography
           display="block"
           variant="h4"
@@ -107,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <Close />
           </IconButton>
         )}
-      </CenteredBox>
+      </Box>
       <List className={classes.listContainer}>
         <Divider />
         {user?.permission && user?.permission >= Permission.Admin && (
@@ -116,9 +122,19 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
               <Tune fontSize="medium" />
             </ListItemIcon>
             <ListItemText>
-              <Typography variant="h6">Home</Typography>
+              <Typography variant="h6">Bot Settings</Typography>
             </ListItemText>
           </ListItem>
+        )}
+        {user?.permission && user.permission >= Permission.Admin && user?.agencyName && (
+          <ListItem button component={Link} to={dashboardEndpoints.agency}>
+            <ListItemIcon>
+              <BusinessCenter fontSize="medium" />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">Agency</Typography>
+            </ListItemText>
+        </ListItem>
         )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
           <ListItem button component={Link} to={dashboardEndpoints.commands}>
@@ -148,19 +164,22 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
               </ListItemIcon>
               <ListItemText>
                 <Typography variant="h6" align="left">
-                  Справочники
+                  Directories
                 </Typography>
               </ListItemText>
             </AccordionSummary>
             <AccordionDetails>
               <List style={{ width: '100%' }}>
-                <ListItem button>
+                <ListItem
+                  button
+                  component={Link}
+                  to={dashboardEndpoints.usersTable}>
                   <ListItemIcon>
                     <Person fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
                     <Typography variant="h6" align="left">
-                      Пользователи
+                      Users
                     </Typography>
                   </ListItemText>
                 </ListItem>
@@ -169,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     <BusinessCenter fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography variant="h6">Посредники</Typography>
+                    <Typography variant="h6">Agencies</Typography>
                   </ListItemText>
                 </ListItem>
                 <ListItem button>
@@ -177,7 +196,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     <Category fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography variant="h6">Категории</Typography>
+                    <Typography variant="h6">Categories</Typography>
                   </ListItemText>
                 </ListItem>
               </List>

@@ -4,69 +4,86 @@ import {
   MenuItem,
   Select,
   TableCell,
-  TableRow,
+  Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 import { Command } from '../../models/Command';
 import { Create, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import BottomlessTableRow from './BottomlessTableRow';
 import AliasTableRow from './AliasTableRow';
 import { Permission } from '../../models/User';
+import AddItemTableRow from './AddItemTableRow';
+import { useCommands } from '../../hooks';
 
 export type AccordionTableRowProps = {
-  command: Command;
+  command: Partial<Command>;
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
-  onCommandChanged: () => void;
+  onCommandChanged: (command: Partial<Command>) => void;
+  onCommandAdd: (parentId: number) => void;
+  onCommandDelete: (id: number) => void;
 };
 
 const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
-  const { command, open, onArrowClick } = props;
-  const [commandState, setCommandState] = useState(command);
+  const {
+    command,
+    open,
+    onArrowClick,
+    onCommandChanged,
+    onCommandAdd,
+    onCommandDelete,
+  } = props;
+  const { commands } = useCommands();
+
+  if (command.parentId) return null;
+
+  const aliases = commands?.filter((c) => c.parentId === command.id);
 
   return (
     <>
       <BottomlessTableRow key={command.id} selected={open}>
         <TableCell>
           <IconButton
-            size="small"
+            size="medium"
             onClick={() => onArrowClick('command' + command.id, open)}
             id={'command' + command.id}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
-        <TableCell>{commandState.name}</TableCell>
+        <TableCell>
+          <Typography>{command.name}</Typography>
+        </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
-            defaultChecked={commandState.isEnabled || false}
+            checked={command.isEnabled || false}
             onChange={(e, checked) =>
-              setCommandState((c) => ({ ...c, isEnabled: checked }))
+              onCommandChanged({ id: command.id, isEnabled: checked })
             }
           />
         </TableCell>
         <TableCell align="center">
           <Checkbox
             color="primary"
-            defaultChecked={commandState.displayInMenu || false}
+            checked={command.displayInMenu || false}
             onChange={(e, checked) =>
-              setCommandState((c) => ({ ...c, displayInMenu: checked }))
+              onCommandChanged({ id: command.id, displayInMenu: checked })
             }
           />
         </TableCell>
         <TableCell align="right">
           <Select
             autoWidth
-            value={commandState.permission}
+            value={command.permission}
             onChange={(event) =>
-              setCommandState((c) => ({
-                ...c,
+              onCommandChanged({
+                id: command.id,
                 permission: event.target.value as Permission,
-              }))
+              })
             }
             IconComponent={Create}
             disableUnderline>
-            <MenuItem value={Permission.All}>Any</MenuItem>
+            <MenuItem value={Permission.Guest}>Guest</MenuItem>
             <MenuItem value={Permission.User}>User</MenuItem>
             <MenuItem value={Permission.Agent}>Agent</MenuItem>
             <MenuItem value={Permission.Admin}>Admin</MenuItem>
@@ -74,12 +91,24 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
           </Select>
         </TableCell>
       </BottomlessTableRow>
-      {command.aliases.map((a) => (
-        <AliasTableRow key={a.id} alias={a} open={open} />
-      ))}
-      <TableRow key={'border' + command.id}>
-        <TableCell style={{ padding: 0 }} colSpan={5} />
-      </TableRow>
+      {aliases &&
+        aliases?.map((a) => (
+          <AliasTableRow
+            onAliasDelete={onCommandDelete}
+            key={a.id ?? a.newAliasId}
+            aliasId={a.id ?? a.newAliasId}
+            open={open}
+            onCommandChanged={onCommandChanged}
+          />
+        ))}
+      <AddItemTableRow
+        commandId={command.id ?? 0}
+        onClick={() => onCommandAdd(command.id ?? 0)}
+        key={'add_item_' + command.id}
+        cellColSpan={5}
+        open={open}
+        buttonText="Add new alias"
+      />
     </>
   );
 };

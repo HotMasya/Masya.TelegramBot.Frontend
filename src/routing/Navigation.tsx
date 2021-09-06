@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import AuthPage from '../pages/AuthPage';
-import HomePage from '../pages/HomePage';
+import BotSettingsPage from '../pages/BotSettingsPage';
 import PrivateRoute from './PrivateRoute';
 import { dashboardEndpoints, endpoints } from './endpoints';
 import { Permission } from '../models/User';
@@ -10,6 +10,8 @@ import CommandsPage from '../pages/CommandsPage';
 import { RootState } from '../store/reducers';
 import { RootAction, actions } from '../store';
 import KeyboardsPage from '../pages/KeyboardsPage';
+import UsersTablePage from '../pages/UsersTablePage';
+import AgencyPage from '../pages/AgencyPage';
 
 const Navigation: React.FC = () => {
   const { tokens, user } = useSelector((state: RootState) => state.account);
@@ -32,7 +34,13 @@ const Navigation: React.FC = () => {
           permission={Permission.Admin}
           exact
           path={dashboardEndpoints.home}
-          render={() => <HomePage />}
+          render={() => <BotSettingsPage />}
+        />
+        <PrivateRoute
+          permission={Permission.Admin}
+          exact
+          path={dashboardEndpoints.agency}
+          render={() => <AgencyPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}
@@ -43,6 +51,11 @@ const Navigation: React.FC = () => {
           permission={Permission.SuperAdmin}
           path={dashboardEndpoints.keyboards}
           render={() => <KeyboardsPage />}
+        />
+        <PrivateRoute
+          permission={Permission.SuperAdmin}
+          path={dashboardEndpoints.usersTable}
+          render={() => <UsersTablePage />}
         />
         <Route
           path="*"
