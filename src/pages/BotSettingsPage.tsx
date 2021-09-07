@@ -23,14 +23,12 @@ const BotSettingsPage: React.FC = () => {
   const { account } = useAuth();
 
   useEffect(() => {
-    if (!botSettings) {
-      loadSettings();
-    }
-  }, [botSettings, loadSettings]);
+    loadSettings();
+  }, []);
 
   return (
     <Layout>
-      <PageHeader headerText="Bot Settings" onReloadClick={() => loadSettings()} reloadDisabled={loadings.loading} />
+      <PageHeader headerText="Bot Settings" onReloadClick={loadSettings} reloadDisabled={loadings.loading} />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <BotStatusTable
           botSettings={defaultBotSettings || {}}

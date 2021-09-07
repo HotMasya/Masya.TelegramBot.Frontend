@@ -30,17 +30,14 @@ const CommandsPage: React.FC = () => {
     resetErrors,
     loadings,
   } = useCommands();
-  useEffect(() => {
-    if (!commands?.length) {
-      loadCommands();
-    }
-  }, [commands?.length, loadCommands]);
+
+  useEffect(() => loadCommands(), []);
 
   const [dialogOpen, setDialogOpen] = useState<boolean | undefined>();
 
   return (
     <Layout>
-      <PageHeader headerText="Commands" onReloadClick={() => loadCommands()} reloadDisabled={loadings.loading} />
+      <PageHeader headerText="Commands" onReloadClick={loadCommands} reloadDisabled={loadings.loading} />
       <CommandsTable
         removeCommand={removeCommand}
         addCommand={addCommand}

@@ -3,11 +3,10 @@ import Sidebar from './Sidebar';
 import ContentBox from './containers/ContentBox';
 import Header from './Header';
 import MiniProfile from './MiniProfile';
-import { Box, Button, Checkbox, List, ListItem, Popover, Typography, useTheme } from '@material-ui/core';
+import { Box, Checkbox, Popover, useTheme } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { endpoints } from '../routing/endpoints';
 import { useAuth } from '../hooks';
-import { Permission } from '../models/User';
 import { Brightness2, Brightness7 } from '@material-ui/icons';
 import { RootState } from '../store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +35,7 @@ const Layout: React.FC = (props) => {
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
+
   const onLogOutClick = () => {
     logout();
   };

@@ -25,11 +25,7 @@ const UsersTablePage: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string | undefined>();
 
-  useEffect(() => {
-    if (!users) {
-      loadUsers();
-    }
-  }, [users, loadUsers]);
+  useEffect(loadUsers, []);
 
   const onBlockClick = useCallback(
     (id: number, isBlocked: boolean) => {
@@ -64,7 +60,7 @@ const UsersTablePage: React.FC = () => {
 
   return (
     <Layout>
-      <PageHeader headerText="Users" onReloadClick={() => loadUsers()} reloadDisabled={loadings.loading} />
+      <PageHeader headerText="Users" onReloadClick={loadUsers} reloadDisabled={loadings.loading} />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <UsersTable
           users={users ?? []}

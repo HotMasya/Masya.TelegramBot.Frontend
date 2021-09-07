@@ -35,7 +35,8 @@ export const agencyReducer = createReducer<AgencyState, RootAction>(initialState
     }))
     .handleAction(actions.saveAgencyError, (state, action) => ({
         ...state,
-        saveError: action.payload
+        saveError: action.payload,
+        loadingSave: false,
     }))
     .handleAction(actions.loadAgencyError, (state, action) => ({
         ...state,
@@ -45,6 +46,7 @@ export const agencyReducer = createReducer<AgencyState, RootAction>(initialState
         agency: {...state.agencyToUpdate} as Agency,
         ...state,
         loadingSave: false,
+        hasUpdates: false,
     }))
     .handleAction(actions.updateAgency, (state, action) => {
         if(!state.agencyToUpdate) return state;

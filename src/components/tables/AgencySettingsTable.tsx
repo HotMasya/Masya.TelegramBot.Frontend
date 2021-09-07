@@ -1,4 +1,4 @@
-import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@material-ui/core';
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography, useTheme } from '@material-ui/core';
 import React from 'react';
 import { Agency } from '../../models/Agency';
 import SensetiveTextField from '../input/SensetiveTextField';
@@ -11,9 +11,10 @@ export type AgencySettingsTableProps = {
 
 const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
     const { agency, loading, updateAgency } = props;
+    const theme = useTheme();
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{marginTop: theme.spacing(3)}}>
         <Table>
           <TableBody>
             <TableRow>
@@ -61,8 +62,8 @@ const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
                   <CircularProgress size="1.5rem" color="primary" />
                 ) : (
                   <SensetiveTextField
-                    onChange={(e) => updateAgency({ description: e.target.value })}
-                    value={agency?.description ?? ''}
+                    onChange={(e) => updateAgency({ registrationKey: e.target.value })}
+                    value={agency?.registrationKey ?? ''}
                     fullWidth
                   />
                 )}
@@ -89,3 +90,5 @@ const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
       </TableContainer>
     )
 }
+
+export default AgencySettingsTable;

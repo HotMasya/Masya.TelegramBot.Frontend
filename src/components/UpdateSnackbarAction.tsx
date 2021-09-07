@@ -13,7 +13,7 @@ const UpdateSnackbarAction: React.FC<UpdateSnackbarActionProps> = (props) => {
 
   return (
     <Box>
-      <Button variant="outlined" color="secondary" onClick={onCancelClick}>
+      <Button disabled={loading} variant="outlined" color="secondary" onClick={onCancelClick}>
         Cancel
       </Button>
       <Button
