@@ -25,7 +25,7 @@ const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
   const theme = useTheme();
 
   return (
-    <TableContainer component={Paper} style={{ marginTop: theme.spacing(3) }}>
+    <TableContainer component={Paper} style={{ margin: theme.spacing(3, 0) }}>
       <Table>
         <TableBody>
           <TableRow>

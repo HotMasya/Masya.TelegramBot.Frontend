@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from '@material-ui/core';
 import React from 'react';
 import { base64ToSrc } from '../../utils';
@@ -24,13 +25,13 @@ export type AgentsTableProps = {
 
 const AgentsTable: React.FC<AgentsTableProps> = (props) => {
   const { agents, loading } = props;
-
+  const theme = useTheme();
   if (!agents) {
     return null;
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={{ margin: theme.spacing(3, 0) }}>
       <Table>
         <TableHead>
           <TableRow>

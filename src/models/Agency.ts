@@ -1,3 +1,5 @@
+import { Agent } from './Agent';
+
 export interface Agency {
   id: number;
   name: string;
@@ -6,4 +8,5 @@ export interface Agency {
   registrationKey: string;
   isRegWithoutAdmin?: boolean;
   importUrl: string;
+  agents: Agent[];
 }
