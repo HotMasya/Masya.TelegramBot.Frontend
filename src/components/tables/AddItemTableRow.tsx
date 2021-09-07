@@ -24,7 +24,8 @@ const AddItemTableRow: React.FC<AddItemTableRowProps> = (props) => {
         <Button
           onClick={onClick}
           variant="outlined"
-          style={{ color: theme.palette.common.white }}>
+          color="secondary"
+          >
           <AddCircleOutline /> {buttonText}
         </Button>
       </TableCell>

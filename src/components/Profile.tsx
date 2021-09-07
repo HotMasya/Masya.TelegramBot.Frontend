@@ -1,6 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
 import { useTheme } from '@material-ui/core';
 import React from 'react';
+import { base64ToSrc } from '../utils';
 import { Permission } from '../models/User';
 
 export type ProfileProps = {
@@ -20,7 +21,7 @@ const Profile: React.FC<ProfileProps> = (props) => {
         <Card style={{display: 'flex'}}>
             <CardMedia
                 component="img"
-                src={`data:image/jpg;base64, ${avatar}`}
+                src={base64ToSrc(avatar ?? "")}
                 style={{width: 150}}
             />
             <CardContent style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 300, paddingBottom: theme.spacing(1)}}>

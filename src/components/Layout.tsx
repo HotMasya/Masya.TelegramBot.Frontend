@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootAction } from '../store';
 import * as actions from '../store/actions';
 import Profile from './Profile';
+import { base64ToSrc } from '../utils';
 
 const Layout: React.FC = (props) => {
   const theme = useTheme();
@@ -63,7 +64,7 @@ const Layout: React.FC = (props) => {
             />
             <MiniProfile
               firstName={user.telegramFirstName}
-              avatar={`data:image/jpg;base64, ${user.telegramAvatar}`}
+              avatar={base64ToSrc(user.telegramAvatar ?? "")}
               onClick={onProfileClick}
             />
             <Popover

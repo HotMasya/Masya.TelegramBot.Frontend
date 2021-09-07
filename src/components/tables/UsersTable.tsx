@@ -23,6 +23,7 @@ import { useUsers } from '../../hooks/useUsers';
 import { useAuth } from '../../hooks';
 import { Permission } from '../../models/User';
 import { UserView } from '../../models/UserView';
+import { base64ToSrc } from '../../utils';
 
 export type UsersTableProps = {
   users: UserView[];
@@ -33,7 +34,6 @@ export type UsersTableProps = {
 };
 
 const RenderAvatar = (params: GridRenderCellParams) => {
-  var avatarSrc = `data:image/png;base64, ${params.value as string}`;
   return (
       <div
       style={{
@@ -44,7 +44,7 @@ const RenderAvatar = (params: GridRenderCellParams) => {
       }}>
         {
           params.value 
-          ? <Avatar src={avatarSrc} alt="user avatar" />
+          ? <Avatar src={base64ToSrc(params.value as string)} alt="user avatar" />
           : <Remove />
         }
     </div>
