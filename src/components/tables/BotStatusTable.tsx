@@ -1,6 +1,5 @@
 import {
   CircularProgress,
-  Link,
   Paper,
   Table,
   TableBody,
@@ -12,7 +11,8 @@ import {
 } from '@material-ui/core';
 import { FiberManualRecord } from '@material-ui/icons';
 import React from 'react';
-import { BotSettings } from 'src/models/BotSettings';
+import { BotSettings } from '../../models/BotSettings';
+import TelegramUsername from '../TelegramUsername';
 
 export type BotStatusTableProps = {
   botSettings: Partial<BotSettings>;
@@ -50,13 +50,7 @@ const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
               {loading ? (
                 <CircularProgress size="1.5rem" color="primary" />
               ) : (
-                <Typography>
-                  <Link
-                    color="primary"
-                    href={`https://t.me/${botSettings.botUser?.username}`}>
-                    @{botSettings.botUser?.username}
-                  </Link>
-                </Typography>
+                <TelegramUsername username={botSettings.botUser?.username} />
               )}
             </TableCell>
           </TableRow>

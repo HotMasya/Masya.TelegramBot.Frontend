@@ -51,20 +51,25 @@ const Layout: React.FC = (props) => {
       />
       <ContentBox>
         <Header onMenuClick={() => setSidebarOpen((state) => !state)}>
-          <Box style={{display: 'flex', justifyContent: 'space-between', alignItems: "center"}}>
-            <Checkbox 
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Checkbox
               checkedIcon={<Brightness7 fontSize="medium" />}
               icon={<Brightness2 fontSize="medium" />}
               value={themeState.theme === 'light'}
               onChange={() => dispatch(actions.toggleTheme())}
               color="default"
               style={{
-                color: 'white'
+                color: 'white',
               }}
             />
             <MiniProfile
               firstName={user.telegramFirstName}
-              avatar={base64ToSrc(user.telegramAvatar ?? "")}
+              avatar={base64ToSrc(user.telegramAvatar ?? '')}
               onClick={onProfileClick}
             />
             <Popover
@@ -84,7 +89,7 @@ const Layout: React.FC = (props) => {
                 onLogOutClick={onLogOutClick}
               />
             </Popover>
-          </Box>     
+          </Box>
         </Header>
         <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
       </ContentBox>

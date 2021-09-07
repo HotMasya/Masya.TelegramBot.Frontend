@@ -24,6 +24,7 @@ import { useAuth } from '../../hooks';
 import { Permission } from '../../models/User';
 import { UserView } from '../../models/UserView';
 import { base64ToSrc } from '../../utils';
+import TelegramUsername from '../TelegramUsername';
 
 export type UsersTableProps = {
   users: UserView[];
@@ -35,21 +36,21 @@ export type UsersTableProps = {
 
 const RenderAvatar = (params: GridRenderCellParams) => {
   return (
-      <div
+    <div
       style={{
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-        {
-          params.value 
-          ? <Avatar src={base64ToSrc(params.value as string)} alt="user avatar" />
-          : <Remove />
-        }
+      {params.value ? (
+        <Avatar src={base64ToSrc(params.value as string)} alt="user avatar" />
+      ) : (
+        <Remove />
+      )}
     </div>
   );
-}
+};
 
 const RenderEmptyString = (params: GridRenderCellParams) => {
   return (
@@ -135,6 +136,10 @@ const RenderEditableHeader = (params: GridColumnHeaderParams) => {
   );
 };
 
+const RenderTelegramuUsername = (params: GridRenderCellParams) => {
+  return <TelegramUsername username={params.value as string} />;
+};
+
 const columns: GridColumns = [
   {
     field: 'id',
@@ -157,8 +162,19 @@ const columns: GridColumns = [
     renderHeader: RenderEditableHeader,
   },
   { field: 'telegramAccountId', headerName: 'Telegram Id', width: 180 },
-  { field: 'telegramLogin', headerName: 'Telegram Login', width: 180 },
-  { field: 'telegramAvatar', headerName: 'Avatar', sortable: false, filterable: false, renderCell: RenderAvatar},
+  {
+    field: 'telegramLogin',
+    headerName: 'Telegram Login',
+    width: 180,
+    renderCell: RenderTelegramuUsername,
+  },
+  {
+    field: 'telegramAvatar',
+    headerName: 'Avatar',
+    sortable: false,
+    filterable: false,
+    renderCell: RenderAvatar,
+  },
   { field: 'telegramFirstName', headerName: 'First Name', width: 150 },
   {
     field: 'telegramLastName',

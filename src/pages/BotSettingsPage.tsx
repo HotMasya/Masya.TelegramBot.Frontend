@@ -22,21 +22,22 @@ const BotSettingsPage: React.FC = () => {
   } = useBotStatus();
   const { account } = useAuth();
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  useEffect(loadSettings, []);
 
   return (
     <Layout>
-      <PageHeader headerText="Bot Settings" onReloadClick={loadSettings} reloadDisabled={loadings.loading} />
+      <PageHeader
+        headerText="Bot Settings"
+        onReloadClick={loadSettings}
+        reloadDisabled={loadings.loading}
+      />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <BotStatusTable
           botSettings={defaultBotSettings || {}}
           loading={loadings.loading}
         />
       </Box>
-      { 
-        account.user?.permission == Permission.SuperAdmin &&
+      {account.user?.permission == Permission.SuperAdmin && (
         <Box style={{ width: '100%' }}>
           <BotSettingsTable
             updateSettings={addUpdate}
@@ -44,7 +45,7 @@ const BotSettingsPage: React.FC = () => {
             loading={loadings.loading}
           />
         </Box>
-      }
+      )}
 
       <UpdateSnackbar
         open={hasUpdates || false}

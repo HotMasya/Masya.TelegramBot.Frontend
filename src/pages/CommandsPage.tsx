@@ -6,7 +6,6 @@ import {
   DialogContentText,
   DialogTitle,
   Slide,
-  Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
@@ -31,13 +30,17 @@ const CommandsPage: React.FC = () => {
     loadings,
   } = useCommands();
 
-  useEffect(() => loadCommands(), []);
+  useEffect(loadCommands, []);
 
   const [dialogOpen, setDialogOpen] = useState<boolean | undefined>();
 
   return (
     <Layout>
-      <PageHeader headerText="Commands" onReloadClick={loadCommands} reloadDisabled={loadings.loading} />
+      <PageHeader
+        headerText="Commands"
+        onReloadClick={loadCommands}
+        reloadDisabled={loadings.loading}
+      />
       <CommandsTable
         removeCommand={removeCommand}
         addCommand={addCommand}

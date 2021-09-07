@@ -126,16 +126,18 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </ListItemText>
           </ListItem>
         )}
-        {user?.permission && user.permission >= Permission.Admin && user?.agencyName && (
-          <ListItem button component={Link} to={dashboardEndpoints.agency}>
-            <ListItemIcon>
-              <BusinessCenter fontSize="medium" />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant="h6">Agency</Typography>
-            </ListItemText>
-        </ListItem>
-        )}
+        {user?.permission &&
+          user.permission >= Permission.Admin &&
+          user?.agencyName && (
+            <ListItem button component={Link} to={dashboardEndpoints.agency}>
+              <ListItemIcon>
+                <BusinessCenter fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">Agency</Typography>
+              </ListItemText>
+            </ListItem>
+          )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
           <ListItem button component={Link} to={dashboardEndpoints.commands}>
             <ListItemIcon>

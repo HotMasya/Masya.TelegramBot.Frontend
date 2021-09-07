@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@material-ui/core';
+import { Box, useTheme } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import UsersTable from '../components/tables/UsersTable';
 import Layout from '../components/Layout';
@@ -60,7 +60,11 @@ const UsersTablePage: React.FC = () => {
 
   return (
     <Layout>
-      <PageHeader headerText="Users" onReloadClick={loadUsers} reloadDisabled={loadings.loading} />
+      <PageHeader
+        headerText="Users"
+        onReloadClick={loadUsers}
+        reloadDisabled={loadings.loading}
+      />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <UsersTable
           users={users ?? []}

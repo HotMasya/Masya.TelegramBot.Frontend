@@ -15,7 +15,12 @@ const MiniProfile: React.FC<MiniProfileProps> = (props) => {
     <CenteredBox>
       <Button onClick={onClick} style={{ textTransform: 'none' }}>
         {avatar && <Avatar src={avatar} alt={firstName} />}
-        <Typography variant="h5" style={{ marginLeft: theme.spacing(2), color: theme.palette.primary.contrastText }}>
+        <Typography
+          variant="h5"
+          style={{
+            marginLeft: theme.spacing(2),
+            color: theme.palette.primary.contrastText,
+          }}>
           {firstName}
         </Typography>
         {children}
