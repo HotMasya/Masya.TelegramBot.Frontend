@@ -1,32 +1,29 @@
 import {
+  useTheme,
+  Paper,
   Box,
   CircularProgress,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  useTheme,
 } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useCallback } from 'react';
-import { Permission } from '../../models/User';
+import React, { useState, useCallback } from 'react';
+import { HeadTableCell, AccordionTableRow } from '.';
 import { useCounter } from '../../hooks';
-import { Command } from '../../models/Command';
-import AccordionTableRow from './AccordionTableRow';
-import HeadTableCell from './HeadTableCell';
+import { Command, Permission } from '../../models';
 
-export type CommandTableProps = {
+export interface CommandTableProps {
   commands: Partial<Command>[];
   updateCommand: (command: Partial<Command>) => void;
   addCommand: (command: Partial<Command>) => void;
   removeCommand: (id: number) => void;
   loading?: boolean;
-};
+}
 
-const CommandsTable: React.FC<CommandTableProps> = (props) => {
+export const CommandsTable: React.FC<CommandTableProps> = (props) => {
   const theme = useTheme();
   const { counter, next } = useCounter('commands');
   const { commands, updateCommand, addCommand, removeCommand, loading } = props;
@@ -113,5 +110,3 @@ const CommandsTable: React.FC<CommandTableProps> = (props) => {
     </TableContainer>
   );
 };
-
-export default CommandsTable;

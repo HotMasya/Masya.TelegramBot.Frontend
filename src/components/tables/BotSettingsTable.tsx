@@ -11,16 +11,16 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { BotSettings } from '../../models/BotSettings';
-import SensetiveTextField from '../input/SensetiveTextField';
+import { BotSettings } from '../../models';
+import { SensetiveTextField } from '..';
 
-export type BotSettingsTableProps = {
+export interface BotSettingsTableProps {
   botSettings?: Partial<BotSettings>;
   updateSettings: (settings: Omit<Partial<BotSettings>, 'id'>) => void;
   loading?: boolean;
-};
+}
 
-const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
+export const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
   const { botSettings, updateSettings, loading } = props;
 
   return (
@@ -84,5 +84,3 @@ const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
     </TableContainer>
   );
 };
-
-export default BotSettingsTable;

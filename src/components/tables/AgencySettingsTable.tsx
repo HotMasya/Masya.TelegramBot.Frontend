@@ -11,16 +11,18 @@ import {
   useTheme,
 } from '@material-ui/core';
 import React from 'react';
-import { Agency } from '../../models/Agency';
-import SensetiveTextField from '../input/SensetiveTextField';
+import { Agency } from '../../models';
+import { SensetiveTextField } from '..';
 
-export type AgencySettingsTableProps = {
+export interface AgencySettingsTableProps {
   agency: Partial<Agency>;
   loading?: boolean;
   updateAgency: (agency: Partial<Agency>) => void;
-};
+}
 
-const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
+export const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (
+  props,
+) => {
   const { agency, loading, updateAgency } = props;
   const theme = useTheme();
 
@@ -101,5 +103,3 @@ const AgencySettingsTable: React.FC<AgencySettingsTableProps> = (props) => {
     </TableContainer>
   );
 };
-
-export default AgencySettingsTable;

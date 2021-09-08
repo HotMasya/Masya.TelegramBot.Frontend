@@ -1,11 +1,11 @@
 import { Link, LinkProps, Typography } from '@material-ui/core';
 import React from 'react';
 
-export type TelegramUsernameProps = Omit<LinkProps, 'href'> & {
+export interface TelegramUsernameProps extends Omit<LinkProps, 'href'> {
   username?: string;
-};
+}
 
-const TelegramUsername: React.FC<TelegramUsernameProps> = (props) => {
+export const TelegramUsername: React.FC<TelegramUsernameProps> = (props) => {
   const { username, ...linkProps } = props;
 
   return (
@@ -19,5 +19,3 @@ const TelegramUsername: React.FC<TelegramUsernameProps> = (props) => {
     </Typography>
   );
 };
-
-export default TelegramUsername;

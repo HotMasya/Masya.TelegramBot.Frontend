@@ -19,22 +19,20 @@ import {
   GridRenderCellParams,
 } from '@mui/x-data-grid';
 import React, { useCallback, useState } from 'react';
-import { useUsers } from '../../hooks/useUsers';
-import { useAuth } from '../../hooks';
-import { Permission } from '../../models/User';
-import { UserView } from '../../models/UserView';
+import { useAuth, useUsers } from '../../hooks';
 import { base64ToSrc } from '../../utils';
-import TelegramUsername from '../TelegramUsername';
+import { TelegramUsername } from '..';
+import { UserView, Permission } from '../../models';
 
-export type UsersTableProps = {
+export interface UsersTableProps {
   users: UserView[];
   onBlockClick: (id: number, isBlocked: boolean) => void;
   updateUser: (user: Partial<UserView>) => void;
   removeUser: (id: number) => void;
   loading?: boolean;
-};
+}
 
-const RenderAvatar = (params: GridRenderCellParams) => {
+export const RenderAvatar = (params: GridRenderCellParams) => {
   return (
     <div
       style={{
@@ -220,7 +218,7 @@ const columns: GridColumns = [
   },
 ];
 
-const UsersTable: React.FC<UsersTableProps> = (props) => {
+export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const { users, onBlockClick, updateUser, removeUser, loading } = props;
   const { account } = useAuth();
   const [editModel, setEditModel] = useState<GridEditRowsModel | undefined>();
@@ -302,5 +300,3 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
     </Paper>
   );
 };
-
-export default UsersTable;

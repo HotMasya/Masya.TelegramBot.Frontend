@@ -9,18 +9,18 @@ import {
 import { useTheme } from '@material-ui/core';
 import React from 'react';
 import { base64ToSrc } from '../utils';
-import { Permission } from '../models/User';
+import { Permission } from '../models';
 
-export type ProfileProps = {
+export interface ProfileProps {
   avatar?: string;
   firstName: string;
   lastName?: string;
   permission: Permission;
   agencyName?: string;
   onLogOutClick?: () => void;
-};
+}
 
-const Profile: React.FC<ProfileProps> = (props) => {
+export const Profile: React.FC<ProfileProps> = (props) => {
   const theme = useTheme();
   const { avatar, firstName, lastName, permission, agencyName, onLogOutClick } =
     props;
@@ -69,5 +69,3 @@ const Profile: React.FC<ProfileProps> = (props) => {
     </Card>
   );
 };
-
-export default Profile;

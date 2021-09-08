@@ -8,11 +8,11 @@ import {
 import React from 'react';
 import { Menu } from '@material-ui/icons';
 
-export type HeaderProps = {
+export interface HeaderProps {
   onMenuClick: (event: React.MouseEvent) => void;
-};
+}
 
-const Header: React.FC<HeaderProps> = (props) => {
+export const Header: React.FC<HeaderProps> = (props) => {
   const theme = useTheme();
   const breakpoint = theme.breakpoints.down('sm');
   const isDownMd = useMediaQuery(breakpoint);
@@ -33,5 +33,3 @@ const Header: React.FC<HeaderProps> = (props) => {
     </AppBar>
   );
 };
-
-export default Header;

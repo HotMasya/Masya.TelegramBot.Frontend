@@ -2,15 +2,15 @@ import { Button, TableCell, TableRow } from '@material-ui/core';
 import React from 'react';
 import { AddCircleOutline } from '@material-ui/icons';
 
-export type AddItemTableRowProps = {
+export interface AddItemTableRowProps {
   cellColSpan: number;
   open: boolean;
   buttonText: string;
   onClick: () => void;
   commandId: number;
-};
+}
 
-const AddItemTableRow: React.FC<AddItemTableRowProps> = (props) => {
+export const AddItemTableRow: React.FC<AddItemTableRowProps> = (props) => {
   const { cellColSpan, open, buttonText, onClick, commandId } = props;
 
   return (
@@ -28,5 +28,3 @@ const AddItemTableRow: React.FC<AddItemTableRowProps> = (props) => {
     </TableRow>
   );
 };
-
-export default AddItemTableRow;

@@ -1,14 +1,14 @@
 import { Avatar, Button, Typography, useTheme } from '@material-ui/core';
 import React from 'react';
-import CenteredBox from './containers/CenteredBox';
+import { CenteredBox } from '.';
 
-export type MiniProfileProps = {
+export interface MiniProfileProps {
   firstName: string;
   avatar?: string;
   onClick?: (event: React.MouseEvent) => void;
-};
+}
 
-const MiniProfile: React.FC<MiniProfileProps> = (props) => {
+export const MiniProfile: React.FC<MiniProfileProps> = (props) => {
   const { firstName, avatar, children, onClick } = props;
   const theme = useTheme();
   return (
@@ -28,5 +28,3 @@ const MiniProfile: React.FC<MiniProfileProps> = (props) => {
     </CenteredBox>
   );
 };
-
-export default MiniProfile;

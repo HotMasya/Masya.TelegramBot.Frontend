@@ -1,27 +1,24 @@
 import {
-  Checkbox,
-  IconButton,
-  MenuItem,
-  Select,
   TableCell,
+  IconButton,
+  Checkbox,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
+import { Create, HighlightOff } from '@material-ui/icons';
 import React from 'react';
-import { Command } from '../../models/Command';
-import BottomlessTableRow from './BottomlessTableRow';
-import { Create } from '@material-ui/icons';
-import EditTableCell from './EditTableCell';
-import { Permission } from '../../models/User';
+import { BottomlessTableRow, EditTableCell } from '.';
 import { useCommands } from '../../hooks';
-import { HighlightOff } from '@material-ui/icons';
+import { Command, Permission } from '../../models';
 
-export type AliasProps = {
+export interface AliasProps {
   aliasId?: number;
   open: boolean;
   onCommandChanged: (command: Partial<Command>) => void;
   onAliasDelete: (id: number) => void;
-};
+}
 
-const AliasTableRow: React.FC<AliasProps> = (props) => {
+export const AliasTableRow: React.FC<AliasProps> = (props) => {
   const { aliasId, open, onCommandChanged, onAliasDelete } = props;
   const { commands } = useCommands();
 
@@ -95,5 +92,3 @@ const AliasTableRow: React.FC<AliasProps> = (props) => {
     </BottomlessTableRow>
   );
 };
-
-export default AliasTableRow;

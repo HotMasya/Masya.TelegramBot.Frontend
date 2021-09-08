@@ -8,14 +8,16 @@ import {
   Slide,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import Layout from '../components/Layout';
 import { useEffect } from 'react';
-import CommandsTable from '../components/tables/CommandsTable';
+import {
+  Layout,
+  PageHeader,
+  CommandsTable,
+  UpdateSnackbar,
+} from '../components';
 import { useCommands } from '../hooks';
-import UpdateSnackbar from '../components/UpdateSnackbar';
-import PageHeader from '../components/PageHeader';
 
-const CommandsPage: React.FC = () => {
+export const CommandsPage: React.FC = () => {
   const {
     commands,
     hasCommandsUpdate,
@@ -79,5 +81,3 @@ const CommandsPage: React.FC = () => {
     </Layout>
   );
 };
-
-export default CommandsPage;

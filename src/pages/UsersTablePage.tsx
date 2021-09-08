@@ -1,15 +1,15 @@
 import { Box, useTheme } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import UsersTable from '../components/tables/UsersTable';
-import Layout from '../components/Layout';
-import { useUsers } from '../hooks/useUsers';
-import { useState } from 'react';
-import { useCallback } from 'react';
-import BlockUserDialog from '../components/BlockUserDialog';
-import UpdateSnackbar from '../components/UpdateSnackbar';
-import PageHeader from '../components/PageHeader';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Layout,
+  PageHeader,
+  UsersTable,
+  BlockUserDialog,
+  UpdateSnackbar,
+} from '../components';
+import { useUsers } from '../hooks';
 
-const UsersTablePage: React.FC = () => {
+export const UsersTablePage: React.FC = () => {
   const {
     users,
     loadUsers,
@@ -90,5 +90,3 @@ const UsersTablePage: React.FC = () => {
     </Layout>
   );
 };
-
-export default UsersTablePage;

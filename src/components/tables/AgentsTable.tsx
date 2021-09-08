@@ -14,18 +14,16 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { base64ToSrc } from '../../utils';
-import { Agent } from '../../models/Agent';
-import HeadTableCell from './HeadTableCell';
-import TelegramUsername from '../TelegramUsername';
+import { Agent } from '../../models';
 import { Remove } from '@material-ui/icons';
-import { Bool } from '../Bool';
+import { Bool, HeadTableCell, TelegramUsername } from '..';
 
-export type AgentsTableProps = {
+export interface AgentsTableProps {
   agents: Agent[];
   loading?: boolean;
-};
+}
 
-const AgentsTable: React.FC<AgentsTableProps> = (props) => {
+export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
   const { agents, loading } = props;
   const theme = useTheme();
   if (!agents) {
@@ -107,5 +105,3 @@ const AgentsTable: React.FC<AgentsTableProps> = (props) => {
     </TableContainer>
   );
 };
-
-export default AgentsTable;

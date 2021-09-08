@@ -1,13 +1,11 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
-import Layout from '../components/Layout';
+import { Layout } from '../components';
 
-const KeyboardsPage: React.FC = () => {
+export const KeyboardsPage: React.FC = () => {
   return (
     <Layout>
       <Typography>Inline keyboard settings page</Typography>
     </Layout>
   );
 };
-
-export default KeyboardsPage;

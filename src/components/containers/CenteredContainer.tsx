@@ -1,6 +1,6 @@
 import { Container, createStyles, Theme, withStyles } from '@material-ui/core';
 
-const CenteredContainer = withStyles((theme: Theme) =>
+export const CenteredContainer = withStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -13,5 +13,3 @@ const CenteredContainer = withStyles((theme: Theme) =>
     },
   }),
 )(Container);
-
-export default CenteredContainer;

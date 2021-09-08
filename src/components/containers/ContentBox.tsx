@@ -1,7 +1,7 @@
 import { Box, createStyles, Theme, withStyles } from '@material-ui/core';
 import globals from '../../globals';
 
-const ContentBox = withStyles((theme: Theme) =>
+export const ContentBox = withStyles((theme: Theme) =>
   createStyles({
     root: {
       [theme.breakpoints.up('md')]: {
@@ -11,5 +11,3 @@ const ContentBox = withStyles((theme: Theme) =>
     },
   }),
 )(Box);
-
-export default ContentBox;

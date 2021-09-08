@@ -73,14 +73,14 @@ export const SidebarAccordion = withStyles((theme: Theme) =>
   }),
 )(Accordion);
 
-export type SidebarProps = {
+export interface SidebarProps {
   onOpen: () => void;
   onClose: () => void;
   onCloseClick: (event: React.MouseEvent) => void;
   open: boolean;
-};
+}
 
-const Sidebar: React.FC<SidebarProps> = (props) => {
+export const Sidebar: React.FC<SidebarProps> = (props) => {
   const theme = useTheme();
   const breakpoint = theme.breakpoints.down('sm');
   const isDowmSm = useMediaQuery(breakpoint);
@@ -209,5 +209,3 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     </SwipeableDrawer>
   );
 };
-
-export default Sidebar;

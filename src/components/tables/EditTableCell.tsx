@@ -7,15 +7,15 @@ import {
 import { Create } from '@material-ui/icons';
 import React, { useState } from 'react';
 
-export type EditTableCellProps = {
+export interface EditTableCellProps {
   content: string;
   onChange: (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void;
   onBlur?: () => void;
-};
+}
 
-const EditTableCell: React.FC<EditTableCellProps> = (props) => {
+export const EditTableCell: React.FC<EditTableCellProps> = (props) => {
   const { content, onChange, onBlur } = props;
   const [editingName, setEditingName] = useState(false);
   const onEditBlur = () => {
@@ -42,5 +42,3 @@ const EditTableCell: React.FC<EditTableCellProps> = (props) => {
     </TableCell>
   );
 };
-
-export default EditTableCell;

@@ -11,15 +11,15 @@ import {
 } from '@material-ui/core';
 import { FiberManualRecord } from '@material-ui/icons';
 import React from 'react';
-import { BotSettings } from '../../models/BotSettings';
-import TelegramUsername from '../TelegramUsername';
+import { BotSettings } from '../../models';
+import { TelegramUsername } from '..';
 
-export type BotStatusTableProps = {
+export interface BotStatusTableProps {
   botSettings: Partial<BotSettings>;
   loading?: boolean;
-};
+}
 
-const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
+export const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
   const { botSettings, loading } = props;
   const theme = useTheme();
 
@@ -85,5 +85,3 @@ const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
     </TableContainer>
   );
 };
-
-export default BotStatusTable;

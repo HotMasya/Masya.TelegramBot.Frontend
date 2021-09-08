@@ -1,14 +1,16 @@
 import { Box, useTheme } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import BotSettingsTable from '../components/tables/BotSettingsTable';
-import Layout from '../components/Layout';
+import {
+  Layout,
+  PageHeader,
+  BotStatusTable,
+  BotSettingsTable,
+  UpdateSnackbar,
+} from '../components';
 import { useAuth, useBotStatus } from '../hooks';
-import UpdateSnackbar from '../components/UpdateSnackbar';
-import BotStatusTable from '../components/tables/BotStatusTable';
-import PageHeader from '../components/PageHeader';
-import { Permission } from '../models/User';
+import { Permission } from '../models';
 
-const BotSettingsPage: React.FC = () => {
+export const BotSettingsPage: React.FC = () => {
   const theme = useTheme();
   const {
     botSettings,
@@ -56,5 +58,3 @@ const BotSettingsPage: React.FC = () => {
     </Layout>
   );
 };
-
-export default BotSettingsPage;

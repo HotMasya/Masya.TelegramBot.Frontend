@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import PageHeader from '../components/PageHeader';
+import {
+  Layout,
+  PageHeader,
+  AgencySettingsTable,
+  AgentsTable,
+  UpdateSnackbar,
+} from '../components';
 import { useAgency } from '../hooks';
-import Layout from '../components/Layout';
-import AgencySettingsTable from '../components/tables/AgencySettingsTable';
-import UpdateSnackbar from '../components/UpdateSnackbar';
-import AgentsTable from '../components/tables/AgentsTable';
 
-const AgencyPage: React.FC = () => {
+export const AgencyPage: React.FC = () => {
   const {
     agency,
     hasUpdates,
@@ -42,5 +44,3 @@ const AgencyPage: React.FC = () => {
     </Layout>
   );
 };
-
-export default AgencyPage;

@@ -1,14 +1,14 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Typography, Button } from '@material-ui/core';
 import { Replay } from '@material-ui/icons';
 import React from 'react';
 
-export type PageHeaderProps = {
+export interface PageHeaderProps {
   onReloadClick?: () => void;
   reloadDisabled?: boolean;
   headerText: string;
-};
+}
 
-const PageHeader: React.FC<PageHeaderProps> = (props) => {
+export const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const { onReloadClick, headerText, reloadDisabled } = props;
 
   return (
@@ -31,5 +31,3 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     </>
   );
 };
-
-export default PageHeader;

@@ -1,6 +1,6 @@
 import { createStyles, Paper, Theme, withStyles } from '@material-ui/core';
 
-const GlassPaper = withStyles((theme: Theme) =>
+export const GlassPaper = withStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor:
@@ -22,5 +22,3 @@ const GlassPaper = withStyles((theme: Theme) =>
     },
   }),
 )(Paper);
-
-export default GlassPaper;

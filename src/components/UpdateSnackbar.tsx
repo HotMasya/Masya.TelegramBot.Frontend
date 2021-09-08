@@ -1,14 +1,12 @@
 import React from 'react';
 import { Slide, Snackbar, SnackbarContent } from '@material-ui/core';
-import UpdateSnackbarAction, {
-  UpdateSnackbarActionProps,
-} from './UpdateSnackbarAction';
+import { UpdateSnackbarActionProps, UpdateSnackbarAction } from '.';
 
-export type UpdateSnackbarProps = UpdateSnackbarActionProps & {
+export interface UpdateSnackbarProps extends UpdateSnackbarActionProps {
   open: boolean;
-};
+}
 
-const UpdateSnackbar: React.FC<UpdateSnackbarProps> = (props) => {
+export const UpdateSnackbar: React.FC<UpdateSnackbarProps> = (props) => {
   const { open, ...actionsProps } = props;
 
   return (
@@ -27,5 +25,3 @@ const UpdateSnackbar: React.FC<UpdateSnackbarProps> = (props) => {
     </Snackbar>
   );
 };
-
-export default UpdateSnackbar;

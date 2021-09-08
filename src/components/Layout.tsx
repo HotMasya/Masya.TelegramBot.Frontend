@@ -1,21 +1,16 @@
-import React, { Dispatch, useState } from 'react';
-import Sidebar from './Sidebar';
-import ContentBox from './containers/ContentBox';
-import Header from './Header';
-import MiniProfile from './MiniProfile';
 import { Box, Checkbox, Popover, useTheme } from '@material-ui/core';
+import { Brightness7, Brightness2 } from '@material-ui/icons';
+import React, { Dispatch, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
-import { endpoints } from '../routing/endpoints';
+import { Sidebar, ContentBox, Header, MiniProfile, Profile } from '.';
 import { useAuth } from '../hooks';
-import { Brightness2, Brightness7 } from '@material-ui/icons';
+import { endpoints } from '../routing/endpoints';
+import { RootAction, actions } from '../store';
 import { RootState } from '../store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootAction } from '../store';
-import * as actions from '../store/actions';
-import Profile from './Profile';
 import { base64ToSrc } from '../utils';
 
-const Layout: React.FC = (props) => {
+export const Layout: React.FC = (props) => {
   const theme = useTheme();
   const { children } = props;
   const themeState = useSelector((state: RootState) => state.theme);
@@ -96,5 +91,3 @@ const Layout: React.FC = (props) => {
     </>
   );
 };
-
-export default Layout;
