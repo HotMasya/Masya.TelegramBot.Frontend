@@ -17,6 +17,8 @@ import { base64ToSrc } from '../../utils';
 import { Agent } from '../../models/Agent';
 import HeadTableCell from './HeadTableCell';
 import TelegramUsername from '../TelegramUsername';
+import { Remove } from '@material-ui/icons';
+import { Bool } from '../Bool';
 
 export type AgentsTableProps = {
   agents: Agent[];
@@ -39,11 +41,11 @@ const AgentsTable: React.FC<AgentsTableProps> = (props) => {
             <HeadTableCell>Avatar</HeadTableCell>
             <HeadTableCell>Full name</HeadTableCell>
             <HeadTableCell>Phone</HeadTableCell>
-            <HeadTableCell>Blocked</HeadTableCell>
-            <HeadTableCell>Block Reason</HeadTableCell>
-            <HeadTableCell>Blocked by bot</HeadTableCell>
-            <HeadTableCell>Ignored</HeadTableCell>
-            <HeadTableCell>Note</HeadTableCell>
+            <HeadTableCell align="center">Blocked</HeadTableCell>
+            <HeadTableCell align="center">Block Reason</HeadTableCell>
+            <HeadTableCell align="center">Blocked by bot</HeadTableCell>
+            <HeadTableCell align="center">Ignored</HeadTableCell>
+            <HeadTableCell align="center">Note</HeadTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,11 +86,19 @@ const AgentsTable: React.FC<AgentsTableProps> = (props) => {
                   {a.telegramFirstName} {a.telegramLastName}
                 </TableCell>
                 <TableCell>{a.telegramPhoneNumber}</TableCell>
-                <TableCell>{a.isBlocked}</TableCell>
-                <TableCell>{a.blockReason}</TableCell>
-                <TableCell>{a.isBlockedByBot}</TableCell>
-                <TableCell>{a.isIgnored}</TableCell>
-                <TableCell>{a.note}</TableCell>
+                <TableCell align="center">
+                  <Bool value={a.isBlocked} />
+                </TableCell>
+                <TableCell align="center">
+                  {a.blockReason || <Remove />}
+                </TableCell>
+                <TableCell align="center">
+                  <Bool value={a.isBlockedByBot ?? false} />
+                </TableCell>
+                <TableCell align="center">
+                  <Bool value={a.isIgnored} />
+                </TableCell>
+                <TableCell align="center">{a.note || <Remove />}</TableCell>
               </TableRow>
             ))
           )}
