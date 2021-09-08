@@ -1,4 +1,4 @@
-import { Box, Checkbox, Popover, useTheme } from '@material-ui/core';
+import { Box, Checkbox, Popover, Tooltip, useTheme } from '@material-ui/core';
 import { Brightness7, Brightness2 } from '@material-ui/icons';
 import React, { Dispatch, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -52,16 +52,18 @@ export const Layout: React.FC = (props) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Checkbox
-              checkedIcon={<Brightness7 fontSize="medium" />}
-              icon={<Brightness2 fontSize="medium" />}
-              value={themeState.theme === 'light'}
-              onChange={() => dispatch(actions.toggleTheme())}
-              color="default"
-              style={{
-                color: 'white',
-              }}
-            />
+            <Tooltip title="Switch theme" arrow>
+              <Checkbox
+                checkedIcon={<Brightness7 fontSize="medium" />}
+                icon={<Brightness2 fontSize="medium" />}
+                value={themeState.theme === 'light'}
+                onChange={() => dispatch(actions.toggleTheme())}
+                color="default"
+                style={{
+                  color: 'white',
+                }}
+              />
+            </Tooltip>
             <MiniProfile
               firstName={user.telegramFirstName}
               avatar={base64ToSrc(user.telegramAvatar ?? '')}

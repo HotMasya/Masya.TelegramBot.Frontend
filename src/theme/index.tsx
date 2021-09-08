@@ -16,6 +16,13 @@ const ThemeConfig: React.FC = (props) => {
         ...paletteSettings,
         type: themeState.theme,
       },
+      overrides: {
+        MuiTooltip: {
+          tooltip: {
+            fontSize: '0.8rem',
+          },
+        },
+      },
     });
   }, [themeState.theme, paletteSettings]);
 

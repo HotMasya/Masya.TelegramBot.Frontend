@@ -73,16 +73,17 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
                 <TableCell>
                   <TelegramUsername username={a.telegramLogin} />
                 </TableCell>
-                <TableCell
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Avatar
-                    src={base64ToSrc(a.telegramAvatar ?? '')}
-                    alt="user avatar"
-                  />
+                <TableCell>
+                  <Box
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}>
+                    <Avatar
+                      src={base64ToSrc(a.telegramAvatar ?? '')}
+                      alt="user avatar"
+                    />
+                  </Box>
                 </TableCell>
                 <TableCell>
                   {a.telegramFirstName} {a.telegramLastName}
