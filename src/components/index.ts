@@ -5,7 +5,6 @@ export * from './AuthForm';
 export * from './BackgroundImage';
 export * from './BlockUserDialog';
 export * from './Bool';
-export * from './GradientButton';
 export * from './Header';
 export * from './Layout';
 export * from './MiniProfile';

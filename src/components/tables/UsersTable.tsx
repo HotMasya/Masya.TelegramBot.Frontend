@@ -7,7 +7,7 @@ import {
   Select,
   useTheme,
 } from '@material-ui/core';
-import { Cancel, DoneOutline, Remove, Edit, Create } from '@material-ui/icons';
+import { Remove, Edit, Create } from '@material-ui/icons';
 import {
   DataGrid,
   GridCellModes,
@@ -21,7 +21,7 @@ import {
 import React, { useCallback, useState } from 'react';
 import { useAuth, useUsers } from '../../hooks';
 import { base64ToSrc } from '../../utils';
-import { TelegramUsername } from '..';
+import { Bool, TelegramUsername } from '..';
 import { UserView, Permission } from '../../models';
 
 export interface UsersTableProps {
@@ -106,7 +106,7 @@ const RenderBool = (params: GridRenderCellParams) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      {boolVal ? <DoneOutline color="primary" /> : <Cancel color="error" />}
+      <Bool value={boolVal} />
     </div>
   );
 };

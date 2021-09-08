@@ -16,7 +16,7 @@ import React from 'react';
 import { base64ToSrc } from '../../utils';
 import { Agent } from '../../models';
 import { Remove } from '@material-ui/icons';
-import { Bool, HeadTableCell, TelegramUsername } from '..';
+import { Bool, HeadTableCell, RemoveIconButton, TelegramUsername } from '..';
 
 export interface AgentsTableProps {
   agents: Agent[];
@@ -35,6 +35,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell />
             <HeadTableCell>Login</HeadTableCell>
             <HeadTableCell>Avatar</HeadTableCell>
             <HeadTableCell>Full name</HeadTableCell>
@@ -66,6 +67,9 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
           ) : (
             agents.map((a) => (
               <TableRow key={a.telegramLogin}>
+                <TableCell>
+                  <RemoveIconButton tooltipTitle="Remove agent" />
+                </TableCell>
                 <TableCell>
                   <TelegramUsername username={a.telegramLogin} />
                 </TableCell>

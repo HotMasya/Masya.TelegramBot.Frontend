@@ -1,13 +1,8 @@
-import {
-  TableCell,
-  IconButton,
-  Checkbox,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
-import { Create, HighlightOff } from '@material-ui/icons';
+import { TableCell, Checkbox, Select, MenuItem } from '@material-ui/core';
+import { Create } from '@material-ui/icons';
 import React from 'react';
 import { BottomlessTableRow, EditTableCell } from '.';
+import { RemoveIconButton } from '..';
 import { useCommands } from '../../hooks';
 import { Command, Permission } from '../../models';
 
@@ -33,9 +28,10 @@ export const AliasTableRow: React.FC<AliasProps> = (props) => {
       selected={open}
       style={{ display: open ? 'table-row' : 'none' }}>
       <TableCell>
-        <IconButton onClick={() => onAliasDelete(aliasId ?? 0)}>
-          <HighlightOff />
-        </IconButton>
+        <RemoveIconButton
+          onClick={() => onAliasDelete(aliasId ?? 0)}
+          tooltipTitle="Delete alias"
+        />
       </TableCell>
       <EditTableCell
         onChange={(event) =>
