@@ -24,3 +24,7 @@ export const updateAgency = createStandardAction(
 export const resetAgency = createStandardAction(
   AgencyActionTypes.RESET_AGENCY,
 )();
+
+export const removeAgent = createStandardAction(
+  AgencyActionTypes.REMOVE_AGENT,
+)<number>();

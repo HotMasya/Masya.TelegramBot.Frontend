@@ -31,10 +31,15 @@ export const useAgency = () => {
     () => dispatch(actions.resetAgency()),
     [dispatch],
   );
+  const removeAgent = useCallback(
+    (id: number) => dispatch(actions.removeAgent(id)),
+    [dispatch],
+  );
 
   return {
     agency,
     hasUpdates,
+    removeAgent,
     loadAgency,
     setAgency,
     saveAgency,

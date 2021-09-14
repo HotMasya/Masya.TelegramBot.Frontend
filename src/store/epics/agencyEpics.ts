@@ -41,7 +41,12 @@ export const saveAgency: Epic<RootAction, RootAction, RootState> = (
         url: apiEndpoints.saveAgency,
         crossDomain: true,
         method: 'post',
-        body: state.value.agency.agencyToUpdate,
+        body: {
+          ...state.value.agency.agencyToUpdate,
+          agents: state?.value?.agency?.agencyToUpdate?.agents?.filter(
+            (a) => !a?.willBeDeleted,
+          ),
+        },
         headers: {
           Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
         },

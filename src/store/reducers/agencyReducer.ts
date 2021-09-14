@@ -31,7 +31,7 @@ export const agencyReducer = createReducer<AgencyState, RootAction>(
   .handleAction(actions.setAgency, (state, action) => ({
     ...state,
     agency: action.payload,
-    agencyToUpdate: { ...action.payload },
+    agencyToUpdate: JSON.parse(JSON.stringify(action.payload)),
     loading: false,
     hasUpdates: false,
   }))
@@ -40,6 +40,20 @@ export const agencyReducer = createReducer<AgencyState, RootAction>(
     saveError: action.payload,
     loadingSave: false,
   }))
+  .handleAction(actions.removeAgent, (state, action) => {
+    if (!state?.agencyToUpdate?.agents?.length) {
+      return state;
+    }
+
+    const target = state.agencyToUpdate.agents.find(
+      (a) => a.id === action.payload,
+    );
+    if (target) {
+      target.willBeDeleted = true;
+    }
+
+    return { ...state, hasUpdates: true };
+  })
   .handleAction(actions.loadAgencyError, (state, action) => ({
     ...state,
     loadError: action.payload,

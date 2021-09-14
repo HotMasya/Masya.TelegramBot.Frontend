@@ -7,4 +7,5 @@ export enum AgencyActionTypes {
   SAVE_AGENCY_ERROR = '@agency/SAVE_ERROR',
   UPDATE_AGENCY = '@agency/UPDATE',
   RESET_AGENCY = '@agency/RESET',
+  REMOVE_AGENT = '@agency/REMOVE_AGENT',
 }

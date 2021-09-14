@@ -14,19 +14,21 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { base64ToSrc } from '../../utils';
-import { Agent } from '../../models';
+import { Agent, Permission } from '../../models';
 import { Remove } from '@material-ui/icons';
 import { Bool, HeadTableCell, RemoveIconButton, TelegramUsername } from '..';
 
 export interface AgentsTableProps {
   agents: Agent[];
   loading?: boolean;
+  permission?: Permission;
+  onRemoveClick?: (id: number) => void;
 }
 
 export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
-  const { agents, loading } = props;
+  const { agents, loading, permission, onRemoveClick } = props;
   const theme = useTheme();
-  if (!agents) {
+  if (!agents?.length) {
     return null;
   }
 
@@ -35,7 +37,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell />
+            {permission && permission < Permission.Admin && <TableCell />}
             <HeadTableCell>Login</HeadTableCell>
             <HeadTableCell>Avatar</HeadTableCell>
             <HeadTableCell>Full name</HeadTableCell>
@@ -67,9 +69,15 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
           ) : (
             agents.map((a) => (
               <TableRow key={a.telegramLogin}>
-                <TableCell>
-                  <RemoveIconButton tooltipTitle="Remove agent" />
-                </TableCell>
+                {!permission ||
+                  (permission < Permission.Admin && (
+                    <TableCell>
+                      <RemoveIconButton
+                        tooltipTitle="Remove agent"
+                        onClick={() => onRemoveClick?.(a.id)}
+                      />
+                    </TableCell>
+                  ))}
                 <TableCell>
                   <TelegramUsername username={a.telegramLogin} />
                 </TableCell>
