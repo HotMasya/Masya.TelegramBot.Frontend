@@ -11,15 +11,13 @@ const useStyles = makeStyles({
   },
 });
 
-export type BackgroundImageProps = {
+export interface BackgroundImageProps {
   src?: string;
   alt?: string;
-};
+}
 
-const BackgroundImage: React.FC<BackgroundImageProps> = (props) => {
+export const BackgroundImage: React.FC<BackgroundImageProps> = (props) => {
   const classes = useStyles();
 
   return <img {...props} className={classes.root} />;
 };
-
-export default BackgroundImage;

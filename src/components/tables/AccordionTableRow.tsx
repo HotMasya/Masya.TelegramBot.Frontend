@@ -7,24 +7,21 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { Command } from '../../models/Command';
 import { Create, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import BottomlessTableRow from './BottomlessTableRow';
-import AliasTableRow from './AliasTableRow';
-import { Permission } from '../../models/User';
-import AddItemTableRow from './AddItemTableRow';
+import { Permission, Command } from '../../models';
 import { useCommands } from '../../hooks';
+import { BottomlessTableRow, AliasTableRow, AddItemTableRow } from '.';
 
-export type AccordionTableRowProps = {
+export interface AccordionTableRowProps {
   command: Partial<Command>;
   open: boolean;
   onArrowClick: (buttonId: string, openedState: boolean) => void;
   onCommandChanged: (command: Partial<Command>) => void;
   onCommandAdd: (parentId: number) => void;
   onCommandDelete: (id: number) => void;
-};
+}
 
-const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
+export const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
   const {
     command,
     open,
@@ -112,5 +109,3 @@ const AccordionTableRow: React.FC<AccordionTableRowProps> = (props) => {
     </>
   );
 };
-
-export default AccordionTableRow;

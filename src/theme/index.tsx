@@ -12,12 +12,19 @@ const ThemeConfig: React.FC = (props) => {
 
   const theme = useMemo(() => {
     return createTheme({
-        palette: {
-          ...paletteSettings,
-          type: themeState.theme,
-        }
+      palette: {
+        ...paletteSettings,
+        type: themeState.theme,
+      },
+      overrides: {
+        MuiTooltip: {
+          tooltip: {
+            fontSize: '0.8rem',
+          },
+        },
+      },
     });
-  }, [themeState.theme]);
+  }, [themeState.theme, paletteSettings]);
 
   return (
     <ThemeProvider theme={theme}>

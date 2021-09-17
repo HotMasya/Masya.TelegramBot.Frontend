@@ -1,30 +1,30 @@
-import { Agency } from "../../models/Agency";
-import { createStandardAction } from "typesafe-actions";
-import { AgencyActionTypes } from "../action-types";
+import { Agency } from '../../models/Agency';
+import { createStandardAction } from 'typesafe-actions';
+import { AgencyActionTypes } from '../action-types';
 
-export const loadAgency = createStandardAction(
-    AgencyActionTypes.LOAD_AGENCY
-)();
+export const loadAgency = createStandardAction(AgencyActionTypes.LOAD_AGENCY)();
 export const loadAgencyError = createStandardAction(
-    AgencyActionTypes.LOAD_AGENCY_ERROR
+  AgencyActionTypes.LOAD_AGENCY_ERROR,
 )<Error>();
 export const setAgency = createStandardAction(
-    AgencyActionTypes.SET_AGENCY
+  AgencyActionTypes.SET_AGENCY,
 )<Agency>();
 
-export const saveAgency = createStandardAction(
-    AgencyActionTypes.SAVE_AGENCY
-)();
+export const saveAgency = createStandardAction(AgencyActionTypes.SAVE_AGENCY)();
 export const saveAgencySuccess = createStandardAction(
-    AgencyActionTypes.SAVE_AGENCY_SUCCESS
+  AgencyActionTypes.SAVE_AGENCY_SUCCESS,
 )();
 export const saveAgencyError = createStandardAction(
-    AgencyActionTypes.SAVE_AGENCY_ERROR
+  AgencyActionTypes.SAVE_AGENCY_ERROR,
 )<Error>();
 
 export const updateAgency = createStandardAction(
-    AgencyActionTypes.UPDATE_AGENCY
+  AgencyActionTypes.UPDATE_AGENCY,
 )<Partial<Agency>>();
 export const resetAgency = createStandardAction(
-    AgencyActionTypes.RESET_AGENCY
+  AgencyActionTypes.RESET_AGENCY,
 )();
+
+export const removeAgent = createStandardAction(
+  AgencyActionTypes.REMOVE_AGENT,
+)<number>();

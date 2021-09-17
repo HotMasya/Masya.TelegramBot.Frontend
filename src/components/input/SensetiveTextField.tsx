@@ -11,7 +11,9 @@ import { useState } from 'react';
 
 export type SensetiveTextFieldProps = Omit<TextFieldProps, 'type'>;
 
-const SensetiveTextField: React.FC<SensetiveTextFieldProps> = (props) => {
+export const SensetiveTextField: React.FC<SensetiveTextFieldProps> = (
+  props,
+) => {
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowpassword = useCallback(
     () => setShowPassword((prevState) => !prevState),
@@ -33,5 +35,3 @@ const SensetiveTextField: React.FC<SensetiveTextFieldProps> = (props) => {
     />
   );
 };
-
-export default SensetiveTextField;

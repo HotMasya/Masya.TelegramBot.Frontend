@@ -70,6 +70,6 @@ export const usersReducer = createReducer<UsersState, RootAction>(initialState)
   }))
   .handleAction(actions.removeUser, (state, action) => ({
     ...state,
-    usersToUpdate: state.usersToUpdate?.filter((u) => u.id == action.payload),
+    usersToUpdate: state.usersToUpdate?.filter((u) => u.id !== action.payload),
     hasChanges: true,
   }));

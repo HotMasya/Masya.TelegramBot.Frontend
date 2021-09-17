@@ -73,14 +73,14 @@ export const SidebarAccordion = withStyles((theme: Theme) =>
   }),
 )(Accordion);
 
-export type SidebarProps = {
+export interface SidebarProps {
   onOpen: () => void;
   onClose: () => void;
   onCloseClick: (event: React.MouseEvent) => void;
   open: boolean;
-};
+}
 
-const Sidebar: React.FC<SidebarProps> = (props) => {
+export const Sidebar: React.FC<SidebarProps> = (props) => {
   const theme = useTheme();
   const breakpoint = theme.breakpoints.down('sm');
   const isDowmSm = useMediaQuery(breakpoint);
@@ -126,16 +126,18 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </ListItemText>
           </ListItem>
         )}
-        {user?.permission && user.permission >= Permission.Admin && user?.agencyName && (
-          <ListItem button component={Link} to={dashboardEndpoints.agency}>
-            <ListItemIcon>
-              <BusinessCenter fontSize="medium" />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant="h6">Agency</Typography>
-            </ListItemText>
-        </ListItem>
-        )}
+        {user?.permission &&
+          user.permission >= Permission.Admin &&
+          user?.agencyName && (
+            <ListItem button component={Link} to={dashboardEndpoints.agency}>
+              <ListItemIcon>
+                <BusinessCenter fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">Agency</Typography>
+              </ListItemText>
+            </ListItem>
+          )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
           <ListItem button component={Link} to={dashboardEndpoints.commands}>
             <ListItemIcon>
@@ -207,5 +209,3 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     </SwipeableDrawer>
   );
 };
-
-export default Sidebar;

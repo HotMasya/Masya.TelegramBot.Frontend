@@ -1,15 +1,15 @@
-import { Box, Typography, useTheme } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import UsersTable from '../components/tables/UsersTable';
-import Layout from '../components/Layout';
-import { useUsers } from '../hooks/useUsers';
-import { useState } from 'react';
-import { useCallback } from 'react';
-import BlockUserDialog from '../components/BlockUserDialog';
-import UpdateSnackbar from '../components/UpdateSnackbar';
-import PageHeader from '../components/PageHeader';
+import { Box, useTheme } from '@material-ui/core';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Layout,
+  PageHeader,
+  UsersTable,
+  BlockUserDialog,
+  UpdateSnackbar,
+} from '../components';
+import { useUsers } from '../hooks';
 
-const UsersTablePage: React.FC = () => {
+export const UsersTablePage: React.FC = () => {
   const {
     users,
     loadUsers,
@@ -25,11 +25,7 @@ const UsersTablePage: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string | undefined>();
 
-  useEffect(() => {
-    if (!users) {
-      loadUsers();
-    }
-  }, [users, loadUsers]);
+  useEffect(loadUsers, []);
 
   const onBlockClick = useCallback(
     (id: number, isBlocked: boolean) => {
@@ -64,7 +60,11 @@ const UsersTablePage: React.FC = () => {
 
   return (
     <Layout>
-      <PageHeader headerText="Users" onReloadClick={() => loadUsers()} reloadDisabled={loadings.loading} />
+      <PageHeader
+        headerText="Users"
+        onReloadClick={loadUsers}
+        reloadDisabled={loadings.loading}
+      />
       <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
         <UsersTable
           users={users ?? []}
@@ -90,5 +90,3 @@ const UsersTablePage: React.FC = () => {
     </Layout>
   );
 };
-
-export default UsersTablePage;

@@ -13,12 +13,12 @@ const secondary = {
 const error = {
   main: '#FD6F96',
   contrastText: '#FFF',
-}
+};
 
 const success = {
   main: '#95DAC1',
   contrastText: '#FFF',
-}
+};
 
 const palette: PaletteOptions = {
   primary,

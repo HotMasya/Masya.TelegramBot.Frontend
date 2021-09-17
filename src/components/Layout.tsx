@@ -1,21 +1,16 @@
+import { Box, Checkbox, Popover, Tooltip, useTheme } from '@material-ui/core';
+import { Brightness7, Brightness2 } from '@material-ui/icons';
 import React, { Dispatch, useState } from 'react';
-import Sidebar from './Sidebar';
-import ContentBox from './containers/ContentBox';
-import Header from './Header';
-import MiniProfile from './MiniProfile';
-import { Box, Button, Checkbox, List, ListItem, Popover, Typography, useTheme } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
-import { endpoints } from '../routing/endpoints';
+import { Sidebar, ContentBox, Header, MiniProfile, Profile } from '.';
 import { useAuth } from '../hooks';
-import { Permission } from '../models/User';
-import { Brightness2, Brightness7 } from '@material-ui/icons';
+import { endpoints } from '../routing/endpoints';
+import { RootAction, actions } from '../store';
 import { RootState } from '../store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootAction } from '../store';
-import * as actions from '../store/actions';
-import Profile from './Profile';
+import { base64ToSrc } from '../utils';
 
-const Layout: React.FC = (props) => {
+export const Layout: React.FC = (props) => {
   const theme = useTheme();
   const { children } = props;
   const themeState = useSelector((state: RootState) => state.theme);
@@ -36,6 +31,7 @@ const Layout: React.FC = (props) => {
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
+
   const onLogOutClick = () => {
     logout();
   };
@@ -50,20 +46,27 @@ const Layout: React.FC = (props) => {
       />
       <ContentBox>
         <Header onMenuClick={() => setSidebarOpen((state) => !state)}>
-          <Box style={{display: 'flex', justifyContent: 'space-between', alignItems: "center"}}>
-            <Checkbox 
-              checkedIcon={<Brightness7 fontSize="medium" />}
-              icon={<Brightness2 fontSize="medium" />}
-              value={themeState.theme === 'light'}
-              onChange={() => dispatch(actions.toggleTheme())}
-              color="default"
-              style={{
-                color: 'white'
-              }}
-            />
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Tooltip title="Switch theme" arrow>
+              <Checkbox
+                checkedIcon={<Brightness7 fontSize="medium" />}
+                icon={<Brightness2 fontSize="medium" />}
+                value={themeState.theme === 'light'}
+                onChange={() => dispatch(actions.toggleTheme())}
+                color="default"
+                style={{
+                  color: 'white',
+                }}
+              />
+            </Tooltip>
             <MiniProfile
               firstName={user.telegramFirstName}
-              avatar={`data:image/jpg;base64, ${user.telegramAvatar}`}
+              avatar={base64ToSrc(user.telegramAvatar ?? '')}
               onClick={onProfileClick}
             />
             <Popover
@@ -83,12 +86,10 @@ const Layout: React.FC = (props) => {
                 onLogOutClick={onLogOutClick}
               />
             </Popover>
-          </Box>     
+          </Box>
         </Header>
         <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
       </ContentBox>
     </>
   );
 };
-
-export default Layout;

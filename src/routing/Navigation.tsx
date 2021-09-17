@@ -1,19 +1,14 @@
 import React, { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import AuthPage from '../pages/AuthPage';
-import BotSettingsPage from '../pages/BotSettingsPage';
-import PrivateRoute from './PrivateRoute';
+import { PrivateRoute } from './PrivateRoute';
 import { dashboardEndpoints, endpoints } from './endpoints';
-import { Permission } from '../models/User';
-import CommandsPage from '../pages/CommandsPage';
 import { RootState } from '../store/reducers';
 import { RootAction, actions } from '../store';
-import KeyboardsPage from '../pages/KeyboardsPage';
-import UsersTablePage from '../pages/UsersTablePage';
-import AgencyPage from '../pages/AgencyPage';
+import { Permission } from '../models';
+import * as Pages from '../pages';
 
-const Navigation: React.FC = () => {
+export const Navigation: React.FC = () => {
   const { tokens, user } = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch<Dispatch<RootAction>>();
   if (tokens?.refreshToken) {
@@ -27,35 +22,39 @@ const Navigation: React.FC = () => {
           exact
           path={endpoints.auth}
           render={() =>
-            user ? <Redirect to={dashboardEndpoints.home} /> : <AuthPage />
+            user ? (
+              <Redirect to={dashboardEndpoints.home} />
+            ) : (
+              <Pages.AuthPage />
+            )
           }
         />
         <PrivateRoute
           permission={Permission.Admin}
           exact
           path={dashboardEndpoints.home}
-          render={() => <BotSettingsPage />}
+          render={() => <Pages.BotSettingsPage />}
         />
         <PrivateRoute
           permission={Permission.Admin}
           exact
           path={dashboardEndpoints.agency}
-          render={() => <AgencyPage />}
+          render={() => <Pages.AgencyPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}
           path={dashboardEndpoints.commands}
-          render={() => <CommandsPage />}
+          render={() => <Pages.CommandsPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}
           path={dashboardEndpoints.keyboards}
-          render={() => <KeyboardsPage />}
+          render={() => <Pages.KeyboardsPage />}
         />
         <PrivateRoute
           permission={Permission.SuperAdmin}
           path={dashboardEndpoints.usersTable}
-          render={() => <UsersTablePage />}
+          render={() => <Pages.UsersTablePage />}
         />
         <Route
           path="*"
@@ -65,5 +64,3 @@ const Navigation: React.FC = () => {
     </BrowserRouter>
   );
 };
-
-export default Navigation;

@@ -1,5 +1,3 @@
-import { Agency } from "./Agency";
-
 export interface User {
   id: number;
   telegramFirstName: string;

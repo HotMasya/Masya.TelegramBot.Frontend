@@ -1,20 +1,18 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  CircularProgress,
-  createStyles,
   makeStyles,
-  TextField,
   Theme,
-  Typography,
+  createStyles,
   useTheme,
+  CircularProgress,
+  TextField,
+  Typography,
 } from '@material-ui/core';
 import React from 'react';
-import GradientButton from './GradientButton';
-import GlassPaper from './containers/GlassPaper';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthModel, authScheme } from '../models/Auth';
-import { SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { GlassPaper, GradientButton } from '.';
+import { AuthModel, authScheme } from '../models';
 import { RootState } from '../store/reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,14 +28,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export type AuthFormProps = {
+export interface AuthFormProps {
   caption?: string;
   apiEndpoint: string;
   className?: string;
   onSubmit: SubmitHandler<AuthModel>;
-};
+}
 
-const AuthForm: React.FC<AuthFormProps> = (props) => {
+export const AuthForm: React.FC<AuthFormProps> = (props) => {
   const { caption, className, onSubmit } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -118,5 +116,3 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
     </GlassPaper>
   );
 };
-
-export default AuthForm;

@@ -12,14 +12,14 @@ import {
 import React from 'react';
 import { useState } from 'react';
 
-export type BlockUserDialogProps = DialogProps & {
+export interface BlockUserDialogProps extends DialogProps {
   userFirstName: string;
   userLastName?: string;
   onDialogCancel: () => void;
   onBlockClick: (reason?: string) => boolean;
-};
+}
 
-const BlockUserDialog: React.FC<BlockUserDialogProps> = (props) => {
+export const BlockUserDialog: React.FC<BlockUserDialogProps> = (props) => {
   const { open, userFirstName, userLastName, onDialogCancel, onBlockClick } =
     props;
   const [dialogOpen, setDialogOpen] = useState<boolean | undefined>();

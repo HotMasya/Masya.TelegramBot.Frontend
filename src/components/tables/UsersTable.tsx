@@ -7,7 +7,7 @@ import {
   Select,
   useTheme,
 } from '@material-ui/core';
-import { Cancel, DoneOutline, Remove, Edit, Create } from '@material-ui/icons';
+import { Remove, Edit, Create } from '@material-ui/icons';
 import {
   DataGrid,
   GridCellModes,
@@ -19,37 +19,36 @@ import {
   GridRenderCellParams,
 } from '@mui/x-data-grid';
 import React, { useCallback, useState } from 'react';
-import { useUsers } from '../../hooks/useUsers';
-import { useAuth } from '../../hooks';
-import { Permission } from '../../models/User';
-import { UserView } from '../../models/UserView';
+import { useAuth, useUsers } from '../../hooks';
+import { base64ToSrc } from '../../utils';
+import { Bool, TelegramUsername } from '..';
+import { UserView, Permission } from '../../models';
 
-export type UsersTableProps = {
+export interface UsersTableProps {
   users: UserView[];
   onBlockClick: (id: number, isBlocked: boolean) => void;
   updateUser: (user: Partial<UserView>) => void;
   removeUser: (id: number) => void;
   loading?: boolean;
-};
+}
 
-const RenderAvatar = (params: GridRenderCellParams) => {
-  var avatarSrc = `data:image/png;base64, ${params.value as string}`;
+export const RenderAvatar = (params: GridRenderCellParams) => {
   return (
-      <div
+    <div
       style={{
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-        {
-          params.value 
-          ? <Avatar src={avatarSrc} alt="user avatar" />
-          : <Remove />
-        }
+      {params.value ? (
+        <Avatar src={base64ToSrc(params.value as string)} alt="user avatar" />
+      ) : (
+        <Remove />
+      )}
     </div>
   );
-}
+};
 
 const RenderEmptyString = (params: GridRenderCellParams) => {
   return (
@@ -107,7 +106,7 @@ const RenderBool = (params: GridRenderCellParams) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      {boolVal ? <DoneOutline color="primary" /> : <Cancel color="error" />}
+      <Bool value={boolVal} />
     </div>
   );
 };
@@ -135,6 +134,10 @@ const RenderEditableHeader = (params: GridColumnHeaderParams) => {
   );
 };
 
+const RenderTelegramuUsername = (params: GridRenderCellParams) => {
+  return <TelegramUsername username={params.value as string} />;
+};
+
 const columns: GridColumns = [
   {
     field: 'id',
@@ -157,8 +160,19 @@ const columns: GridColumns = [
     renderHeader: RenderEditableHeader,
   },
   { field: 'telegramAccountId', headerName: 'Telegram Id', width: 180 },
-  { field: 'telegramLogin', headerName: 'Telegram Login', width: 180 },
-  { field: 'telegramAvatar', headerName: 'Avatar', sortable: false, filterable: false, renderCell: RenderAvatar},
+  {
+    field: 'telegramLogin',
+    headerName: 'Telegram Login',
+    width: 180,
+    renderCell: RenderTelegramuUsername,
+  },
+  {
+    field: 'telegramAvatar',
+    headerName: 'Avatar',
+    sortable: false,
+    filterable: false,
+    renderCell: RenderAvatar,
+  },
   { field: 'telegramFirstName', headerName: 'First Name', width: 150 },
   {
     field: 'telegramLastName',
@@ -204,7 +218,7 @@ const columns: GridColumns = [
   },
 ];
 
-const UsersTable: React.FC<UsersTableProps> = (props) => {
+export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const { users, onBlockClick, updateUser, removeUser, loading } = props;
   const { account } = useAuth();
   const [editModel, setEditModel] = useState<GridEditRowsModel | undefined>();
@@ -286,5 +300,3 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
     </Paper>
   );
 };
-
-export default UsersTable;
