@@ -1,27 +1,50 @@
 import { BotSettings } from 'src/models/BotSettings';
 import { createReducer } from 'typesafe-actions';
 import { RootAction } from '..';
+import { Log } from '../../models/Log';
 import * as actions from '../actions';
 
 export type BotSettingsState = {
   botSettings?: BotSettings;
   botSettingsUpdates?: Partial<BotSettings>;
+  logs?: Log[];
   hasUpdates: boolean;
   loadError?: Error;
   saveError?: Error;
+  loadLogsError?: Error;
   loading?: boolean;
   loadingSave?: boolean;
+  loadingLogs?: boolean;
 };
 
 const initialState: BotSettingsState = {
   hasUpdates: false,
-  loading: false,
-  loadingSave: false,
 };
 
 export const botSettingsReducer = createReducer<BotSettingsState, RootAction>(
   initialState,
 )
+  .handleAction(
+    [actions.startImporting, actions.startImportingSuccess],
+    (state) => ({
+      ...state,
+      botSettings: { isImporting: true, ...state.botSettings } as BotSettings,
+      botSettingsUpdates: { ...state.botSettingsUpdates, isImporting: true },
+    }),
+  )
+  .handleAction(actions.loadBotLogs, (state) => ({
+    ...state,
+    loadingLogs: true,
+  }))
+  .handleAction(actions.loadBotLogsSuccess, (state, action) => ({
+    ...state,
+    loadingLogs: false,
+    logs: action.payload,
+  }))
+  .handleAction(actions.loadBotLogsError, (state, action) => ({
+    ...state,
+    loadLogsError: action.payload,
+  }))
   .handleAction(actions.loadBotSettings, (state) => ({
     ...state,
     loading: true,

@@ -4,6 +4,7 @@ import accountReducer from './accountReducer';
 import { agencyReducer } from './agencyReducer';
 import { botSettingsReducer } from './botSettingsReducer';
 import commandReducer from './commandReducer';
+import { minmaxReducer } from './minmaxReducer';
 import { themeReducer } from './themeReducer';
 import { usersReducer } from './usersReducer';
 
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers({
   users: usersReducer,
   theme: themeReducer,
   agency: agencyReducer,
+  minMaxValues: minmaxReducer,
 });
 
 export type RootState = StateType<typeof rootReducer>;

@@ -28,9 +28,6 @@ export interface AgentsTableProps {
 export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
   const { agents, loading, permission, onRemoveClick } = props;
   const theme = useTheme();
-  if (!agents?.length) {
-    return null;
-  }
 
   return (
     <TableContainer component={Paper} style={{ margin: theme.spacing(3, 0) }}>
@@ -39,7 +36,7 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
           <TableRow>
             {permission && permission < Permission.Admin && <TableCell />}
             <HeadTableCell>Login</HeadTableCell>
-            <HeadTableCell>Avatar</HeadTableCell>
+            <HeadTableCell align="center">Avatar</HeadTableCell>
             <HeadTableCell>Full name</HeadTableCell>
             <HeadTableCell>Phone</HeadTableCell>
             <HeadTableCell align="center">Blocked</HeadTableCell>
@@ -52,7 +49,8 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
         <TableBody>
           {loading ? (
             <TableRow key="agents_loading">
-              <TableCell colSpan={9}>
+              <TableCell
+                colSpan={permission && permission < Permission.Admin ? 10 : 9}>
                 <Box
                   style={{
                     display: 'flex',
@@ -60,14 +58,14 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
                     alignItems: 'center',
                   }}>
                   <CircularProgress size="1.5em" color="primary" />
-                  Loading agents...
+                  &nbsp;Loading agents...
                 </Box>
               </TableCell>
             </TableRow>
-          ) : agents.length === 0 ? (
+          ) : !agents?.length ? (
             <Typography>There are no agents in this agency.</Typography>
           ) : (
-            agents.map((a) => (
+            agents?.map((a) => (
               <TableRow key={a.telegramLogin}>
                 {!permission ||
                   (permission < Permission.Admin && (

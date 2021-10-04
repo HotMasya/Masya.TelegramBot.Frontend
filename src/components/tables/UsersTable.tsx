@@ -271,11 +271,11 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
       <DataGrid
         columns={columns}
         rows={users}
-        disableSelectionOnClick
         pageSize={10}
         rowsPerPageOptions={[10]}
         autoHeight
         checkboxSelection
+        disableSelectionOnClick
         onCellClick={onCellClick}
         editRowsModel={editModel}
         onEditRowsModelChange={onRowEdit}
@@ -293,7 +293,13 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
               : 'none',
           padding: theme.spacing(2),
         }}>
-        <Button color="primary" variant="contained" onClick={onRemoveClick}>
+        <Button
+          style={{
+            backgroundColor: theme.palette.error.main,
+            color: theme.palette.error.contrastText,
+          }}
+          variant="contained"
+          onClick={onRemoveClick}>
           Delete selected user(s)
         </Button>
       </Box>

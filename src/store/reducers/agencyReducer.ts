@@ -1,16 +1,20 @@
 import { Agency } from 'src/models/Agency';
 import { createReducer } from 'typesafe-actions';
 import { RootAction } from '..';
+import { Log } from '../../models/Log';
 import * as actions from '../actions';
 
 export type AgencyState = {
   agency?: Agency;
   agencyToUpdate?: Agency;
+  logs?: Log[];
   loading?: boolean;
   loadingSave?: boolean;
+  loadingLogs?: boolean;
   hasUpdates: boolean;
   loadError?: Error;
   saveError?: Error;
+  loadLogsError?: Error;
 };
 
 const initialState: AgencyState = {
@@ -20,6 +24,16 @@ const initialState: AgencyState = {
 export const agencyReducer = createReducer<AgencyState, RootAction>(
   initialState,
 )
+  .handleAction(actions.loadImportsLogs, (state) => ({
+    ...state,
+    loadLogsError: undefined,
+    loadingLogs: true,
+  }))
+  .handleAction(actions.loadImportsLogsSuccess, (state, action) => ({
+    ...state,
+    loadingLogs: false,
+    logs: action.payload.reverse(),
+  }))
   .handleAction(actions.loadAgency, (state) => ({
     ...state,
     loading: true,

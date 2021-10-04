@@ -1,4 +1,5 @@
 import {
+  Button,
   CircularProgress,
   Paper,
   Switch,
@@ -18,10 +19,11 @@ export interface BotSettingsTableProps {
   botSettings?: Partial<BotSettings>;
   updateSettings: (settings: Omit<Partial<BotSettings>, 'id'>) => void;
   loading?: boolean;
+  onImportingClick?: () => void;
 }
 
 export const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
-  const { botSettings, updateSettings, loading } = props;
+  const { botSettings, updateSettings, loading, onImportingClick } = props;
 
   return (
     <TableContainer component={Paper}>
@@ -77,6 +79,20 @@ export const BotSettingsTable: React.FC<BotSettingsTableProps> = (props) => {
                   color="primary"
                 />
               )}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Typography>Imports</Typography>
+            </TableCell>
+            <TableCell>
+              <Button
+                variant="contained"
+                color="secondary"
+                disabled={botSettings?.isImporting}
+                onClick={onImportingClick}>
+                Start importing procedure
+              </Button>
             </TableCell>
           </TableRow>
         </TableBody>

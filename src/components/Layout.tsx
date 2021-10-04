@@ -88,7 +88,15 @@ export const Layout: React.FC = (props) => {
             </Popover>
           </Box>
         </Header>
-        <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
+        <Box
+          className="content"
+          style={{
+            padding: theme.spacing(3),
+            overflow: 'auto',
+            height: '93.4vh',
+          }}>
+          {children}
+        </Box>
       </ContentBox>
     </>
   );

@@ -3,6 +3,7 @@ export interface BotSettings {
   token: string;
   webhookHost: string;
   isEnabled: boolean;
+  isImporting: boolean;
   botUser: {
     id: number;
     first_name: string;

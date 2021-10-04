@@ -1,6 +1,7 @@
 import { BotSettings } from '../../models/BotSettings';
 import { createStandardAction } from 'typesafe-actions';
 import { BotSettingsActionTypes } from '../action-types';
+import { Log } from '../../models/Log';
 
 export const loadBotSettings = createStandardAction(
   BotSettingsActionTypes.LOAD_SETTINGS,
@@ -25,4 +26,19 @@ export const loadBotSettingsError = createStandardAction(
 )<Error>();
 export const resetBotSettingsUpdates = createStandardAction(
   BotSettingsActionTypes.RESET_UPDATES,
+)();
+export const loadBotLogs = createStandardAction(
+  BotSettingsActionTypes.LOAD_LOGS,
+)();
+export const loadBotLogsSuccess = createStandardAction(
+  BotSettingsActionTypes.LOAD_LOGS_SUCCESS,
+)<Log[]>();
+export const loadBotLogsError = createStandardAction(
+  BotSettingsActionTypes.LOAD_LOGS_ERROR,
+)<Error>();
+export const startImporting = createStandardAction(
+  BotSettingsActionTypes.START_IMPORTING,
+)();
+export const startImportingSuccess = createStandardAction(
+  BotSettingsActionTypes.START_IMPORTING_SUCCESS,
 )();

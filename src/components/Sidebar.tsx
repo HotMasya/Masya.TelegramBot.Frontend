@@ -17,6 +17,7 @@ import {
   SwipeableDrawer,
   IconButton,
   Box,
+  ListItemProps,
 } from '@material-ui/core';
 import React from 'react';
 import {
@@ -31,10 +32,11 @@ import {
   Close,
 } from '@material-ui/icons';
 import globals from '../globals';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { dashboardEndpoints } from '../routing/endpoints';
 import { Permission } from '../models/User';
 import { useAuth } from '../hooks';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,6 +60,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'flex-start',
       padding: theme.spacing(2, 2),
     },
+    disabledLink: {
+      backgroundColor:
+        theme.palette.grey[theme.palette.type === 'light' ? 100 : 900],
+    },
   }),
 );
 
@@ -73,6 +79,25 @@ export const SidebarAccordion = withStyles((theme: Theme) =>
   }),
 )(Accordion);
 
+export const LinkListItem: React.FC<{ location: string }> = ({
+  location,
+  children,
+}) => {
+  const { pathname } = useLocation();
+  const { disabledLink } = useStyles();
+
+  return (
+    <ListItem
+      button
+      component={Link}
+      to={location}
+      classes={{ disabled: disabledLink }}
+      disabled={pathname === location}>
+      {children}
+    </ListItem>
+  );
+};
+
 export interface SidebarProps {
   onOpen: () => void;
   onClose: () => void;
@@ -82,6 +107,7 @@ export interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = (props) => {
   const theme = useTheme();
+
   const breakpoint = theme.breakpoints.down('sm');
   const isDowmSm = useMediaQuery(breakpoint);
   const drawerVar = isDowmSm ? 'temporary' : 'permanent';
@@ -94,6 +120,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
 
   return (
     <SwipeableDrawer
+      PaperProps={{ style: { borderRight: 'none' } }}
       anchor="left"
       variant={drawerVar}
       disableBackdropTransition={!iOS}
@@ -117,49 +144,49 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
       <List className={classes.listContainer}>
         <Divider />
         {user?.permission && user?.permission >= Permission.Admin && (
-          <ListItem button component={Link} to={dashboardEndpoints.home}>
+          <LinkListItem location={dashboardEndpoints.home}>
             <ListItemIcon>
               <Tune fontSize="medium" />
             </ListItemIcon>
             <ListItemText>
               <Typography variant="h6">Bot Settings</Typography>
             </ListItemText>
-          </ListItem>
+          </LinkListItem>
         )}
         {user?.permission &&
           user.permission >= Permission.Admin &&
           user?.agencyName && (
-            <ListItem button component={Link} to={dashboardEndpoints.agency}>
+            <LinkListItem location={dashboardEndpoints.agency}>
               <ListItemIcon>
                 <BusinessCenter fontSize="medium" />
               </ListItemIcon>
               <ListItemText>
                 <Typography variant="h6">Agency</Typography>
               </ListItemText>
-            </ListItem>
+            </LinkListItem>
           )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
-          <ListItem button component={Link} to={dashboardEndpoints.commands}>
+          <LinkListItem location={dashboardEndpoints.commands}>
             <ListItemIcon>
               <Code fontSize="medium" />
             </ListItemIcon>
             <ListItemText>
               <Typography variant="h6">Commands</Typography>
             </ListItemText>
-          </ListItem>
+          </LinkListItem>
         )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
-          <ListItem button component={Link} to={dashboardEndpoints.keyboards}>
+          <LinkListItem location={dashboardEndpoints.keyboards}>
             <ListItemIcon>
               <Keyboard fontSize="medium" />
             </ListItemIcon>
             <ListItemText>
               <Typography variant="h6">Inline keyboards settings</Typography>
             </ListItemText>
-          </ListItem>
+          </LinkListItem>
         )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
-          <SidebarAccordion>
+          <SidebarAccordion style={{ borderRadius: 0 }}>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <ListItemIcon style={{ marginTop: theme.spacing(1) }}>
                 <MenuBook color="action" fontSize="medium" />
@@ -170,12 +197,9 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
                 </Typography>
               </ListItemText>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails style={{ padding: 0 }}>
               <List style={{ width: '100%' }}>
-                <ListItem
-                  button
-                  component={Link}
-                  to={dashboardEndpoints.usersTable}>
+                <LinkListItem location={dashboardEndpoints.usersTable}>
                   <ListItemIcon>
                     <Person fontSize="medium" />
                   </ListItemIcon>
@@ -184,7 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
                       Users
                     </Typography>
                   </ListItemText>
-                </ListItem>
+                </LinkListItem>
                 <ListItem button>
                   <ListItemIcon>
                     <BusinessCenter fontSize="medium" />

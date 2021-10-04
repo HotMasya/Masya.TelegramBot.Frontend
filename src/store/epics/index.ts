@@ -3,6 +3,7 @@ import * as commandEpics from './commandEpics';
 import * as botSettingsEpics from './botSettingsEpics';
 import * as usersEpics from './usersEpics';
 import * as agencyEpics from './agencyEpics';
+import * as minMaxEpics from './minmaxEpics';
 import { combineEpics } from 'redux-observable';
 
 const rootEpic = combineEpics(
@@ -14,10 +15,15 @@ const rootEpic = combineEpics(
   commandEpics.saveCommandsEpic,
   botSettingsEpics.loadBotSettingsEpic,
   botSettingsEpics.saveBotSettingsEpic,
+  botSettingsEpics.loadBotLogsEpic,
+  botSettingsEpics.startImportsEpic,
   usersEpics.loadUsersEpic,
   usersEpics.saveUsersEpic,
-  agencyEpics.loadAgency,
-  agencyEpics.saveAgency,
+  agencyEpics.loadAgencyEpic,
+  agencyEpics.saveAgencyEpic,
+  agencyEpics.loadImportsLogsEpic,
+  minMaxEpics.loadMinMaxEpic,
+  minMaxEpics.saveMinMaxEpic,
 );
 
 export default rootEpic;

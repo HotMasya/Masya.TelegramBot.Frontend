@@ -1,3 +1,4 @@
+import { Box, useTheme } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import {
   Layout,
@@ -5,6 +6,7 @@ import {
   AgencySettingsTable,
   AgentsTable,
   UpdateSnackbar,
+  LogsTable,
 } from '../components';
 import { useAgency } from '../hooks';
 import { Permission } from '../models';
@@ -12,6 +14,8 @@ import { Permission } from '../models';
 export const AgencyPage: React.FC = () => {
   const {
     agency,
+    logs,
+    loadImportLogs,
     hasUpdates,
     loadings,
     saveAgency,
@@ -22,7 +26,7 @@ export const AgencyPage: React.FC = () => {
   } = useAgency();
 
   useEffect(loadAgency, []);
-
+  const theme = useTheme();
   const users = agency?.agents?.filter(
     (a) => a.permission < Permission.Admin && !a.willBeDeleted,
   );
@@ -55,6 +59,15 @@ export const AgencyPage: React.FC = () => {
         permission={Permission.Agent}
         onRemoveClick={removeAgent}
       />
+      <PageHeader headerText="Import logs" onReloadClick={loadImportLogs} />
+      <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
+        <LogsTable
+          logs={logs}
+          onLoadClick={loadImportLogs}
+          loading={loadings.loadingLogs}
+          emptyTableMessage="There are no logs loaded for the last day."
+        />
+      </Box>
       <UpdateSnackbar
         open={hasUpdates}
         onSaveClick={saveAgency}

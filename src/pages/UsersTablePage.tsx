@@ -30,7 +30,7 @@ export const UsersTablePage: React.FC = () => {
   const onBlockClick = useCallback(
     (id: number, isBlocked: boolean) => {
       if (isBlocked) {
-        updateUser({ id, isBlocked: false, blockReason: '' });
+        updateUser({ id, isBlocked: false });
         return;
       }
 

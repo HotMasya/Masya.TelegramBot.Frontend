@@ -10,3 +10,6 @@ export * from './CommandsTable';
 export * from './EditTableCell';
 export * from './HeadTableCell';
 export * from './UsersTable';
+export * from './LogsTable';
+export * from './MinMaxTable';
+export * from './RoomsTable';

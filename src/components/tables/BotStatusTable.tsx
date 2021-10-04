@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme,
 } from '@material-ui/core';
-import { FiberManualRecord } from '@material-ui/icons';
+import { FiberManualRecord, Cancel, DoneOutline } from '@material-ui/icons';
 import React from 'react';
 import { BotSettings } from '../../models';
 import { TelegramUsername } from '..';
@@ -63,19 +63,37 @@ export const BotStatusTable: React.FC<BotStatusTableProps> = (props) => {
                 <CircularProgress size="1.5rem" color="primary" />
               ) : botSettings.isEnabled ? (
                 <Typography style={{ display: 'flex', alignItems: 'center' }}>
-                  {' '}
                   <FiberManualRecord
                     style={{ color: theme.palette.success.main }}
-                  />{' '}
-                  Enabled
+                  />
+                  &nbsp;Enabled
                 </Typography>
               ) : (
                 <Typography style={{ display: 'flex', alignItems: 'center' }}>
-                  {' '}
                   <FiberManualRecord
                     style={{ color: theme.palette.error.main }}
-                  />{' '}
-                  Disabled
+                  />
+                  &nbsp;Disabled
+                </Typography>
+              )}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Typography>Importing status</Typography>
+            </TableCell>
+            <TableCell style={{ width: '80%' }}>
+              {loading ? (
+                <CircularProgress size="1.5rem" color="primary" />
+              ) : botSettings.isImporting ? (
+                <Typography style={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress color="secondary" size="1rem" />
+                  &nbsp;In progress...
+                </Typography>
+              ) : (
+                <Typography style={{ display: 'flex', alignItems: 'center' }}>
+                  <Cancel color="error" />
+                  &nbsp;Not importing
                 </Typography>
               )}
             </TableCell>

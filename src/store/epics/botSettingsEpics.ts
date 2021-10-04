@@ -7,6 +7,46 @@ import { ajax } from 'rxjs/ajax';
 import { isActionOf } from 'typesafe-actions';
 import { apiEndpoints } from '../../routing/endpoints';
 import { BotSettings } from '../../models/BotSettings';
+import { Log } from '../../models/Log';
+
+export const startImportsEpic: Epic<RootAction, RootAction, RootState> = (
+  action$,
+  state,
+) =>
+  action$.pipe(
+    filter(isActionOf(actions.startImporting)),
+    switchMap(() =>
+      ajax({
+        url: apiEndpoints.startImporting,
+        crossDomain: true,
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
+        },
+      }).pipe(mapTo(actions.startImportingSuccess())),
+    ),
+  );
+
+export const loadBotLogsEpic: Epic<RootAction, RootAction, RootState> = (
+  action$,
+  state,
+) =>
+  action$.pipe(
+    filter(isActionOf(actions.loadBotLogs)),
+    switchMap(() =>
+      ajax<Log[]>({
+        url: apiEndpoints.loadBotLogs,
+        method: 'get',
+        crossDomain: true,
+        headers: {
+          Authorization: `Bearer ${state.value.account.tokens?.accessToken}`,
+        },
+      }).pipe(
+        map((ctx) => actions.loadBotLogsSuccess(ctx.response.reverse())),
+        catchError((ctx) => of(actions.loadBotLogsError(ctx.xhr.response))),
+      ),
+    ),
+  );
 
 export const loadBotSettingsEpic: Epic<RootAction, RootAction, RootState> = (
   action$,

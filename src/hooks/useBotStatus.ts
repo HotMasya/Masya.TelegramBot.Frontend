@@ -14,6 +14,11 @@ export const useBotStatus = () => {
     save: botStatusState.saveError,
   };
 
+  const startImporting = useCallback(
+    () => dispatch(actions.startImporting()),
+    [dispatch],
+  );
+
   const addUpdate = useCallback(
     (settings: Omit<Partial<BotSettings>, 'id'>) =>
       dispatch(actions.updateBotSettings(settings)),
@@ -28,6 +33,10 @@ export const useBotStatus = () => {
     () => dispatch(actions.loadBotSettings()),
     [dispatch],
   );
+  const loadLogs = useCallback(
+    () => dispatch(actions.loadBotLogs()),
+    [dispatch],
+  );
   const resetSettings = useCallback(
     () => dispatch(actions.resetBotSettingsUpdates()),
     [dispatch],
@@ -35,6 +44,8 @@ export const useBotStatus = () => {
 
   return {
     hasUpdates: botStatusState.hasUpdates,
+    logs: botStatusState.logs,
+    loadLogs,
     botSettings,
     defaultBotSettings,
     errors,
@@ -42,9 +53,11 @@ export const useBotStatus = () => {
     saveSettings,
     loadSettings,
     resetSettings,
+    startImporting,
     loadings: {
       loading: botStatusState.loading,
       loadingSave: botStatusState.loadingSave,
+      loadingLogs: botStatusState.loadingLogs,
     },
   };
 };
