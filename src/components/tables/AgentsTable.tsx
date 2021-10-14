@@ -58,12 +58,24 @@ export const AgentsTable: React.FC<AgentsTableProps> = (props) => {
                     alignItems: 'center',
                   }}>
                   <CircularProgress size="1.5em" color="primary" />
-                  &nbsp;Loading agents...
+                  &nbsp;Loading users...
                 </Box>
               </TableCell>
             </TableRow>
           ) : !agents?.length ? (
-            <Typography>There are no agents in this agency.</Typography>
+            <TableRow>
+              <TableCell
+                colSpan={permission && permission < Permission.Admin ? 10 : 9}>
+                <Box
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  There are no users.
+                </Box>
+              </TableCell>
+            </TableRow>
           ) : (
             agents?.map((a) => (
               <TableRow key={a.telegramLogin}>

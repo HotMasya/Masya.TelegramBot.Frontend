@@ -5,3 +5,5 @@ export * from './UsersActionTypes';
 export * from './ThemeActionTypes';
 export * from './AgencyActionTypes';
 export * from './MinMaxActionTypes';
+export * from './AgenciesActionTypes';
+export * from './ObjectsActionTypes';

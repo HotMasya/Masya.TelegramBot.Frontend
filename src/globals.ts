@@ -1,6 +1,6 @@
 const globals = {
-  appName: 'Telegram bot',
-  drawerWidth: 450,
+  appName: 'Bot Panel',
+  drawerWidth: 350,
 };
 
 export default globals;

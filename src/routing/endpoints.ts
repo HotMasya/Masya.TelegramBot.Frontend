@@ -10,6 +10,8 @@ export const dashboardEndpoints = {
   keyboards: '/dashboard/keyboards',
   usersTable: '/dashboard/users',
   agency: '/dashboard/agency',
+  agencies: '/dashboard/agencies',
+  objects: '/dashboard/objects',
 };
 
 export const apiEndpoints = {
@@ -35,4 +37,6 @@ export const apiEndpoints = {
 
   loadMinMax: apiHost + 'api/minmax',
   saveMinMax: apiHost + 'api/minmax/save',
+
+  loadAgencies: '/api/agency/all',
 };

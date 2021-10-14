@@ -10,33 +10,25 @@ import {
   ListItemText,
   useTheme,
   Divider,
-  AccordionSummary,
-  Accordion,
-  AccordionDetails,
-  withStyles,
   SwipeableDrawer,
   IconButton,
   Box,
-  ListItemProps,
 } from '@material-ui/core';
 import React from 'react';
 import {
-  Category,
   Keyboard,
   Tune,
   Code,
-  MenuBook,
-  ExpandMore,
   Person,
   BusinessCenter,
   Close,
+  House,
 } from '@material-ui/icons';
 import globals from '../globals';
 import { Link, useLocation } from 'react-router-dom';
 import { dashboardEndpoints } from '../routing/endpoints';
 import { Permission } from '../models/User';
 import { useAuth } from '../hooks';
-import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,18 +58,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-export const SidebarAccordion = withStyles((theme: Theme) =>
-  createStyles({
-    expanded: {
-      backgroundColor: theme.palette.action.focus,
-      '&$expanded': {
-        margin: 0,
-        padding: 0,
-      },
-    },
-  }),
-)(Accordion);
 
 export const LinkListItem: React.FC<{ location: string }> = ({
   location,
@@ -186,48 +166,33 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
           </LinkListItem>
         )}
         {user?.permission && user?.permission >= Permission.SuperAdmin && (
-          <SidebarAccordion style={{ borderRadius: 0 }}>
-            <AccordionSummary expandIcon={<ExpandMore />}>
-              <ListItemIcon style={{ marginTop: theme.spacing(1) }}>
-                <MenuBook color="action" fontSize="medium" />
+          <>
+            <Divider />
+            <LinkListItem location={dashboardEndpoints.usersTable}>
+              <ListItemIcon>
+                <Person fontSize="medium" />
               </ListItemIcon>
               <ListItemText>
-                <Typography variant="h6" align="left">
-                  Directories
-                </Typography>
+                <Typography variant="h6">Users</Typography>
               </ListItemText>
-            </AccordionSummary>
-            <AccordionDetails style={{ padding: 0 }}>
-              <List style={{ width: '100%' }}>
-                <LinkListItem location={dashboardEndpoints.usersTable}>
-                  <ListItemIcon>
-                    <Person fontSize="medium" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <Typography variant="h6" align="left">
-                      Users
-                    </Typography>
-                  </ListItemText>
-                </LinkListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <BusinessCenter fontSize="medium" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <Typography variant="h6">Agencies</Typography>
-                  </ListItemText>
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <Category fontSize="medium" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <Typography variant="h6">Categories</Typography>
-                  </ListItemText>
-                </ListItem>
-              </List>
-            </AccordionDetails>
-          </SidebarAccordion>
+            </LinkListItem>
+            <LinkListItem location={dashboardEndpoints.agencies}>
+              <ListItemIcon>
+                <BusinessCenter fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">Agencies</Typography>
+              </ListItemText>
+            </LinkListItem>
+            <LinkListItem location={dashboardEndpoints.objects}>
+              <ListItemIcon>
+                <House fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">Objects</Typography>
+              </ListItemText>
+            </LinkListItem>
+          </>
         )}
       </List>
     </SwipeableDrawer>

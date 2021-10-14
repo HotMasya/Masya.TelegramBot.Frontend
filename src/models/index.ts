@@ -8,3 +8,4 @@ export * from './User';
 export * from './UserView';
 export * from './MinMaxValue';
 export * from './Room';
+export * from './RealtyObject';
