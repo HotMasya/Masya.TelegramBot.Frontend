@@ -2,7 +2,7 @@ import { Permission } from './User';
 
 export interface UserView {
   id: number;
-  agencyName?: string;
+  agencyId?: number;
   permission: Permission;
   telegramAccountId: number;
   telegramLogin: string;

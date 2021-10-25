@@ -10,7 +10,6 @@ import {
 import { Remove, Edit, Create } from '@material-ui/icons';
 import {
   DataGrid,
-  GridCellModes,
   GridCellParams,
   GridColumnHeaderParams,
   GridColumns,
@@ -23,6 +22,8 @@ import { useAuth, useUsers } from '../../hooks';
 import { base64ToSrc } from '../../utils';
 import { Bool, TelegramUsername } from '..';
 import { UserView, Permission } from '../../models';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers';
 
 export interface UsersTableProps {
   users: UserView[];
@@ -66,9 +67,38 @@ const RenderEmptyString = (params: GridRenderCellParams) => {
   );
 };
 
+const RenderAgency = (params: GridRenderCellParams) => {
+  const { agencies } = useSelector((state: RootState) => state.agencies);
+  const agencyId = params.value as number;
+  const { updateUser } = useUsers();
+
+  return (
+    <Select
+      autoWidth
+      value={agencyId}
+      IconComponent={Create}
+      disableUnderline
+      onChange={(e) =>
+        updateUser({
+          id: params.id as number,
+          agencyId: e.target.value as number,
+        })
+      }>
+      {agencies && agencies.length > 0 ? (
+        agencies?.map((a) => (
+          <MenuItem value={a.id} key={a.id}>
+            {a.name}
+          </MenuItem>
+        ))
+      ) : (
+        <MenuItem value="">Select agency</MenuItem>
+      )}
+    </Select>
+  );
+};
+
 const RenderPermission = (params: GridRenderCellParams) => {
   const permission = params.value as Permission;
-  params.cellMode = GridCellModes.Edit;
   const { updateUser } = useUsers();
 
   return (
@@ -84,11 +114,19 @@ const RenderPermission = (params: GridRenderCellParams) => {
         })
       }
       disabled={params.value == Permission.SuperAdmin}>
-      <MenuItem value={Permission.Guest}>Guest</MenuItem>
-      <MenuItem value={Permission.User}>User</MenuItem>
-      <MenuItem value={Permission.Agent}>Agent</MenuItem>
-      <MenuItem value={Permission.Admin}>Admin</MenuItem>
-      <MenuItem value={Permission.SuperAdmin} disabled>
+      <MenuItem value={Permission.Guest} key={1}>
+        Guest
+      </MenuItem>
+      <MenuItem value={Permission.User} key={2}>
+        User
+      </MenuItem>
+      <MenuItem value={Permission.Agent} key={3}>
+        Agent
+      </MenuItem>
+      <MenuItem value={Permission.Admin} key={4}>
+        Admin
+      </MenuItem>
+      <MenuItem value={Permission.SuperAdmin} disabled key={5}>
         Super admin
       </MenuItem>
     </Select>
@@ -145,12 +183,15 @@ const columns: GridColumns = [
     width: 90,
     headerAlign: 'right',
     align: 'right',
+    hide: true,
   },
   {
-    field: 'agencyName',
+    field: 'agencyId',
     headerName: 'Agency',
     width: 150,
-    renderCell: RenderEmptyString,
+    renderCell: RenderAgency,
+    renderHeader: RenderEditableHeader,
+    editable: false,
   },
   {
     field: 'permission',
@@ -158,6 +199,7 @@ const columns: GridColumns = [
     width: 160,
     renderCell: RenderPermission,
     renderHeader: RenderEditableHeader,
+    editable: false,
   },
   { field: 'telegramAccountId', headerName: 'Telegram Id', width: 180 },
   {
@@ -181,7 +223,12 @@ const columns: GridColumns = [
     renderCell: RenderEmptyString,
   },
   { field: 'telegramPhoneNumber', headerName: 'Phone', width: 150 },
-  { field: 'lastCalledAt', headerName: 'Last Update', width: 150 },
+  {
+    field: 'lastCalledAt',
+    headerName: 'Last Update',
+    width: 150,
+    renderCell: RenderEmptyString,
+  },
   {
     field: 'isBlocked',
     headerName: 'Blocked',
@@ -283,6 +330,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
         selectionModel={selectionModel}
         onSelectionModelChange={onSelectionModelChange}
         loading={loading}
+        columnBuffer={10}
       />
       <Box
         style={{

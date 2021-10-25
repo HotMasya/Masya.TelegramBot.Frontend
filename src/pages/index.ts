@@ -5,3 +5,4 @@ export * from './CommandsPage';
 export * from './KeyboardsPage';
 export * from './UsersTablePage';
 export * from './AgenciesPage';
+export * from './ObjectsPage';

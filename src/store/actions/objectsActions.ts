@@ -1,5 +1,5 @@
 import { createStandardAction } from 'typesafe-actions';
-import { RealtyObject } from '../../models';
+import { ObjectsReponse, RealtyObject } from '../../models';
 import { ObjectsActionTypes } from '../action-types';
 
 export const loadObjects = createStandardAction(
@@ -7,7 +7,7 @@ export const loadObjects = createStandardAction(
 )();
 export const loadObjectsSuccess = createStandardAction(
   ObjectsActionTypes.LOAD_OBJECTS_SUCCESS,
-)<RealtyObject[]>();
+)<ObjectsReponse>();
 export const loadObjectsError = createStandardAction(
   ObjectsActionTypes.LOAD_OBJECTS_ERROR,
 )<Error>();
@@ -26,7 +26,7 @@ export const addObject = createStandardAction(ObjectsActionTypes.ADD_OBJECT)<
 export const removeObject = createStandardAction(
   ObjectsActionTypes.REMOVE_OBJECT,
 )<number>();
-export const updateObjects = createStandardAction(
+export const updateObject = createStandardAction(
   ObjectsActionTypes.UPDATE_OBJECT,
 )<Partial<RealtyObject>>();
 export const removeObjectsUpdates = createStandardAction(

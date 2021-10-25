@@ -9,3 +9,6 @@ export * from './UserView';
 export * from './MinMaxValue';
 export * from './Room';
 export * from './RealtyObject';
+export * from './DirectoryItem';
+export * from './Category';
+export * from './ObjectsResponse';

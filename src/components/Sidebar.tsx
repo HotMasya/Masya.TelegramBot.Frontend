@@ -135,7 +135,8 @@ export const Sidebar: React.FC<SidebarProps> = (props) => {
         )}
         {user?.permission &&
           user.permission >= Permission.Admin &&
-          user?.agencyName && (
+          user?.agencyId &&
+          user.agencyId > 0 && (
             <LinkListItem location={dashboardEndpoints.agency}>
               <ListItemIcon>
                 <BusinessCenter fontSize="medium" />

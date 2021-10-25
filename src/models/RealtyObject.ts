@@ -19,6 +19,6 @@ export interface RealtyObject {
   description: string;
   mailingDate?: Date;
   createdAt: Date;
-  EditedAt: Date;
+  editedAt: Date;
   images?: string[];
 }

@@ -38,5 +38,9 @@ export const apiEndpoints = {
   loadMinMax: apiHost + 'api/minmax',
   saveMinMax: apiHost + 'api/minmax/save',
 
-  loadAgencies: '/api/agency/all',
+  loadAgencies: apiHost + 'api/agency/all',
+  saveAgencies: apiHost + 'api/agency/all/save',
+
+  loadObjects: apiHost + 'api/objects',
+  saveObjects: apiHost + 'api/objects',
 };

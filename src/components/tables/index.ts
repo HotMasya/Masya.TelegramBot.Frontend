@@ -13,3 +13,5 @@ export * from './UsersTable';
 export * from './LogsTable';
 export * from './MinMaxTable';
 export * from './RoomsTable';
+export * from './AgenciesTable';
+export * from './ObjectsTable';

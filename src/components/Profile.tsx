@@ -10,20 +10,24 @@ import { useTheme } from '@material-ui/core';
 import React from 'react';
 import { base64ToSrc } from '../utils';
 import { Permission } from '../models';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducers';
 export interface ProfileProps {
   avatar?: string;
   firstName: string;
   lastName?: string;
   permission: Permission;
-  agencyName?: string;
+  agencyId?: number;
   onLogOutClick?: () => void;
 }
 
 export const Profile: React.FC<ProfileProps> = (props) => {
   const theme = useTheme();
-  const { avatar, firstName, lastName, permission, agencyName, onLogOutClick } =
+  const { agencies } = useSelector((state: RootState) => state.agencies);
+  const { avatar, firstName, lastName, permission, agencyId, onLogOutClick } =
     props;
+
+  const agencyName = agencies?.find((a) => a.id === agencyId)?.name;
 
   return (
     <Card style={{ display: 'flex' }}>

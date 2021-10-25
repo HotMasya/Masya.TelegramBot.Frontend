@@ -5,14 +5,12 @@ import * as actions from '../actions';
 
 export type AgenciesState = {
   agencies?: Agency[];
-  agenciesToUpdate?: Agency[];
+  agenciesToUpdate?: Partial<Agency>[];
   loading?: boolean;
   loadingSave?: boolean;
-  loadingLogs?: boolean;
   hasUpdates: boolean;
   loadError?: Error;
   saveError?: Error;
-  loadLogsError?: Error;
 };
 
 const initialState: AgenciesState = {
@@ -48,7 +46,7 @@ export const agenciesReducer = createReducer<AgenciesState, RootAction>(
     }
 
     const newAgencies = state.agenciesToUpdate?.filter(
-      (a) => a.id === action.payload,
+      (a) => a.id !== action.payload,
     );
 
     if (!newAgencies || newAgencies.length === state.agenciesToUpdate?.length) {
@@ -58,15 +56,24 @@ export const agenciesReducer = createReducer<AgenciesState, RootAction>(
     return {
       ...state,
       agenciesToUpdate: newAgencies,
-      hasUpdates: true,
+      hasUpdates:
+        JSON.stringify(newAgencies) !== JSON.stringify(state.agencies),
     };
+  })
+  .handleAction(actions.addAgency, (state, action) => {
+    if (!state.agenciesToUpdate) {
+      return state;
+    }
+
+    const agenciesToUpdate = [...state.agenciesToUpdate];
+    agenciesToUpdate.push(action.payload);
+    return { ...state, hasUpdates: true, agenciesToUpdate };
   })
   .handleAction(actions.loadAgenciesError, (state, action) => ({
     ...state,
     loadError: action.payload,
   }))
   .handleAction(actions.saveAgenciesSuccess, (state) => ({
-    agencies: JSON.parse(JSON.stringify(state.agenciesToUpdate)),
     ...state,
     loadingSave: false,
     hasUpdates: false,
