@@ -49,7 +49,8 @@ export const usersReducer = createReducer<UsersState, RootAction>(initialState)
     user.isBlocked = action.payload.isBlocked ?? user.isBlocked;
     user.isIgnored = action.payload.isIgnored ?? user.isIgnored;
     user.permission = action.payload.permission ?? user.permission;
-    user.blockReason = action.payload.blockReason ?? user.blockReason;
+    user.agencyId = action.payload.agencyId ?? user.agencyId;
+    user.blockReason = action.payload.blockReason;
 
     if (JSON.stringify(state.users) == JSON.stringify(state.usersToUpdate)) {
       return { ...state, hasChanges: false };

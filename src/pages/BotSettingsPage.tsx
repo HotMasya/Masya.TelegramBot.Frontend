@@ -6,6 +6,7 @@ import {
   BotStatusTable,
   BotSettingsTable,
   UpdateSnackbar,
+  LogsTable,
 } from '../components';
 import { useAuth, useBotStatus } from '../hooks';
 import { Permission } from '../models';
@@ -20,7 +21,10 @@ export const BotSettingsPage: React.FC = () => {
     loadSettings,
     saveSettings,
     resetSettings,
+    startImporting,
     loadings,
+    loadLogs,
+    logs,
   } = useBotStatus();
   const { account } = useAuth();
 
@@ -29,7 +33,7 @@ export const BotSettingsPage: React.FC = () => {
   return (
     <Layout>
       <PageHeader
-        headerText="Bot Settings"
+        headerText="Bot Status"
         onReloadClick={loadSettings}
         reloadDisabled={loadings.loading}
       />
@@ -40,13 +44,30 @@ export const BotSettingsPage: React.FC = () => {
         />
       </Box>
       {account.user?.permission == Permission.SuperAdmin && (
-        <Box style={{ width: '100%' }}>
-          <BotSettingsTable
-            updateSettings={addUpdate}
-            botSettings={botSettings}
-            loading={loadings.loading}
+        <>
+          <PageHeader headerText="Bot Settings" />
+          <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
+            <BotSettingsTable
+              updateSettings={addUpdate}
+              botSettings={botSettings}
+              loading={loadings.loading}
+              onImportingClick={startImporting}
+            />
+          </Box>
+          <PageHeader
+            headerText="Bot Logs"
+            onReloadClick={loadLogs}
+            reloadDisabled={loadings.loading}
           />
-        </Box>
+          <Box style={{ width: '100%', padding: theme.spacing(3, 0) }}>
+            <LogsTable
+              logs={logs}
+              onLoadClick={loadLogs}
+              loading={loadings.loadingLogs}
+              emptyTableMessage="There are no logs loaded for the last hour."
+            />
+          </Box>
+        </>
       )}
 
       <UpdateSnackbar

@@ -14,3 +14,4 @@ export * from './Sidebar';
 export * from './TelegramUsername';
 export * from './UpdateSnackbar';
 export * from './UpdateSnackbarAction';
+export * from './LogLevelIndicator';

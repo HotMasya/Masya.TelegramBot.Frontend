@@ -1,5 +1,5 @@
 import { Box, useTheme } from '@material-ui/core';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Dispatch } from 'react';
 import {
   Layout,
   PageHeader,
@@ -30,7 +30,7 @@ export const UsersTablePage: React.FC = () => {
   const onBlockClick = useCallback(
     (id: number, isBlocked: boolean) => {
       if (isBlocked) {
-        updateUser({ id, isBlocked: false, blockReason: '' });
+        updateUser({ id, isBlocked: false });
         return;
       }
 

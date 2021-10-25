@@ -1,6 +1,7 @@
 import { Agency } from '../../models/Agency';
 import { createStandardAction } from 'typesafe-actions';
 import { AgencyActionTypes } from '../action-types';
+import { Log } from '../../models/Log';
 
 export const loadAgency = createStandardAction(AgencyActionTypes.LOAD_AGENCY)();
 export const loadAgencyError = createStandardAction(
@@ -9,6 +10,16 @@ export const loadAgencyError = createStandardAction(
 export const setAgency = createStandardAction(
   AgencyActionTypes.SET_AGENCY,
 )<Agency>();
+
+export const loadImportsLogs = createStandardAction(
+  AgencyActionTypes.LOAD_IMPORTS_LOGS,
+)();
+export const loadImportsLogsSuccess = createStandardAction(
+  AgencyActionTypes.LOAD_IMPORTS_LOGS_SUCCESS,
+)<Log[]>();
+export const loadImportsLogsError = createStandardAction(
+  AgencyActionTypes.LOAD_IMPORTS_LOGS_ERROR,
+)<Error>();
 
 export const saveAgency = createStandardAction(AgencyActionTypes.SAVE_AGENCY)();
 export const saveAgencySuccess = createStandardAction(

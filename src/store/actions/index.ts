@@ -4,3 +4,6 @@ export * from './botSettingsActions';
 export * from './usersActions';
 export * from './themeActions';
 export * from './agencyActions';
+export * from './minmaxActions';
+export * from './agenciesActions';
+export * from './objectsActions';

@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const { onMenuClick, children } = props;
 
   return (
-    <AppBar color="primary" position="static">
+    <AppBar color="primary" position="sticky">
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
         {isDownMd ? (
           <IconButton onClick={onMenuClick}>

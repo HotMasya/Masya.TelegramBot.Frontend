@@ -9,7 +9,7 @@ export interface PageHeaderProps {
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = (props) => {
-  const { onReloadClick, headerText, reloadDisabled } = props;
+  const { onReloadClick, headerText, reloadDisabled, children } = props;
 
   return (
     <>
@@ -19,7 +19,10 @@ export const PageHeader: React.FC<PageHeaderProps> = (props) => {
           display: 'flex',
           justifyContent: 'space-between',
         }}>
-        <Typography variant="h3">{headerText}</Typography>
+        <Typography variant="h3">
+          {headerText} {children}
+        </Typography>
+
         {onReloadClick ? (
           <Button onClick={onReloadClick} disabled={reloadDisabled}>
             <Replay />

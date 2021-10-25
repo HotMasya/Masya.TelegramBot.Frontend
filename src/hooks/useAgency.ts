@@ -35,9 +35,15 @@ export const useAgency = () => {
     (id: number) => dispatch(actions.removeAgent(id)),
     [dispatch],
   );
+  const loadImportLogs = useCallback(
+    () => dispatch(actions.loadImportsLogs()),
+    [dispatch],
+  );
 
   return {
     agency,
+    logs: agencyState.logs,
+    loadImportLogs,
     hasUpdates,
     removeAgent,
     loadAgency,
@@ -48,6 +54,7 @@ export const useAgency = () => {
     loadings: {
       loading: agencyState.loading,
       loadingSave: agencyState.loadingSave,
+      loadingLogs: agencyState.loadingLogs,
     },
     errors: {
       saveError: agencyState.saveError,

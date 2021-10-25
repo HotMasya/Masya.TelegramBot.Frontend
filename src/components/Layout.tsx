@@ -1,6 +1,6 @@
 import { Box, Checkbox, Popover, Tooltip, useTheme } from '@material-ui/core';
 import { Brightness7, Brightness2 } from '@material-ui/icons';
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Sidebar, ContentBox, Header, MiniProfile, Profile } from '.';
@@ -15,6 +15,7 @@ export const Layout: React.FC = (props) => {
   const { children } = props;
   const themeState = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch<Dispatch<RootAction>>();
+  const { agencies } = useSelector((state: RootState) => state.agencies);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<Element>();
   const onPopoverClose = () => {
@@ -28,6 +29,13 @@ export const Layout: React.FC = (props) => {
     account: { user },
     logout,
   } = useAuth();
+
+  useEffect(() => {
+    if (!agencies) {
+      dispatch(actions.loadAgencies());
+    }
+  }, [dispatch, agencies]);
+
   if (!user) {
     return <Redirect to={endpoints.auth} />;
   }
@@ -82,13 +90,21 @@ export const Layout: React.FC = (props) => {
                 firstName={user.telegramFirstName}
                 lastName={user.telegramLastName}
                 permission={user.permission}
-                agencyName={user.agencyName}
+                agencyId={user.agencyId}
                 onLogOutClick={onLogOutClick}
               />
             </Popover>
           </Box>
         </Header>
-        <Box style={{ padding: theme.spacing(3) }}>{children}</Box>
+        <Box
+          className="content"
+          style={{
+            padding: theme.spacing(3),
+            overflow: 'auto',
+            height: '93.4vh',
+          }}>
+          {children}
+        </Box>
       </ContentBox>
     </>
   );

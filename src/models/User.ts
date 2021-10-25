@@ -6,7 +6,7 @@ export interface User {
   telegramPhoneNumber: string;
   telegramId: string;
   permission: Permission;
-  agencyName?: string;
+  agencyId?: number;
 }
 
 export enum Permission {

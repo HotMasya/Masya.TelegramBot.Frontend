@@ -10,6 +10,8 @@ export const dashboardEndpoints = {
   keyboards: '/dashboard/keyboards',
   usersTable: '/dashboard/users',
   agency: '/dashboard/agency',
+  agencies: '/dashboard/agencies',
+  objects: '/dashboard/objects',
 };
 
 export const apiEndpoints = {
@@ -23,10 +25,22 @@ export const apiEndpoints = {
 
   loadBotSettings: apiHost + 'api/main/bot',
   saveBotSettings: apiHost + 'api/main/bot/update',
+  loadBotLogs: apiHost + 'api/main/logs',
+  startImporting: apiHost + 'api/main/imports/start',
 
   loadUsers: apiHost + 'api/users',
   saveUsers: apiHost + 'api/users/save',
 
   loadAgency: apiHost + 'api/agency',
   saveAgency: apiHost + 'api/agency/save',
+  loadAgencyImportsLogs: apiHost + 'api/agency/import/logs',
+
+  loadMinMax: apiHost + 'api/minmax',
+  saveMinMax: apiHost + 'api/minmax/save',
+
+  loadAgencies: apiHost + 'api/agency/all',
+  saveAgencies: apiHost + 'api/agency/all/save',
+
+  loadObjects: apiHost + 'api/objects',
+  saveObjects: apiHost + 'api/objects',
 };

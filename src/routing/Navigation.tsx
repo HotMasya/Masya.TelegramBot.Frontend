@@ -56,6 +56,17 @@ export const Navigation: React.FC = () => {
           path={dashboardEndpoints.usersTable}
           render={() => <Pages.UsersTablePage />}
         />
+        <PrivateRoute
+          permission={Permission.SuperAdmin}
+          path={dashboardEndpoints.agencies}
+          render={() => <Pages.AgenciesPage />}
+        />
+        <PrivateRoute
+          permission={Permission.SuperAdmin}
+          exact
+          path={dashboardEndpoints.objects}
+          render={() => <Pages.ObjectsPage />}
+        />
         <Route
           path="*"
           render={() => <Redirect to={dashboardEndpoints.home} />}

@@ -1,5 +1,8 @@
 export enum AgencyActionTypes {
   LOAD_AGENCY = '@agency/LOAD',
+  LOAD_IMPORTS_LOGS = '@agency/LOAD_IMPORTS_LOGS',
+  LOAD_IMPORTS_LOGS_ERROR = '@agency/LOAD_IMPORTS_LOGS_ERROR',
+  LOAD_IMPORTS_LOGS_SUCCESS = '@agency/LOAD_IMPORTS_LOGS_SUCCESS',
   SET_AGENCY = '@agency/SET',
   LOAD_AGENCY_ERROR = '@agency/LOAD_ERROR',
   SAVE_AGENCY = '@agency/SAVE',
